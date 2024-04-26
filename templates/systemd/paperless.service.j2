@@ -1,0 +1,49 @@
+[Unit]
+Description=Paperless-ngx Server ({{ paperless_identifier }})
+{% for service in paperless_systemd_required_services_list %}
+Requires={{ service }}
+After={{ service }}
+{% endfor %}
+DefaultDependencies=no
+
+[Service]
+Type=simple
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ paperless_identifier }} 2>/dev/null || true'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ paperless_identifier }} 2>/dev/null || true'
+
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
+			--rm \
+			--name={{ paperless_identifier }} \
+			--log-driver=none \
+			--user={{ paperless_uid }}:{{ paperless_gid }} \
+			--cap-drop=ALL \
+			--read-only \
+			--network={{ paperless_container_network }} \
+			{% if paperless_container_http_host_bind_port %}
+			-p {{ paperless_container_http_host_bind_port }}:{{ paperless_container_http_port }} \
+			{% endif %}
+			--env-file={{ paperless_env_path }} \
+			--label-file={{ paperless_base_path }}/labels \
+			--health-interval={{ paperless_container_health_interval }} \
+			--mount type=bind,src={{ paperless_media_path }},dst={{ paperless_container_media_path }} \
+			--mount type=bind,src={{ paperless_data_path }},dst={{ paperless_container_data_path }} \
+			--mount type=bind,src={{ paperless_export_path }},dst={{ paperless_container_export_path }} \
+			--mount type=bind,src={{ paperless_consume_path }},dst={{ paperless_container_consume_path }} \
+			--mount type=bind,src={{ paperless_custon_templates_path }},dst=/templates \
+			--tmpfs=/tmp:rw,noexec,nosuid,size=100m \
+			{{ paperless_container_image }}
+
+{% for network in paperless_container_additional_networks %}
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ paperless_identifier }}
+{% endfor %}
+
+ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ paperless_identifier }}
+
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ paperless_identifier }} 2>/dev/null || true'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ paperless_identifier }} 2>/dev/null || true'
+Restart=always
+RestartSec=30
+SyslogIdentifier={{ paperless_identifier }}
+
+[Install]
+WantedBy=multi-user.target

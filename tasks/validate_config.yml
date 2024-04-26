@@ -1,0 +1,23 @@
+---
+
+- name: Fail if required paperless settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) for using this role.
+  when: "vars[item] == ''"
+  with_items:
+    - paperless_hostname
+    - paperless_database_hostname
+    - paperless_database_username
+    - paperless_database_password
+    - paperless_config_redis_hostname
+
+- name: Fail when SMTP settings are missing (and SMTP is enabled by setting host)
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) to correctly set up email via SMTP.
+  when: "paperless_email_host !='' and vars[item] == ''"
+  with_items:
+    - paperless_email_username
+    - paperless_email_password
+    - paperless_email_port

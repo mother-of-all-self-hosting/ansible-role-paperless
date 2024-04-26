@@ -1,0 +1,57 @@
+---
+
+- name: Ensure paperless network is created in Docker
+  community.docker.docker_network:
+    name: "{{ paperless_container_network }}"
+    driver: bridge
+
+
+- name: Ensure paperless paths exists
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: 0700
+    owner: "{{ paperless_uid }}"
+    group: "{{ paperless_gid }}"
+  with_items:
+    - {path: "{{ paperless_base_path }}", when: true}
+    - {path: "{{ paperless_media_path }}", when: true}
+    - {path: "{{ paperless_data_path }}", when: true}
+    - {path: "{{ paperless_export_path }}", when: true}
+    - {path: "{{ paperless_consume_path }}", when: true}
+
+- name: Ensure paperless traefik labels are installed
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ paperless_uid }}"
+    group: "{{ paperless_gid }}"
+    mode: 0640
+  with_items:
+    - {src: "{{ role_path }}/templates/labels.j2", dest: "{{ paperless_base_path }}/labels"}
+
+- name: Ensure paperless configuration is deployed
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ paperless_uid }}"
+    group: "{{ paperless_gid }}"
+    mode: 0640
+  with_items:
+    - {src: "{{ role_path }}/templates/env.j2", dest: "{{ paperless_base_path }}/env"}
+
+- name: Ensure paperless container image is pulled
+  community.docker.docker_image:
+    name: "{{ item.image }}"
+    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+  with_items:
+    - {image: "{{ paperless_container_image }}"}
+
+- name: Ensure paperless.service installed
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - {src: "{{ role_path }}/templates/systemd/paperless-server.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_server_identifier }}.service"}
+    - {src: "{{ role_path }}/templates/systemd/paperless-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_worker_identifier }}.service"}
