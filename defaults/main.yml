@@ -89,7 +89,7 @@ paperless_systemd_required_services_list_auto: []
 paperless_systemd_required_services_list_custom: []
 
 
-paperless_container_http_port: 9000
+paperless_container_http_port: 8000
 
 # Controls whether the paperless container exposes its HTTP port (as defined by `paperless_container_http_port`).
 #
