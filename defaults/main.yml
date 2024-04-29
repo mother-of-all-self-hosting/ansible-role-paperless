@@ -40,10 +40,10 @@ paperless_database_password: ''
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
 paperless_database_sslmode: disable
 
-paperless_config_redis_hostname: ''
-paperless_config_redis_port: 6379
-paperless_config_redis_database: 0
-paperless_config_redis_url: "redis://{{ paperless_config_redis_hostname }}:{{ paperless_config_redis_port }}/{{ paperless_config_redis_database }}"
+paperless_redis_hostname: ''
+paperless_redis_port: 6379
+paperless_redis_database: 0
+paperless_redis_url: "redis://{{ paperless_redis_hostname }}:{{ paperless_redis_port }}/{{ paperless_redis_database }}"
 
 # Turn true to use StartTLS (usually on port 587)
 paperless_email_use_tls: false
