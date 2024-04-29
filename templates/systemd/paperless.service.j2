@@ -15,8 +15,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--rm \
 			--name={{ paperless_identifier }} \
 			--log-driver=none \
-			--user={{ paperless_uid }}:{{ paperless_gid }} \
-			--cap-drop=ALL \
 			--read-only \
 			--network={{ paperless_container_network }} \
 			{% if paperless_container_http_host_bind_port %}
@@ -29,7 +27,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--mount type=bind,src={{ paperless_data_path }},dst={{ paperless_container_data_path }} \
 			--mount type=bind,src={{ paperless_export_path }},dst={{ paperless_container_export_path }} \
 			--mount type=bind,src={{ paperless_consume_path }},dst={{ paperless_container_consume_path }} \
-			--mount type=bind,src={{ paperless_custon_templates_path }},dst=/templates \
 			--tmpfs=/tmp:rw,noexec,nosuid,size=100m \
 			{{ paperless_container_image }}
 
