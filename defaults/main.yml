@@ -70,7 +70,7 @@ paperless_container_network: '{{ paperless_identifier }}'
 # Must be one of debug, info, warning, error, critical
 paperless_loglevel: error
 
-paperless_container_image: "{{ paperless_container_image_registry_prefix }}gopaperless/server:{{ paperless_container_image_tag }}"
+paperless_container_image: "{{ paperless_container_image_registry_prefix }}paperless-ngx/paperless-ngx:{{ paperless_container_image_tag }}"
 paperless_container_image_registry_prefix: "ghcr.io/"
 paperless_container_image_tag: "{{ paperless_version }}"
 paperless_container_image_force_pull: "{{ paperless_container_image.endswith(':latest') }}"
