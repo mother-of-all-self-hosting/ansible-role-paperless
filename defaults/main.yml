@@ -6,6 +6,8 @@ paperless_enabled: true
 paperless_identifier: paperless
 
 paperless_version: "2.7.2"
+# In mb, default is 10gb
+paperless_tmp_size: 10000
 
 paperless_hostname: ''
 paperless_url: 'https://{{ paperless_hostname }}'
