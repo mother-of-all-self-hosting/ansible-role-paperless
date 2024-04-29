@@ -53,5 +53,4 @@
     dest: "{{ item.dest }}"
     mode: 0644
   with_items:
-    - {src: "{{ role_path }}/templates/systemd/paperless-server.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_server_identifier }}.service"}
-    - {src: "{{ role_path }}/templates/systemd/paperless-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_worker_identifier }}.service"}
+    - {src: "{{ role_path }}/templates/systemd/paperless.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"}

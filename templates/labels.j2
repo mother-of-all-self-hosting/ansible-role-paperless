@@ -7,34 +7,34 @@ traefik.docker.network={{ paperless_container_labels_traefik_docker_network }}
 
 {% if paperless_container_labels_traefik_additional_request_headers.keys() | length > 0 %}
 {% for name, value in paperless_container_labels_traefik_additional_request_headers.items() %}
-traefik.http.middlewares.{{ paperless_server_identifier }}-add-request-headers.headers.customrequestheaders.{{ name }}={{ value }}
+traefik.http.middlewares.{{ paperless_identifier }}-add-request-headers.headers.customrequestheaders.{{ name }}={{ value }}
 {% endfor %}
-{% set middlewares = middlewares + [paperless_server_identifier + '-add-request-headers'] %}
+{% set middlewares = middlewares + [paperless_identifier + '-add-request-headers'] %}
 {% endif %}
 
 {% if paperless_container_labels_traefik_additional_response_headers.keys() | length > 0 %}
 {% for name, value in paperless_container_labels_traefik_additional_response_headers.items() %}
-traefik.http.middlewares.{{ paperless_server_identifier }}-add-response-headers.headers.customresponseheaders.{{ name }}={{ value }}
+traefik.http.middlewares.{{ paperless_identifier }}-add-response-headers.headers.customresponseheaders.{{ name }}={{ value }}
 {% endfor %}
-{% set middlewares = middlewares + [paperless_server_identifier + '-add-response-headers'] %}
+{% set middlewares = middlewares + [paperless_identifier + '-add-response-headers'] %}
 {% endif %}
 
 traefik.enable=true
 {% endif %}
-traefik.http.routers.{{ paperless_server_identifier }}.rule={{ paperless_container_labels_traefik_rule }}
+traefik.http.routers.{{ paperless_identifier }}.rule={{ paperless_container_labels_traefik_rule }}
 {% if paperless_container_labels_traefik_priority | int > 0 %}
-traefik.http.routers.{{ paperless_server_identifier }}.priority={{ paperless_container_labels_traefik_priority }}
+traefik.http.routers.{{ paperless_identifier }}.priority={{ paperless_container_labels_traefik_priority }}
 {% endif %}
 {% if middlewares | length > 0 %}
-traefik.http.routers.{{ paperless_server_identifier }}.middlewares={{ middlewares | join(',') }}
+traefik.http.routers.{{ paperless_identifier }}.middlewares={{ middlewares | join(',') }}
 {% endif %}
-traefik.http.routers.{{ paperless_server_identifier }}.service={{ paperless_server_identifier }}
-traefik.http.routers.{{ paperless_server_identifier }}.entrypoints={{ paperless_container_labels_traefik_entrypoints }}
-traefik.http.routers.{{ paperless_server_identifier }}.tls={{ paperless_container_labels_traefik_tls | to_json }}
+traefik.http.routers.{{ paperless_identifier }}.service={{ paperless_identifier }}
+traefik.http.routers.{{ paperless_identifier }}.entrypoints={{ paperless_container_labels_traefik_entrypoints }}
+traefik.http.routers.{{ paperless_identifier }}.tls={{ paperless_container_labels_traefik_tls | to_json }}
 {% if paperless_container_labels_traefik_tls %}
-traefik.http.routers.{{ paperless_server_identifier }}.tls.certResolver={{ paperless_container_labels_traefik_tls_certResolver }}
+traefik.http.routers.{{ paperless_identifier }}.tls.certResolver={{ paperless_container_labels_traefik_tls_certResolver }}
 {% endif %}
-traefik.http.services.{{ paperless_server_identifier }}.loadbalancer.server.port={{ paperless_container_http_port }}
+traefik.http.services.{{ paperless_identifier }}.loadbalancer.server.port={{ paperless_container_http_port }}
 
 {% if paperless_metrics_enabled %}
 traefik.http.routers.{{ paperless_identifier }}-metrics.rule={{ paperless_metrics_container_labels_traefik_rule }}

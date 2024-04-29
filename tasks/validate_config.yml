@@ -10,7 +10,7 @@
     - paperless_database_hostname
     - paperless_database_username
     - paperless_database_password
-    - paperless_config_redis_hostname
+    - paperless_redis_hostname
 
 - name: Fail when SMTP settings are missing (and SMTP is enabled by setting host)
   ansible.builtin.fail:
