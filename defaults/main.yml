@@ -12,6 +12,7 @@ paperless_tmp_size: 10000
 paperless_hostname: ''
 paperless_url: 'https://{{ paperless_hostname }}'
 paperless_app_title: 'Paperless-ngx'
+paperless_secret_key: ''
 
 paperless_uid: ''
 paperless_gid: ''
