@@ -34,6 +34,9 @@ paperless_container_consume_path: "/usr/src/paperless/consume"
 
 paperless_env_path: "{{ paperless_base_path }}/env"
 
+#Do NOT include a trailing slash. e.g. /paperless - Not implemented into traefik
+paperless_subpath: ''
+
 paperless_database_hostname: ''
 paperless_database_port: 5432
 paperless_database_name: paperless
