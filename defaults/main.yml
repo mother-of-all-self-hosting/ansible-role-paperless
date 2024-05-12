@@ -31,6 +31,11 @@ paperless_container_media_path: "/usr/src/paperless/media"
 paperless_container_data_path: "/usr/src/paperless/data"
 paperless_container_export_path: "/usr/src/paperless/export"
 paperless_container_consume_path: "/usr/src/paperless/consume"
+# A list of additional "mounts" to be mounted in the container.
+# Contains definition objects like this:
+# nextcloud_container_additional_mounts:
+# - "type=bind|volume|tmpfs,source=/outside,target=/inside,readonly,bind-propagation=slave"
+paperless_container_additional_mounts: []
 
 paperless_env_path: "{{ paperless_base_path }}/env"
 
