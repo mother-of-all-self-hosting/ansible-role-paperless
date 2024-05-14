@@ -27,6 +27,9 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--mount type=bind,src={{ paperless_data_path }},dst={{ paperless_container_data_path }} \
 			--mount type=bind,src={{ paperless_export_path }},dst={{ paperless_container_export_path }} \
 			--mount type=bind,src={{ paperless_consume_path }},dst={{ paperless_container_consume_path }} \
+			{% for mount in paperless_container_additional_mounts %}
+			--mount {{ mount }} \
+			{% endfor %}
 			--tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
 			--tmpfs=/var/log/supervisord:rw,noexec,nosuid,size=20m \
 			--tmpfs=/var/run/supervisord:rw,noexec,nosuid,size=10m \
