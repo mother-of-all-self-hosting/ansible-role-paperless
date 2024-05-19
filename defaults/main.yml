@@ -1,6 +1,6 @@
 ---
 
-# Project source code URL: https://github.com/gopaperless/paperless
+# Project source code URL: https://github.com/paperless-ngx/paperless-ngx
 
 paperless_enabled: true
 paperless_identifier: paperless
