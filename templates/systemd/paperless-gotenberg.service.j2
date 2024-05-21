@@ -1,0 +1,40 @@
+[Unit]
+Description=gotenberg Server for Paperless-ngx Server ({{ paperless_identifier }})
+{% for service in paperless_systemd_required_services_list %}
+Requires={{ service }}
+After={{ service }}
+{% endfor %}
+DefaultDependencies=no
+
+[Service]
+Type=simple
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ paperless_gotenberg_identifier }} 2>/dev/null || true'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ paperless_gotenberg_identifier }} 2>/dev/null || true'
+
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
+			--rm \
+			--name={{ paperless_gotenberg_identifier }} \
+			--log-driver=none \
+			--read-only \
+			--network={{ paperless_container_network }} \
+			--env-file={{ paperless_base_path }}/gotenberg-env \
+			--label-file={{ paperless_base_path }}/gotenberg-labels \
+			--health-interval={{ paperless_container_health_interval }} \
+			{% for mount in paperless_gotenberg_container_additional_mounts %}
+			--mount {{ mount }} \
+			{% endfor %}
+			--tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
+			{{ paperless_gotenberg_container_image }}
+			gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*
+
+
+ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ paperless_gotenberg_identifier }}
+
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ paperless_gotenberg_identifier }} 2>/dev/null || true'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ paperless_gotenberg_identifier }} 2>/dev/null || true'
+Restart=always
+RestartSec=30
+SyslogIdentifier={{ paperless_gotenberg_identifier }}
+
+[Install]
+WantedBy=multi-user.target
