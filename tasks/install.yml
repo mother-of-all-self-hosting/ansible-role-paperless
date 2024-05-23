@@ -29,6 +29,8 @@
     mode: 0640
   with_items:
     - {src: "{{ role_path }}/templates/labels.j2", dest: "{{ paperless_base_path }}/labels"}
+    - {src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled}
+    - {src: "{{ role_path }}/templates/gotenberg-labels.j2", dest: "{{ paperless_base_path }}/gotenberg-labels", when: paperless_gotenberg_enabled}
 
 - name: Ensure paperless configuration is deployed
   ansible.builtin.template:
@@ -39,6 +41,8 @@
     mode: 0640
   with_items:
     - {src: "{{ role_path }}/templates/env.j2", dest: "{{ paperless_base_path }}/env"}
+    - {src: "{{ role_path }}/templates/tika-env.j2", dest: "{{ paperless_base_path }}/tika-env", when: paperless_tika_enabled}
+    - {src: "{{ role_path }}/templates/gotenberg-env.j2", dest: "{{ paperless_base_path }}/gotenberg-env", when: paperless_gotenberg_enabled}
 
 - name: Ensure paperless container image is pulled
   community.docker.docker_image:
@@ -46,6 +50,8 @@
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
   with_items:
     - {image: "{{ paperless_container_image }}"}
+    - {image: "{{ paperless_tika_container_image }}", when: paperless_tika_enabled}
+    - {image: "{{ paperless_gotenberg_container_image }}", when: paperless_gotenberg_enabled}
 
 - name: Ensure paperless.service installed
   ansible.builtin.template:
@@ -54,3 +60,5 @@
     mode: 0644
   with_items:
     - {src: "{{ role_path }}/templates/systemd/paperless.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"}
+    - {src: "{{ role_path }}/templates/systemd/paperless-tika.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service", when: paperless_tika_enabled}
+    - {src: "{{ role_path }}/templates/systemd/paperless-gotenberg.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service", when: paperless_gotenberg_enabled}

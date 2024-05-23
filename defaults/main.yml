@@ -1,6 +1,6 @@
 ---
 
-# Project source code URL: https://github.com/gopaperless/paperless
+# Project source code URL: https://github.com/paperless-ngx/paperless-ngx
 
 paperless_enabled: true
 paperless_identifier: paperless
@@ -62,6 +62,7 @@ paperless_email_port: ''
 paperless_email_username: ''
 paperless_email_password: ''
 paperless_email_from: "noreply@{{ paperless_hostname }}"
+
 
 # Additional environment variables to pass to the paperless container.
 # You can use this to further influence the default configuration.
@@ -219,6 +220,33 @@ paperless_hsts_preload_enabled: false
 paperless_container_labels_additional_labels: ''
 
 paperless_variables_additional_variables: ''
+
+
+########################
+## tika and gotenberg ##
+########################
+
+# Project source code URL: https://github.com/apache/tika
+paperless_tika_enabled: false
+paperless_tika_identifier: "{{ paperless_identifier }}-tika"
+paperless_tika_endpoint: "http://{{ paperless_tika_identifier }}:9998"
+paperless_tika_container_additional_mounts: []
+paperless_tika_container_registry_prefix: "ghcr.io/"
+paperless_tika_version: "2.9.1-minimal"
+paperless_tika_container_image: "{{ paperless_tika_container_registry_prefix }}paperless-ngx/tika:{{ paperless_tika_version }}"
+paperless_tika_environment_variables_extension: ''
+paperless_tika_container_labels_additional_labels: ''
+
+# Project source code URL: https://github.com/gotenberg/gotenberg
+paperless_gotenberg_enabled: false
+paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
+paperless_gotenberg_endpoint: "http://{{ paperless_gotenberg_identifier }}:3000"
+paperless_gotenberg_container_additional_mounts: []
+paperless_gotenberg_container_registry_prefix: "docker.io/"
+paperless_gotenberg_version: "8.5.0"
+paperless_gotenberg_container_image: "{{ paperless_gotenberg_container_registry_prefix }}gotenberg/gotenberg:{{ paperless_gotenberg_version }}"
+paperless_gotenberg_environment_variables_extension: ''
+paperless_gotenberg_container_labels_additional_labels: ''
 
 
 ################
