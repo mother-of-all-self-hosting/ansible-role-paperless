@@ -5,7 +5,7 @@
 paperless_enabled: true
 paperless_identifier: paperless
 
-paperless_version: "2.11.4"
+paperless_version: "2.12.1"
 # In mb, default is 10gb
 paperless_tmp_size: 10000
 
@@ -243,7 +243,7 @@ paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
 paperless_gotenberg_endpoint: "http://{{ paperless_gotenberg_identifier }}:3000"
 paperless_gotenberg_container_additional_mounts: []
 paperless_gotenberg_container_registry_prefix: "docker.io/"
-paperless_gotenberg_version: "8.9.1"
+paperless_gotenberg_version: "8.10.0"
 paperless_gotenberg_container_image: "{{ paperless_gotenberg_container_registry_prefix }}gotenberg/gotenberg:{{ paperless_gotenberg_version }}"
 paperless_gotenberg_environment_variables_extension: ''
 paperless_gotenberg_container_labels_additional_labels: ''
