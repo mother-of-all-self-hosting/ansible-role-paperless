@@ -5,7 +5,7 @@
 paperless_enabled: true
 paperless_identifier: paperless
 
-paperless_version: "2.13.0"
+paperless_version: "2.13.2"
 # In mb, default is 10gb
 paperless_tmp_size: 10000
 
