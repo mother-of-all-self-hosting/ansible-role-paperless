@@ -33,6 +33,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
 			--tmpfs=/var/log/supervisord:rw,noexec,nosuid,size=20m \
 			--tmpfs=/var/run/supervisord:rw,noexec,nosuid,size=10m \
+			--tmpfs=/run:rw,exec,nosuid,size=10m \
 			{{ paperless_container_image }}
 
 {% for network in paperless_container_additional_networks %}
