@@ -3,10 +3,28 @@
 # Project source code URL: https://github.com/paperless-ngx/paperless-ngx
 
 paperless_enabled: true
+
 paperless_identifier: paperless
+
+paperless_uid: ''
+paperless_gid: ''
 
 # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
 paperless_version: "2.15.2"
+
+# The hostname at which Paperless is served.
+paperless_hostname: ''
+
+paperless_base_path: "/{{ paperless_identifier }}"
+paperless_media_path: "{{ paperless_base_path }}/media"
+paperless_data_path: "{{ paperless_base_path }}/data"
+paperless_env_path: "{{ paperless_base_path }}/env"
+paperless_export_path: "{{ paperless_base_path }}/export"
+paperless_consume_path: "{{ paperless_base_path }}/consume"
+paperless_container_media_path: "/usr/src/paperless/media"
+paperless_container_data_path: "/usr/src/paperless/data"
+paperless_container_export_path: "/usr/src/paperless/export"
+paperless_container_consume_path: "/usr/src/paperless/consume"
 
 paperless_container_image: "{{ paperless_container_image_registry_prefix }}paperless-ngx/paperless-ngx:{{ paperless_container_image_tag }}"
 paperless_container_image_tag: "{{ paperless_version }}"
@@ -16,35 +34,18 @@ paperless_container_image_force_pull: "{{ paperless_container_image.endswith(':l
 # In mb, default is 10gb
 paperless_tmp_size: 10000
 
-paperless_hostname: ''
 paperless_url: 'https://{{ paperless_hostname }}'
 paperless_app_title: 'Paperless-ngx'
 paperless_secret_key: ''
 
-paperless_uid: ''
-paperless_gid: ''
-
 paperless_admin_user: ''
 paperless_admin_password: ''
 
-paperless_base_path: "/{{ paperless_identifier }}"
-
-
-paperless_media_path: "{{ paperless_base_path }}/media"
-paperless_data_path: "{{ paperless_base_path }}/data"
-paperless_export_path: "{{ paperless_base_path }}/export"
-paperless_consume_path: "{{ paperless_base_path }}/consume"
-paperless_container_media_path: "/usr/src/paperless/media"
-paperless_container_data_path: "/usr/src/paperless/data"
-paperless_container_export_path: "/usr/src/paperless/export"
-paperless_container_consume_path: "/usr/src/paperless/consume"
 # A list of additional "mounts" to be mounted in the container.
 # Contains definition objects like this:
 # paperless_container_additional_mounts:
 # - "type=bind|volume|tmpfs,source=/outside,target=/inside,readonly,bind-propagation=slave"
 paperless_container_additional_mounts: []
-
-paperless_env_path: "{{ paperless_base_path }}/env"
 
 paperless_database_hostname: ''
 paperless_database_port: 5432
@@ -70,7 +71,6 @@ paperless_email_username: ''
 paperless_email_password: ''
 paperless_email_from: "noreply@{{ paperless_hostname }}"
 
-
 # Additional environment variables to pass to the paperless container.
 # You can use this to further influence the default configuration.
 # Check https://gopaperless.io/docs/installation/configuration for a full configuration reference
@@ -82,21 +82,18 @@ paperless_environment_variables_extension: ''
 
 paperless_container_network: '{{ paperless_identifier }}'
 
-
-# Must be one of debug, info, warning, error, critical
+# Valid values: debug, info, warning, error, critical
 paperless_loglevel: error
 
 ############
 ## SERVER ##
 ############
 
-
 # List of systemd services that paperless-api.service depends on
 paperless_systemd_required_services_list: "{{ paperless_systemd_required_services_list_default + paperless_systemd_required_services_list_auto + paperless_systemd_required_services_list_custom }}"
 paperless_systemd_required_services_list_default: ['docker.service']
 paperless_systemd_required_services_list_auto: []
 paperless_systemd_required_services_list_custom: []
-
 
 paperless_container_http_port: 8000
 
@@ -111,7 +108,6 @@ paperless_container_http_host_bind_port: ""
 paperless_container_additional_networks: "{{ paperless_container_additional_networks_auto + paperless_container_additional_networks_custom }}"
 paperless_container_additional_networks_auto: []
 paperless_container_additional_networks_custom: []
-
 
 # paperless_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/paperless_paperless/templates/labels.j2` for details.
@@ -132,7 +128,6 @@ paperless_container_labels_traefik_rule: "Host(`{{ paperless_container_labels_tr
 paperless_container_labels_traefik_additional_request_headers: "{{ paperless_container_labels_traefik_additional_request_headers_auto | combine(paperless_container_labels_traefik_additional_request_headers_custom) }}"
 paperless_container_labels_traefik_additional_request_headers_auto: {}
 paperless_container_labels_traefik_additional_request_headers_custom: {}
-
 
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own custom response headers, use `paperless_container_labels_traefik_additional_response_headers_custom`
@@ -211,7 +206,6 @@ paperless_floc_optout_enabled: true
 # See: `paperless_http_header_strict_transport_security`
 paperless_hsts_preload_enabled: false
 
-
 # paperless_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `roles/custom/collabora_online/templates/labels.j2` for details.
 #
@@ -222,7 +216,6 @@ paperless_hsts_preload_enabled: false
 paperless_container_labels_additional_labels: ''
 
 paperless_variables_additional_variables: ''
-
 
 ########################
 ## tika and gotenberg ##
@@ -259,7 +252,6 @@ paperless_gotenberg_container_image_registry_prefix: "docker.io/"
 
 paperless_gotenberg_environment_variables_extension: ''
 paperless_gotenberg_container_labels_additional_labels: ''
-
 
 ################
 ## Monitoring ##
