@@ -5,7 +5,9 @@
 paperless_enabled: true
 paperless_identifier: paperless
 
+# renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
 paperless_version: "2.15.2"
+
 # In mb, default is 10gb
 paperless_tmp_size: 10000
 
@@ -232,7 +234,10 @@ paperless_tika_identifier: "{{ paperless_identifier }}-tika"
 paperless_tika_endpoint: "http://{{ paperless_tika_identifier }}:9998"
 paperless_tika_container_additional_mounts: []
 paperless_tika_container_registry_prefix: "docker.io/"
+
+# renovate: datasource=docker depName=apache/tika versioning=semver
 paperless_tika_version: "3.1.0.0"
+
 paperless_tika_container_image: "{{ paperless_tika_container_registry_prefix }}apache/tika:{{ paperless_tika_version }}"
 paperless_tika_environment_variables_extension: ''
 paperless_tika_container_labels_additional_labels: ''
@@ -243,7 +248,10 @@ paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
 paperless_gotenberg_endpoint: "http://{{ paperless_gotenberg_identifier }}:3000"
 paperless_gotenberg_container_additional_mounts: []
 paperless_gotenberg_container_registry_prefix: "docker.io/"
+
+# renovate: datasource=docker depName=gotenberg/gotenberg versioning=semver
 paperless_gotenberg_version: "8.20.1"
+
 paperless_gotenberg_container_image: "{{ paperless_gotenberg_container_registry_prefix }}gotenberg/gotenberg:{{ paperless_gotenberg_version }}"
 paperless_gotenberg_environment_variables_extension: ''
 paperless_gotenberg_container_labels_additional_labels: ''
