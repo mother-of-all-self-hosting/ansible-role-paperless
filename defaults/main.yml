@@ -15,6 +15,8 @@ paperless_version: "2.15.2"
 # The hostname at which Paperless is served.
 paperless_hostname: ''
 
+paperless_scheme: https
+
 paperless_base_path: "/{{ paperless_identifier }}"
 paperless_media_path: "{{ paperless_base_path }}/media"
 paperless_data_path: "{{ paperless_base_path }}/data"
@@ -34,7 +36,7 @@ paperless_container_image_force_pull: "{{ paperless_container_image.endswith(':l
 # In mb, default is 10gb
 paperless_tmp_size: 10000
 
-paperless_url: 'https://{{ paperless_hostname }}'
+paperless_url: '{{ paperless_scheme }}://{{ paperless_hostname }}'
 paperless_app_title: 'Paperless-ngx'
 paperless_secret_key: ''
 
