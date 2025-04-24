@@ -1,13 +1,13 @@
 ---
 
-- name: Ensure paperless services are stopped and removed
+- name: Ensure Paperless-ngx services are stopped and removed
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
     - {service: "{{ paperless_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"}
     - {service: "{{ paperless_tika_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"}
     - {service: "{{ paperless_gotenberg_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"}
 
-- name: Ensure paperless base path is files deleted
+- name: Ensure Paperless-ngx base path is files deleted
   ansible.builtin.file:
     path: "{{ paperless_base_path }}"
     state: absent

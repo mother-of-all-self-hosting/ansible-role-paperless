@@ -1,12 +1,12 @@
 ---
 
-- name: Ensure paperless network is created in Docker
+- name: Ensure Paperless-ngx network is created in Docker
   community.docker.docker_network:
     name: "{{ paperless_container_network }}"
     driver: bridge
 
 
-- name: Ensure paperless paths exists
+- name: Ensure Paperless-ngx paths exists
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
@@ -20,7 +20,7 @@
     - {path: "{{ paperless_export_path }}", when: true}
     - {path: "{{ paperless_consume_path }}", when: true}
 
-- name: Ensure paperless traefik labels are installed
+- name: Ensure Paperless-ngx traefik labels are installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -32,7 +32,7 @@
     - {src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled}
     - {src: "{{ role_path }}/templates/gotenberg-labels.j2", dest: "{{ paperless_base_path }}/gotenberg-labels", when: paperless_gotenberg_enabled}
 
-- name: Ensure paperless configuration is deployed
+- name: Ensure Paperless-ngx configuration is deployed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -44,7 +44,7 @@
     - {src: "{{ role_path }}/templates/tika-env.j2", dest: "{{ paperless_base_path }}/tika-env", when: paperless_tika_enabled}
     - {src: "{{ role_path }}/templates/gotenberg-env.j2", dest: "{{ paperless_base_path }}/gotenberg-env", when: paperless_gotenberg_enabled}
 
-- name: Ensure paperless container image is pulled
+- name: Ensure Paperless-ngx container image is pulled
   community.docker.docker_image:
     name: "{{ item.image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
