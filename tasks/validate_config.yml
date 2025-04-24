@@ -19,3 +19,12 @@
   when: "paperless_email_host !='' and vars[item] == ''"
   with_items:
     - paperless_email_port
+
+- name: (Deprecation) Catch and report renamed Paperless variables
+  ansible.builtin.fail:
+    msg: >-
+      The variable `{{ item.old }}` is deprecated. Please use `{{ item.new }}` instead.
+  when: "item.old in vars"
+  with_items:
+    - {'old': 'paperless_tika_container_registry_prefix', 'new': 'paperless_tika_container_image_registry_prefix'}
+    - {'old': 'paperless_gotenberg_container_registry_prefix', 'new': 'paperless_gotenberg_container_image_registry_prefix'}
