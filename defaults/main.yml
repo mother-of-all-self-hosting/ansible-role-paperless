@@ -12,7 +12,7 @@ paperless_gid: ''
 # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
 paperless_version: "2.15.2"
 
-# The hostname at which Paperless is served.
+# The hostname at which Paperless-ngx is served.
 paperless_hostname: ''
 
 paperless_scheme: https
@@ -73,7 +73,7 @@ paperless_email_username: ''
 paperless_email_password: ''
 paperless_email_from: "noreply@{{ paperless_hostname }}"
 
-# Additional environment variables to pass to the paperless container.
+# Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.
 # Check https://gopaperless.io/docs/installation/configuration for a full configuration reference
 #
@@ -99,7 +99,7 @@ paperless_systemd_required_services_list_custom: []
 
 paperless_container_http_port: 8000
 
-# Controls whether the paperless container exposes its HTTP port (as defined by `paperless_container_http_port`).
+# Controls whether the Paperless-ngx container exposes its HTTP port (as defined by `paperless_container_http_port`).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
 paperless_container_http_host_bind_port: ""

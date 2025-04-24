@@ -2,7 +2,7 @@ galaxy_info:
   role_name: paperless
   author: Julian-Samuel Gebühr
   company: Hyteck
-  description: Ansible role to install a paperless-ngx instance
+  description: Ansible role to install a Paperless-ngx instance
   platforms:
     - name: Debian
       versions:
