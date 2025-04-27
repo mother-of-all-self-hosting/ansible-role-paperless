@@ -49,6 +49,9 @@ paperless_admin_password: ''
 # - "type=bind|volume|tmpfs,source=/outside,target=/inside,readonly,bind-propagation=slave"
 paperless_container_additional_mounts: []
 
+#Do NOT include a trailing slash. e.g. /paperless - Not implemented into traefik
+paperless_subpath: ''
+
 paperless_database_hostname: ''
 paperless_database_port: 5432
 paperless_database_name: paperless
