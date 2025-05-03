@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 [Unit]
-Description=tika Server for Paperless-ngx Server ({{ paperless_identifier }})
+Description=Tika Server for Paperless-ngx Server ({{ paperless_identifier }})
 {% for service in paperless_systemd_required_services_list %}
 Requires={{ service }}
 After={{ service }}
