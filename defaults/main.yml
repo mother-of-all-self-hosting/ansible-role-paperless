@@ -249,7 +249,7 @@ paperless_tika_container_additional_volumes: []
 paperless_tika_variables_additional_variables: ''
 
 # paperless_tika_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
-# See `../templates/labels.j2` for details.
+# See `../templates/tika-labels.j2` for details.
 #
 # Example:
 # paperless_tika_container_labels_additional_labels: |
@@ -282,7 +282,7 @@ paperless_gotenberg_container_additional_volumes: []
 paperless_gotenberg_variables_additional_variables: ''
 
 # paperless_gotenberg_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
-# See `../templates/labels.j2` for details.
+# See `../templates/gotenberg-labels.j2` for details.
 #
 # Example:
 # paperless_gotenberg_container_labels_additional_labels: |
