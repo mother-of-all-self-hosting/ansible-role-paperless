@@ -17,6 +17,9 @@
     - {'old': 'paperless_container_additional_mounts', 'new': 'paperless_container_additional_volumes'}
     - {'old': 'paperless_tika_container_additional_mounts', 'new': 'paperless_tika_container_additional_volumes'}
     - {'old': 'paperless_gotenberg_container_additional_mounts', 'new': 'paperless_gotenberg_container_additional_volumes'}
+    - {'old': 'paperless_environment_variables_extension', 'new': 'paperless_variables_additional_variables'}
+    - {'old': 'paperless_tika_environment_variables_extension', 'new': 'paperless_tika_variables_additional_variables'}
+    - {'old': 'paperless_gotenberg_environment_variables_extension', 'new': 'paperless_gotenberg_variables_additional_variables'}
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
