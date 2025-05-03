@@ -47,8 +47,10 @@ paperless_container_image_force_pull: "{{ paperless_container_image.endswith(':l
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
 paperless_container_http_host_bind_port: ""
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 paperless_container_network: '{{ paperless_identifier }}'
 
+# The port number in the container
 paperless_container_http_port: 8000
 
 # A list of additional container networks that the container would be connected to.
@@ -170,7 +172,7 @@ paperless_floc_optout_enabled: true
 # See: `paperless_http_header_strict_transport_security`
 paperless_hsts_preload_enabled: false
 
-# List of systemd services that paperless-api.service depends on
+# List of systemd services that Paperless-ngx systemd service depends on
 paperless_systemd_required_services_list: "{{ paperless_systemd_required_services_list_default + paperless_systemd_required_services_list_auto + paperless_systemd_required_services_list_custom }}"
 paperless_systemd_required_services_list_default: ['docker.service']
 paperless_systemd_required_services_list_auto: []
