@@ -245,7 +245,16 @@ paperless_tika_container_image_registry_prefix_upstream_default: docker.io/
 # See the `--mount` documentation for the `docker run` command.
 paperless_tika_container_additional_volumes: []
 
+# Additional environment variables.
 paperless_tika_variables_additional_variables: ''
+
+# paperless_tika_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
+# See `../templates/labels.j2` for details.
+#
+# Example:
+# paperless_tika_container_labels_additional_labels: |
+#   my.label=1
+#   another.label="here"
 paperless_tika_container_labels_additional_labels: ''
 
 # Project source code URL: https://github.com/gotenberg/gotenberg
@@ -269,7 +278,16 @@ paperless_gotenberg_container_image_registry_prefix_upstream_default: docker.io/
 # See the `--mount` documentation for the `docker run` command.
 paperless_gotenberg_container_additional_volumes: []
 
+# Additional environment variables.
 paperless_gotenberg_variables_additional_variables: ''
+
+# paperless_gotenberg_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
+# See `../templates/labels.j2` for details.
+#
+# Example:
+# paperless_gotenberg_container_labels_additional_labels: |
+#   my.label=1
+#   another.label="here"
 paperless_gotenberg_container_labels_additional_labels: ''
 
 ################
