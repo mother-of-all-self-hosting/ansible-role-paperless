@@ -225,8 +225,11 @@ paperless_variables_additional_variables: ''
 ##########
 
 # Project source code URL: https://github.com/apache/tika
+
 paperless_tika_enabled: false
+
 paperless_tika_identifier: "{{ paperless_identifier }}-tika"
+
 paperless_tika_endpoint: "http://{{ paperless_tika_identifier }}:9998"
 
 # renovate: datasource=docker depName=apache/tika versioning=semver
@@ -245,9 +248,6 @@ paperless_tika_container_image_registry_prefix_upstream_default: docker.io/
 # See the `--mount` documentation for the `docker run` command.
 paperless_tika_container_additional_volumes: []
 
-# Additional environment variables.
-paperless_tika_variables_additional_variables: ''
-
 # paperless_tika_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `../templates/tika-labels.j2` for details.
 #
@@ -257,13 +257,19 @@ paperless_tika_variables_additional_variables: ''
 #   another.label="here"
 paperless_tika_container_labels_additional_labels: ''
 
+# Additional environment variables.
+paperless_tika_variables_additional_variables: ''
+
 ###############
 ## Gotenberg ##
 ###############
 
 # Project source code URL: https://github.com/gotenberg/gotenberg
+
 paperless_gotenberg_enabled: false
+
 paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
+
 paperless_gotenberg_endpoint: "http://{{ paperless_gotenberg_identifier }}:3000"
 
 # renovate: datasource=docker depName=gotenberg/gotenberg versioning=semver
@@ -282,9 +288,6 @@ paperless_gotenberg_container_image_registry_prefix_upstream_default: docker.io/
 # See the `--mount` documentation for the `docker run` command.
 paperless_gotenberg_container_additional_volumes: []
 
-# Additional environment variables.
-paperless_gotenberg_variables_additional_variables: ''
-
 # paperless_gotenberg_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `../templates/gotenberg-labels.j2` for details.
 #
@@ -293,6 +296,9 @@ paperless_gotenberg_variables_additional_variables: ''
 #   my.label=1
 #   another.label="here"
 paperless_gotenberg_container_labels_additional_labels: ''
+
+# Additional environment variables.
+paperless_gotenberg_variables_additional_variables: ''
 
 ################
 ## Monitoring ##
