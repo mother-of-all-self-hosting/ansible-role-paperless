@@ -26,7 +26,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			{% if paperless_container_http_host_bind_port %}
 			-p {{ paperless_container_http_host_bind_port }}:{{ paperless_container_http_port }} \
 			{% endif %}
-			--env-file={{ paperless_env_path }} \
+			--env-file={{ paperless_base_path }}/env \
 			--label-file={{ paperless_base_path }}/labels \
 			--health-interval={{ paperless_container_health_interval }} \
 			--mount type=bind,src={{ paperless_media_path }},dst={{ paperless_container_media_path }} \
