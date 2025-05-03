@@ -230,7 +230,9 @@ paperless_tika_enabled: false
 
 paperless_tika_identifier: "{{ paperless_identifier }}-tika"
 
-paperless_tika_endpoint: "http://{{ paperless_tika_identifier }}:9998"
+paperless_tika_endpoint: "{{ paperless_tika_scheme }}://{{ paperless_tika_identifier }}:9998"
+
+paperless_tika_scheme: http
 
 # renovate: datasource=docker depName=apache/tika versioning=semver
 paperless_tika_version: "3.1.0.0"
@@ -270,7 +272,9 @@ paperless_gotenberg_enabled: false
 
 paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
 
-paperless_gotenberg_endpoint: "http://{{ paperless_gotenberg_identifier }}:3000"
+paperless_gotenberg_endpoint: "{{ paperless_gotenberg_scheme }}://{{ paperless_gotenberg_identifier }}:3000"
+
+paperless_gotenberg_scheme: http
 
 # renovate: datasource=docker depName=gotenberg/gotenberg versioning=semver
 paperless_gotenberg_version: "8.20.1"
