@@ -67,10 +67,6 @@ paperless_container_additional_networks_custom: []
 # See the `--mount` documentation for the `docker run` command.
 paperless_container_additional_volumes: []
 
-############
-## SERVER ##
-############
-
 # paperless_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/paperless_paperless/templates/labels.j2` for details.
 #
