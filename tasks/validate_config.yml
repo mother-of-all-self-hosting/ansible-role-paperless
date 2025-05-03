@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +13,7 @@
   with_items:
     - {'old': 'paperless_tika_container_registry_prefix', 'new': 'paperless_tika_container_image_registry_prefix'}
     - {'old': 'paperless_gotenberg_container_registry_prefix', 'new': 'paperless_gotenberg_container_image_registry_prefix'}
+    - {'old': 'paperless_env_path', 'new': '<removed>'}
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
