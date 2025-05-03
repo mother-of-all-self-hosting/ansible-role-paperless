@@ -218,7 +218,7 @@ paperless_container_labels_additional_labels: ''
 paperless_variables_additional_variables: ''
 
 ########################
-## tika and gotenberg ##
+## Tika and Gotenberg ##
 ########################
 
 # Project source code URL: https://github.com/apache/tika
