@@ -220,9 +220,9 @@ paperless_email_from: "noreply@{{ paperless_hostname }}"
 #   paperless_DISABLE_UPDATE_CHECK=true
 paperless_variables_additional_variables: ''
 
-########################
-## Tika and Gotenberg ##
-########################
+##########
+## Tika ##
+##########
 
 # Project source code URL: https://github.com/apache/tika
 paperless_tika_enabled: false
@@ -256,6 +256,10 @@ paperless_tika_variables_additional_variables: ''
 #   my.label=1
 #   another.label="here"
 paperless_tika_container_labels_additional_labels: ''
+
+###############
+## Gotenberg ##
+###############
 
 # Project source code URL: https://github.com/gotenberg/gotenberg
 paperless_gotenberg_enabled: false
