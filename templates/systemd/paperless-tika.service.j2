@@ -21,19 +21,19 @@ ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_s
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ paperless_tika_identifier }} 2>/dev/null || true'
 
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
-			--rm \
-			--name={{ paperless_tika_identifier }} \
-			--log-driver=none \
-			--read-only \
-			--network={{ paperless_container_network }} \
-			--env-file={{ paperless_base_path }}/tika-env \
-			--label-file={{ paperless_base_path }}/tika-labels \
-			--health-interval={{ paperless_container_health_interval }} \
-			{% for volume in paperless_tika_container_additional_volumes %}
-			--mount type={{ volume.type | default('bind' if '/' in volume.src else 'volume') }},src={{ volume.src }},dst={{ volume.dst }}{{ (',' + volume.options) if volume.options else '' }} \
-			{% endfor %}
-			--tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
-			{{ paperless_tika_container_image }}
+      --rm \
+      --name={{ paperless_tika_identifier }} \
+      --log-driver=none \
+      --read-only \
+      --network={{ paperless_container_network }} \
+      --env-file={{ paperless_base_path }}/tika-env \
+      --label-file={{ paperless_base_path }}/tika-labels \
+      --health-interval={{ paperless_container_health_interval }} \
+      {% for volume in paperless_tika_container_additional_volumes %}
+      --mount type={{ volume.type | default('bind' if '/' in volume.src else 'volume') }},src={{ volume.src }},dst={{ volume.dst }}{{ (',' + volume.options) if volume.options else '' }} \
+      {% endfor %}
+      --tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
+      {{ paperless_tika_container_image }}
 
 
 ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ paperless_tika_identifier }}
