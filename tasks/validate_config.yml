@@ -14,6 +14,9 @@
     - {'old': 'paperless_tika_container_registry_prefix', 'new': 'paperless_tika_container_image_registry_prefix'}
     - {'old': 'paperless_gotenberg_container_registry_prefix', 'new': 'paperless_gotenberg_container_image_registry_prefix'}
     - {'old': 'paperless_env_path', 'new': '<removed>'}
+    - {'old': 'paperless_container_additional_mounts', 'new': 'paperless_container_additional_volumes'}
+    - {'old': 'paperless_tika_container_additional_mounts', 'new': 'paperless_tika_container_additional_volumes'}
+    - {'old': 'paperless_gotenberg_container_additional_mounts', 'new': 'paperless_gotenberg_container_additional_volumes'}
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:

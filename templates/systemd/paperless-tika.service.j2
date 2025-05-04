@@ -1,5 +1,8 @@
 {#
+SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 SPDX-FileCopyrightText: 2024 Bergruebe
+SPDX-FileCopyrightText: 2024 Nikita Chernyi
+SPDX-FileCopyrightText: 2025 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -26,8 +29,8 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--env-file={{ paperless_base_path }}/tika-env \
 			--label-file={{ paperless_base_path }}/tika-labels \
 			--health-interval={{ paperless_container_health_interval }} \
-			{% for mount in paperless_tika_container_additional_mounts %}
-			--mount {{ mount }} \
+			{% for volume in paperless_tika_container_additional_volumes %}
+			--mount type={{ volume.type | default('bind' if '/' in volume.src else 'volume') }},src={{ volume.src }},dst={{ volume.dst }}{{ (',' + volume.options) if volume.options else '' }} \
 			{% endfor %}
 			--tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
 			{{ paperless_tika_container_image }}

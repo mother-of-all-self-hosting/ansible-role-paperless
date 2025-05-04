@@ -1,5 +1,8 @@
 {#
+SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
+SPDX-FileCopyrightText: 2024 Nikita Chernyi
+SPDX-FileCopyrightText: 2025 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -33,8 +36,8 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--mount type=bind,src={{ paperless_data_path }},dst={{ paperless_container_data_path }} \
 			--mount type=bind,src={{ paperless_export_path }},dst={{ paperless_container_export_path }} \
 			--mount type=bind,src={{ paperless_consume_path }},dst={{ paperless_container_consume_path }} \
-			{% for mount in paperless_container_additional_mounts %}
-			--mount {{ mount }} \
+			{% for volume in paperless_container_additional_volumes %}
+			--mount type={{ volume.type | default('bind' if '/' in volume.src else 'volume') }},src={{ volume.src }},dst={{ volume.dst }}{{ (',' + volume.options) if volume.options else '' }} \
 			{% endfor %}
 			--tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tmp_size }}m \
 			--tmpfs=/var/log/supervisord:rw,noexec,nosuid,size=20m \
