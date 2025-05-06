@@ -234,7 +234,7 @@ paperless_tika_endpoint: "{{ paperless_tika_scheme }}://{{ paperless_tika_identi
 
 paperless_tika_scheme: http
 
-# renovate: datasource=docker depName=apache/tika versioning=semver
+# renovate: datasource=docker depName=apache/tika versioning=semver-coerced
 paperless_tika_version: "3.1.0.0"
 
 paperless_tika_container_image: "{{ paperless_tika_container_image_registry_prefix }}apache/tika:{{ paperless_tika_container_image_tag }}"
