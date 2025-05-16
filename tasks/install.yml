@@ -7,25 +7,25 @@
 
 - name: Ensure Paperless-ngx paths exist
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item }}"
     state: directory
     mode: 0700
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
   with_items:
-    - {path: "{{ paperless_base_path }}", when: true}
-    - {path: "{{ paperless_media_path }}", when: true}
-    - {path: "{{ paperless_data_path }}", when: true}
-    - {path: "{{ paperless_export_path }}", when: true}
-    - {path: "{{ paperless_consume_path }}", when: true}
+    - "{{ paperless_base_path }}"
+    - "{{ paperless_media_path }}"
+    - "{{ paperless_data_path }}"
+    - "{{ paperless_export_path }}"
+    - "{{ paperless_consume_path }}"
 
-- name: Ensure Paperless-ngx traefik labels are installed
+- name: Ensure Paperless-ngx Traefik labels are installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: 0640
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
-    mode: 0640
   with_items:
     - {src: "{{ role_path }}/templates/labels.j2", dest: "{{ paperless_base_path }}/labels"}
     - {src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled}
@@ -35,9 +35,9 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: 0640
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
-    mode: 0640
   with_items:
     - {src: "{{ role_path }}/templates/env.j2", dest: "{{ paperless_base_path }}/env"}
     - {src: "{{ role_path }}/templates/tika-env.j2", dest: "{{ paperless_base_path }}/tika-env", when: paperless_tika_enabled}
