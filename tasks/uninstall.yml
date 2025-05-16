@@ -12,7 +12,7 @@
     - {service: "{{ paperless_tika_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"}
     - {service: "{{ paperless_gotenberg_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"}
 
-- name: Ensure Paperless-ngx base path is files deleted
+- name: Ensure Paperless-ngx path does not exist
   ansible.builtin.file:
     path: "{{ paperless_base_path }}"
     state: absent
