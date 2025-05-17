@@ -4,19 +4,20 @@
 
 ---
 
-- name: Check existence of Paperless-ngx systemd service
+- name: Check existence of Paperless-ngx systemd services
   ansible.builtin.stat:
     path: "{{ item.path }}"
   register: paperless_service_stat
 
 - when: paperless_service_stat.stat.exists | bool
   block:
-    - name: Ensure Paperless-ngx service is stopped
+    - name: Ensure Paperless-ngx systemd services are stopped
       ansible.builtin.service:
         name: "{{ item.service }}"
         state: stopped
         daemon_reload: true
-    - name: Ensure Paperless-ngx service doesn't exist
+
+    - name: Ensure Paperless-ngx systemd services do not exist
       ansible.builtin.file:
         dest: "{{ item.path }}"
         state: absent
