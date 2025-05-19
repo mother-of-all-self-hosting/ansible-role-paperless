@@ -7,13 +7,7 @@
 - block:
     - when: paperless_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
-  tags:
-    - setup-all
-    - setup-paperless
-    - install-all
-    - install-paperless
 
-- block:
     - when: paperless_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
   tags:
