@@ -31,7 +31,7 @@
     - {src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled}
     - {src: "{{ role_path }}/templates/gotenberg-labels.j2", dest: "{{ paperless_base_path }}/gotenberg-labels", when: paperless_gotenberg_enabled}
 
-- name: Ensure Paperless-ngx configuration is deployed
+- name: Ensure Paperless-ngx configuration files installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
