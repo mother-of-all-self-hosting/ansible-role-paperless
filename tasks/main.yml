@@ -3,27 +3,25 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Perform Paperless-ngx installation tasks
-  block:
-    - name: Validate Paperless-ngx configuration
-      when: paperless_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
-
-    - name: Install Paperless-ngx
-      when: paperless_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
   tags:
     - setup-all
     - setup-paperless
     - install-all
     - install-paperless
+  block:
+    - name: Validate Paperless-ngx configuration
+      when: paperless_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+    - name: Install Paperless-ngx
+      when: paperless_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Paperless-ngx uninstallation tasks
+  tags:
+    - setup-all
+    - setup-paperless
   block:
     - name: Uninstall Paperless-ngx
       when: not paperless_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
-  tags:
-    - setup-all
-    - setup-paperless

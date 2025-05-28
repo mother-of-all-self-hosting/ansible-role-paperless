@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Check existence of Paperless-ngx systemd services
   ansible.builtin.stat:
     path: "{{ item.path }}"
   register: paperless_service_stat
 
-- when: paperless_service_stat.stat.exists | bool
+- name: Uninstall Paperless-ngx systemd services and files
+  when: paperless_service_stat.stat.exists | bool
   block:
     - name: Ensure Paperless-ngx systemd services are stopped
       ansible.builtin.service:

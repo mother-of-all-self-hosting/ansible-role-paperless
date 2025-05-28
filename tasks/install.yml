@@ -4,12 +4,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Ensure Paperless-ngx paths exist
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0700
+    mode: "0700"
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
   with_items:
@@ -23,34 +22,34 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0640
+    mode: "0640"
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
   with_items:
-    - {src: "{{ role_path }}/templates/labels.j2", dest: "{{ paperless_base_path }}/labels"}
-    - {src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled}
-    - {src: "{{ role_path }}/templates/gotenberg-labels.j2", dest: "{{ paperless_base_path }}/gotenberg-labels", when: paperless_gotenberg_enabled}
+    - { src: "{{ role_path }}/templates/labels.j2", dest: "{{ paperless_base_path }}/labels" }
+    - { src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled }
+    - { src: "{{ role_path }}/templates/gotenberg-labels.j2", dest: "{{ paperless_base_path }}/gotenberg-labels", when: paperless_gotenberg_enabled }
 
 - name: Ensure Paperless-ngx configuration files installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0640
+    mode: "0640"
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
   with_items:
-    - {src: "{{ role_path }}/templates/env.j2", dest: "{{ paperless_base_path }}/env"}
-    - {src: "{{ role_path }}/templates/tika-env.j2", dest: "{{ paperless_base_path }}/tika-env", when: paperless_tika_enabled}
-    - {src: "{{ role_path }}/templates/gotenberg-env.j2", dest: "{{ paperless_base_path }}/gotenberg-env", when: paperless_gotenberg_enabled}
+    - { src: "{{ role_path }}/templates/env.j2", dest: "{{ paperless_base_path }}/env" }
+    - { src: "{{ role_path }}/templates/tika-env.j2", dest: "{{ paperless_base_path }}/tika-env", when: paperless_tika_enabled }
+    - { src: "{{ role_path }}/templates/gotenberg-env.j2", dest: "{{ paperless_base_path }}/gotenberg-env", when: paperless_gotenberg_enabled }
 
 - name: Ensure Paperless-ngx container image is pulled
   community.docker.docker_image:
     name: "{{ item.image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
   with_items:
-    - {image: "{{ paperless_container_image }}"}
-    - {image: "{{ paperless_tika_container_image }}", when: paperless_tika_enabled}
-    - {image: "{{ paperless_gotenberg_container_image }}", when: paperless_gotenberg_enabled}
+    - { image: "{{ paperless_container_image }}" }
+    - { image: "{{ paperless_tika_container_image }}", when: paperless_tika_enabled }
+    - { image: "{{ paperless_gotenberg_container_image }}", when: paperless_gotenberg_enabled }
   register: result
   retries: "{{ devture_playbook_help_container_retries_count }}"
   delay: "{{ devture_playbook_help_container_retries_delay }}"
@@ -67,8 +66,13 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0644
+    mode: "0644"
   with_items:
-    - {src: "{{ role_path }}/templates/systemd/paperless.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"}
-    - {src: "{{ role_path }}/templates/systemd/paperless-tika.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service", when: paperless_tika_enabled}
-    - {src: "{{ role_path }}/templates/systemd/paperless-gotenberg.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service", when: paperless_gotenberg_enabled}
+    - src: "{{ role_path }}/templates/systemd/paperless.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"
+    - src: "{{ role_path }}/templates/systemd/paperless-tika.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"
+      when: paperless_tika_enabled
+    - src: "{{ role_path }}/templates/systemd/paperless-gotenberg.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
+      when: paperless_gotenberg_enabled

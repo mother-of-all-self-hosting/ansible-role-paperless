@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: (Deprecation) Catch and report renamed settings
   ansible.builtin.fail:
     msg: >-
@@ -12,15 +11,15 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "item.old in vars"
   with_items:
-    - {'old': 'paperless_tika_container_registry_prefix', 'new': 'paperless_tika_container_image_registry_prefix'}
-    - {'old': 'paperless_gotenberg_container_registry_prefix', 'new': 'paperless_gotenberg_container_image_registry_prefix'}
-    - {'old': 'paperless_env_path', 'new': '<removed>'}
-    - {'old': 'paperless_container_additional_mounts', 'new': 'paperless_container_additional_volumes'}
-    - {'old': 'paperless_tika_container_additional_mounts', 'new': 'paperless_tika_container_additional_volumes'}
-    - {'old': 'paperless_gotenberg_container_additional_mounts', 'new': 'paperless_gotenberg_container_additional_volumes'}
-    - {'old': 'paperless_environment_variables_extension', 'new': 'paperless_variables_additional_variables'}
-    - {'old': 'paperless_tika_environment_variables_extension', 'new': 'paperless_tika_variables_additional_variables'}
-    - {'old': 'paperless_gotenberg_environment_variables_extension', 'new': 'paperless_gotenberg_variables_additional_variables'}
+    - { "old": "paperless_tika_container_registry_prefix", "new": "paperless_tika_container_image_registry_prefix" }
+    - { "old": "paperless_gotenberg_container_registry_prefix", "new": "paperless_gotenberg_container_image_registry_prefix" }
+    - { "old": "paperless_env_path", "new": "<removed>" }
+    - { "old": "paperless_container_additional_mounts", "new": "paperless_container_additional_volumes" }
+    - { "old": "paperless_tika_container_additional_mounts", "new": "paperless_tika_container_additional_volumes" }
+    - { "old": "paperless_gotenberg_container_additional_mounts", "new": "paperless_gotenberg_container_additional_volumes" }
+    - { "old": "paperless_environment_variables_extension", "new": "paperless_variables_additional_variables" }
+    - { "old": "paperless_tika_environment_variables_extension", "new": "paperless_tika_variables_additional_variables" }
+    - { "old": "paperless_gotenberg_environment_variables_extension", "new": "paperless_gotenberg_variables_additional_variables" }
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:

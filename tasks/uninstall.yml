@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Ensure Paperless-ngx systemd services are stopped and removed
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
-    - {service: "{{ paperless_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"}
-    - {service: "{{ paperless_tika_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"}
-    - {service: "{{ paperless_gotenberg_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"}
+    - { service: "{{ paperless_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service" }
+    - { service: "{{ paperless_tika_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service" }
+    - service: "{{ paperless_gotenberg_identifier }}.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
 
 - name: Ensure Paperless-ngx path does not exist
   ansible.builtin.file:
