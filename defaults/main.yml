@@ -25,7 +25,7 @@ paperless_container_export_path: "/usr/src/paperless/export"
 paperless_container_consume_path: "/usr/src/paperless/consume"
 
 # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
-paperless_version: "2.15.3"
+paperless_version: "2.16.3"
 
 paperless_uid: ''
 paperless_gid: ''
