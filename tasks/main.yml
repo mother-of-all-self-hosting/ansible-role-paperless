@@ -4,6 +4,7 @@
 
 ---
 - name: Perform Paperless-ngx installation tasks
+  when: paperless_enabled | bool
   tags:
     - setup-all
     - setup-paperless
@@ -11,17 +12,15 @@
     - install-paperless
   block:
     - name: Validate Paperless-ngx configuration
-      when: paperless_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
     - name: Install Paperless-ngx
-      when: paperless_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Paperless-ngx uninstallation tasks
+  when: not paperless_enabled | bool
   tags:
     - setup-all
     - setup-paperless
   block:
     - name: Uninstall Paperless-ngx
-      when: not paperless_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
