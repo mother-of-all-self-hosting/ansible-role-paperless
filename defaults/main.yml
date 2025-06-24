@@ -220,9 +220,11 @@ paperless_email_from: "noreply@{{ paperless_hostname }}"
 #   paperless_DISABLE_UPDATE_CHECK=true
 paperless_variables_additional_variables: ''
 
-##########
-## Tika ##
-##########
+########################################################################
+#                                                                      #
+# tika                                                                 #
+#                                                                      #
+########################################################################
 
 # Project source code URL: https://github.com/apache/tika
 
@@ -262,9 +264,17 @@ paperless_tika_container_labels_additional_labels: ''
 # Additional environment variables.
 paperless_tika_variables_additional_variables: ''
 
-###############
-## Gotenberg ##
-###############
+########################################################################
+#                                                                      #
+# /tika                                                                #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# gotenberg                                                            #
+#                                                                      #
+########################################################################
 
 # Project source code URL: https://github.com/gotenberg/gotenberg
 
@@ -304,9 +314,17 @@ paperless_gotenberg_container_labels_additional_labels: ''
 # Additional environment variables.
 paperless_gotenberg_variables_additional_variables: ''
 
-################
-## Monitoring ##
-################
+########################################################################
+#                                                                      #
+# /gotenberg                                                           #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# metrics                                                              #
+#                                                                      #
+########################################################################
 
 paperless_metrics_enabled: false
 paperless_metrics_path_prefix: '/metrics'
@@ -314,3 +332,9 @@ paperless_metrics_container_labels_traefik_rule: "Host(`{{ paperless_hostname }}
 paperless_metrics_container_labels_traefik_entrypoints: web-secure
 paperless_metrics_container_labels_traefik_tls: "{{ paperless_metrics_container_labels_traefik_entrypoints != 'web' }}"
 paperless_metrics_container_labels_traefik_tls_certResolver: default  # noqa var-naming
+
+########################################################################
+#                                                                      #
+# /metrics                                                             #
+#                                                                      #
+########################################################################
