@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
 # SPDX-FileCopyrightText: 2024 Bergruebe
+# SPDX-FileCopyrightText: 2025 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -11,6 +12,21 @@
     - { service: "{{ paperless_tika_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service" }
     - service: "{{ paperless_gotenberg_identifier }}.service"
       path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
+
+- name: Ensure Paperless-ngx container network does not exist via community.docker.docker_network
+  when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
+  community.docker.docker_network:
+    name: "{{ paperless_container_network }}"
+    state: absent
+
+- name: Ensure Paperless-ngx container network does not exist via ansible.builtin.command
+  when: devture_systemd_docker_base_container_network_creation_method == 'command'
+  ansible.builtin.command:
+    cmd: >-
+      {{ devture_systemd_docker_base_host_command_docker }} network rm
+      {{ paperless_container_network }}
+  register: network_deletion_result
+  changed_when: paperless_container_network in network_deletion_result.stdout
 
 - name: Ensure Paperless-ngx path does not exist
   ansible.builtin.file:
