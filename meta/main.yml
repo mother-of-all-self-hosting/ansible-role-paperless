@@ -1,8 +1,9 @@
 ---
 galaxy_info:
-  role_name: paperless
   author: Julian-Samuel Gebühr
   company: Hyteck
+  role_name: paperless
+  namespace: mash
   description: Ansible role to install a Paperless-ngx instance
   platforms:
     - name: Debian
