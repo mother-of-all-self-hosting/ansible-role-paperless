@@ -37,6 +37,6 @@
   ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`) to correctly set up email via SMTP.
-  when: "paperless_email_host !='' and vars[item] == ''"
+  when: "paperless_email_host !='' and lookup('vars', item, default='') | string | length == 0"
   with_items:
     - paperless_email_port
