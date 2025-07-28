@@ -35,6 +35,8 @@ paperless_hostname: ''
 
 paperless_scheme: https
 
+paperless_path_prefix: /
+
 paperless_container_image: "{{ paperless_container_image_registry_prefix }}paperless-ngx/paperless-ngx:{{ paperless_container_image_tag }}"
 paperless_container_image_tag: "{{ paperless_version }}"
 paperless_container_image_registry_prefix: "{{ paperless_container_image_registry_prefix_upstream }}"
@@ -71,15 +73,16 @@ paperless_container_additional_volumes: []
 # See `../templates/labels.j2` for details.
 #
 # To inject your own other container labels, see `paperless_container_labels_additional_labels`.
-paperless_container_labels_traefik_enabled: false
-paperless_container_labels_traefik_docker_network: ""
-paperless_container_labels_traefik_entrypoints: web-secure
+paperless_container_labels_traefik_enabled: true
+paperless_container_labels_traefik_docker_network: "{{ paperless_container_network }}"
+paperless_container_labels_traefik_hostname: "{{ paperless_hostname }}"
+# The path prefix must either be `/` or not end with a slash (e.g. `/paperless`).
+paperless_container_labels_traefik_path_prefix: "{{ paperless_path_prefix }}"
+paperless_container_labels_traefik_rule: "Host(`{{ paperless_container_labels_traefik_hostname }}`){% if paperless_container_labels_traefik_path_prefix != '/' %} && PathPrefix(`{{ paperless_container_labels_traefik_path_prefix }}`){% endif %}"
 paperless_container_labels_traefik_priority: 0
+paperless_container_labels_traefik_entrypoints: web-secure
 paperless_container_labels_traefik_tls: "{{ paperless_container_labels_traefik_entrypoints != 'web' }}"
 paperless_container_labels_traefik_tls_certResolver: default  # noqa var-naming
-
-paperless_container_labels_traefik_hostname: "{{ paperless_hostname }}"
-paperless_container_labels_traefik_rule: "Host(`{{ paperless_container_labels_traefik_hostname }}`)"
 
 # Controls which additional headers to attach to all HTTP requests.
 # To add your own custom request headers, use `paperless_container_labels_traefik_additional_request_headers_custom`

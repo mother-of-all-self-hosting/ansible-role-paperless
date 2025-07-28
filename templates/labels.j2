@@ -1,15 +1,29 @@
 {#
+SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% if paperless_container_labels_traefik_enabled %}
+traefik.enable=true
+
 {% if paperless_container_labels_traefik_docker_network %}
 traefik.docker.network={{ paperless_container_labels_traefik_docker_network }}
 {% endif %}
 
 {% set middlewares = [] %}
+
+{% if paperless_container_labels_traefik_path_prefix != '/' %}
+traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.regex=^({{ paperless_container_labels_traefik_path_prefix | quote }})$
+traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
+{% set middlewares = middlewares + [paperless_identifier + '-slashless-redirect'] %}
+{% endif %}
+
+{% if paperless_container_labels_traefik_path_prefix != '/' %}
+traefik.http.middlewares.{{ paperless_identifier }}-strip-prefix.stripprefix.prefixes={{ paperless_container_labels_traefik_path_prefix }}
+{% set middlewares = middlewares + [paperless_identifier + '-strip-prefix'] %}
+{% endif %}
 
 {% if paperless_container_labels_traefik_additional_request_headers.keys() | length > 0 %}
 {% for name, value in paperless_container_labels_traefik_additional_request_headers.items() %}
@@ -25,22 +39,22 @@ traefik.http.middlewares.{{ paperless_identifier }}-add-response-headers.headers
 {% set middlewares = middlewares + [paperless_identifier + '-add-response-headers'] %}
 {% endif %}
 
-traefik.enable=true
-{% endif %}
 traefik.http.routers.{{ paperless_identifier }}.rule={{ paperless_container_labels_traefik_rule }}
 {% if paperless_container_labels_traefik_priority | int > 0 %}
 traefik.http.routers.{{ paperless_identifier }}.priority={{ paperless_container_labels_traefik_priority }}
 {% endif %}
+traefik.http.routers.{{ paperless_identifier }}.service={{ paperless_identifier }}
 {% if middlewares | length > 0 %}
 traefik.http.routers.{{ paperless_identifier }}.middlewares={{ middlewares | join(',') }}
 {% endif %}
-traefik.http.routers.{{ paperless_identifier }}.service={{ paperless_identifier }}
 traefik.http.routers.{{ paperless_identifier }}.entrypoints={{ paperless_container_labels_traefik_entrypoints }}
 traefik.http.routers.{{ paperless_identifier }}.tls={{ paperless_container_labels_traefik_tls | to_json }}
 {% if paperless_container_labels_traefik_tls %}
 traefik.http.routers.{{ paperless_identifier }}.tls.certResolver={{ paperless_container_labels_traefik_tls_certResolver }}
 {% endif %}
+
 traefik.http.services.{{ paperless_identifier }}.loadbalancer.server.port={{ paperless_container_http_port }}
+{% endif %}
 
 {% if paperless_metrics_enabled %}
 ########################################################################
