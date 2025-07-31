@@ -44,7 +44,7 @@
 - name: Run if Traefik is enabled
   when: paperless_container_labels_traefik_enabled | bool
   block:
-    - name: Fail if required Paperless-ngx Traefik settings not defined
+    - name: Fail if Traefik settings required for Paperless-ngx are not defined
       ansible.builtin.fail:
         msg: >-
           You need to define a required configuration setting (`{{ item }}`).
