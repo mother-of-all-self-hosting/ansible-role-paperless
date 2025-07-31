@@ -67,7 +67,9 @@ paperless_container_additional_networks_custom: []
 # if you wish to mount your own files into the container.
 # Contains definition objects like this: `{"type": "bind", "src": "/outside", "dst": "/inside", "options": "readonly"}.
 # See the `--mount` documentation for the `docker run` command.
-paperless_container_additional_volumes: []
+paperless_container_additional_volumes: "{{ paperless_container_additional_volumes_auto + paperless_container_additional_volumes_custom }}"
+paperless_container_additional_volumes_auto: []
+paperless_container_additional_volumes_custom: []
 
 # paperless_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `../templates/labels.j2` for details.
@@ -253,7 +255,9 @@ paperless_tika_container_image_registry_prefix_upstream_default: docker.io/
 # if you wish to mount your own files into the container.
 # Contains definition objects like this: `{"type": "bind", "src": "/outside", "dst": "/inside", "options": "readonly"}.
 # See the `--mount` documentation for the `docker run` command.
-paperless_tika_container_additional_volumes: []
+paperless_tika_container_additional_volumes: "{{ paperless_tika_container_additional_volumes_auto + paperless_tika_container_additional_volumes_custom }}"
+paperless_tika_container_additional_volumes_auto: []
+paperless_tika_container_additional_volumes_custom: []
 
 # paperless_tika_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `../templates/tika-labels.j2` for details.
@@ -303,7 +307,9 @@ paperless_gotenberg_container_image_registry_prefix_upstream_default: docker.io/
 # if you wish to mount your own files into the container.
 # Contains definition objects like this: `{"type": "bind", "src": "/outside", "dst": "/inside", "options": "readonly"}.
 # See the `--mount` documentation for the `docker run` command.
-paperless_gotenberg_container_additional_volumes: []
+paperless_gotenberg_container_additional_volumes: "{{ paperless_gotenberg_container_additional_volumes_auto + paperless_gotenberg_container_additional_volumes_custom }}"
+paperless_gotenberg_container_additional_volumes_auto: []
+paperless_gotenberg_container_additional_volumes_custom: []
 
 # paperless_gotenberg_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `../templates/gotenberg-labels.j2` for details.
