@@ -40,3 +40,24 @@
   when: "paperless_email_host !='' and lookup('vars', item, default='') | string | length == 0"
   with_items:
     - paperless_email_port
+
+- name: Run if Traefik is enabled
+  when: paperless_container_labels_traefik_enabled | bool
+  block:
+    - name: Fail if required Paperless-ngx Traefik settings not defined
+      ansible.builtin.fail:
+        msg: >-
+          You need to define a required configuration setting (`{{ item }}`).
+      when: "lookup('vars', item, default='') | string | length == 0"
+      with_items:
+        - paperless_container_labels_traefik_hostname
+        - paperless_container_labels_traefik_path_prefix
+
+    # We ensure it doesn't end with a slash, because we handle both (slash and no-slash).
+    # Knowing that `paperless_container_labels_traefik_path_prefix` does not end with a slash
+    # ensures we know how to set these routes up without having to do "does it end with a slash" checks elsewhere.
+    - name: Fail if paperless_container_labels_traefik_path_prefix ends with a slash
+      ansible.builtin.fail:
+        msg: >-
+          paperless_container_labels_traefik_path_prefix (`{{ paperless_container_labels_traefik_path_prefix }}`) must either be `/` or not end with a slash (e.g. `/paperless`).
+      when: "paperless_container_labels_traefik_path_prefix != '/' and paperless_container_labels_traefik_path_prefix[-1] == '/'"
