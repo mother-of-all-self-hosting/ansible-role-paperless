@@ -201,7 +201,7 @@ paperless_loglevel: error
 paperless_database_hostname: ''
 paperless_database_port: 5432
 paperless_database_name: paperless
-paperless_database_username: ''
+paperless_database_username: paperless
 paperless_database_password: ''
 # Use this to set the sslmode parameter of the SSL connection
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.

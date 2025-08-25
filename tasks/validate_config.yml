@@ -29,7 +29,6 @@
   with_items:
     - paperless_hostname
     - paperless_database_hostname
-    - paperless_database_username
     - paperless_database_password
     - paperless_redis_hostname
 
