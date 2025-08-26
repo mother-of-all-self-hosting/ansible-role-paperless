@@ -220,7 +220,7 @@ paperless_email_host: ''
 paperless_email_port: ''
 paperless_email_username: ''
 paperless_email_password: ''
-paperless_email_from: "noreply@{{ paperless_hostname }}"
+paperless_email_from: ''
 
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.

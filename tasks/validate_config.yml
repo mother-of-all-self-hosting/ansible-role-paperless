@@ -39,6 +39,7 @@
   when: "paperless_email_host !='' and lookup('vars', item, default='') | string | length == 0"
   with_items:
     - paperless_email_port
+    - paperless_email_from
 
 - name: Run if Traefik is enabled
   when: paperless_container_labels_traefik_enabled | bool
