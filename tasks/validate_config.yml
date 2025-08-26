@@ -41,6 +41,12 @@
     - paperless_email_port
     - paperless_email_from
 
+- name: Fail if Paperless logging level is invalid
+  ansible.builtin.fail:
+    msg: >-
+      paperless_loglevel must be 'debug', 'info', 'warning', 'error', or 'critical'
+  when: "paperless_loglevel not in ['debug', 'info', 'warning', 'error', 'critical']"
+
 - name: Run if Traefik is enabled
   when: paperless_container_labels_traefik_enabled | bool
   block:
