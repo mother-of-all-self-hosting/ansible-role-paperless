@@ -19,6 +19,7 @@
     - "{{ paperless_consume_path }}"
 
 - name: Ensure Paperless-ngx Traefik labels are installed
+  when: item.when | bool
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -26,11 +27,18 @@
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
   with_items:
-    - { src: "{{ role_path }}/templates/labels.j2", dest: "{{ paperless_base_path }}/labels" }
-    - { src: "{{ role_path }}/templates/tika-labels.j2", dest: "{{ paperless_base_path }}/tika-labels", when: paperless_tika_enabled }
-    - { src: "{{ role_path }}/templates/gotenberg-labels.j2", dest: "{{ paperless_base_path }}/gotenberg-labels", when: paperless_gotenberg_enabled }
+    - src: "{{ role_path }}/templates/labels.j2"
+      dest: "{{ paperless_base_path }}/labels"
+      when: true
+    - src: "{{ role_path }}/templates/tika-labels.j2"
+      dest: "{{ paperless_base_path }}/tika-labels"
+      when: "{{ paperless_tika_enabled }}"
+    - src: "{{ role_path }}/templates/gotenberg-labels.j2"
+      dest: "{{ paperless_base_path }}/gotenberg-labels"
+      when: "{{ paperless_gotenberg_enabled }}"
 
 - name: Ensure Paperless-ngx configuration files installed
+  when: item.when | bool
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -38,9 +46,15 @@
     owner: "{{ paperless_uid }}"
     group: "{{ paperless_gid }}"
   with_items:
-    - { src: "{{ role_path }}/templates/env.j2", dest: "{{ paperless_base_path }}/env" }
-    - { src: "{{ role_path }}/templates/tika-env.j2", dest: "{{ paperless_base_path }}/tika-env", when: paperless_tika_enabled }
-    - { src: "{{ role_path }}/templates/gotenberg-env.j2", dest: "{{ paperless_base_path }}/gotenberg-env", when: paperless_gotenberg_enabled }
+    - src: "{{ role_path }}/templates/env.j2"
+      dest: "{{ paperless_base_path }}/env"
+      when: true
+    - src: "{{ role_path }}/templates/tika-env.j2"
+      dest: "{{ paperless_base_path }}/tika-env"
+      when: "{{ paperless_tika_enabled }}"
+    - src: "{{ role_path }}/templates/gotenberg-env.j2"
+      dest: "{{ paperless_base_path }}/gotenberg-env"
+      when: "{{ paperless_gotenberg_enabled }}"
 
 - name: Ensure Paperless-ngx container image is pulled
   community.docker.docker_image:
@@ -76,6 +90,7 @@
   failed_when: network_creation_result.rc != 0 and 'already exists' not in network_creation_result.stderr
 
 - name: Ensure Paperless-ngx systemd services are present
+  when: item.when | bool
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -83,9 +98,10 @@
   with_items:
     - src: "{{ role_path }}/templates/systemd/paperless.service.j2"
       dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"
+      when: true
     - src: "{{ role_path }}/templates/systemd/paperless-tika.service.j2"
       dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"
-      when: paperless_tika_enabled
+      when: "{{ paperless_tika_enabled }}"
     - src: "{{ role_path }}/templates/systemd/paperless-gotenberg.service.j2"
       dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
-      when: paperless_gotenberg_enabled
+      when: "{{ paperless_gotenberg_enabled }}"
