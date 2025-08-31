@@ -126,6 +126,12 @@ paperless_container_labels_additional_labels: ''
 # For non-Traefik setups, we use the default healthcheck interval (60s) to decrease overhead.
 paperless_container_health_interval: "{{ '5s' if paperless_container_labels_traefik_enabled else '60s' }}"
 
+# Controls if the filesystem of the container should be readonly.
+#
+# Enabling additional OCR languages requires installing additional packages on startup,
+# which necessitates that the filesystem is not readonly.
+paperless_container_readonly_enabled: "{{ paperless_ocr_languages == paperless_ocr_languages_default }}"
+
 # Specifies the value of the `X-XSS-Protection` header
 # Stops pages from loading when they detect reflected cross-site scripting (XSS) attacks.
 #
@@ -221,6 +227,38 @@ paperless_email_port: ''
 paperless_email_username: ''
 paperless_email_password: ''
 paperless_email_from: ''
+
+# A list of languages to install OCR support for.
+#
+# To adjust the list, either redefine `paperless_ocr_languages` or add your values to `paperless_ocr_languages_custom`.
+#
+# Adjusting this list to a value different than the default will trigger installation of additional `tesseract-ocr-{LANGUAGE}` packages on container startup.
+#
+# Ref:
+# - https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
+# - https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES
+paperless_ocr_languages: "{{ (paperless_ocr_languages_default + paperless_ocr_languages_auto + paperless_ocr_languages_custom) | unique }}"
+
+# The default list of languages to install OCR support for.
+# This matches the default list of languages for which OCR support is already installed.
+# Ref:
+# - https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
+# - https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES
+paperless_ocr_languages_default:
+  - eng
+  - deu
+  - ita
+  - spa
+  - fra
+
+paperless_ocr_languages_auto: []
+paperless_ocr_languages_custom: []
+
+# Controls the PAPERLESS_OCR_LANGUAGES environment variable.
+# Adjusting the list of languages is better done via the `paperless_ocr_languages` variable, not here.
+#
+# Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES
+paperless_environment_variable_paperless_ocr_languages: "{{ paperless_ocr_languages | join(' ') }}"
 
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.

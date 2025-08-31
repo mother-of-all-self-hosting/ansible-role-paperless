@@ -27,7 +27,9 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --rm \
       --name={{ paperless_identifier }} \
       --log-driver=none \
+      {% if paperless_container_readonly_enabled %}
       --read-only \
+      {% endif %}
       --network={{ paperless_container_network }} \
       {% if paperless_container_http_host_bind_port %}
       -p {{ paperless_container_http_host_bind_port }}:{{ paperless_container_http_port }} \
