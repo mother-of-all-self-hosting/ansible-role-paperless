@@ -57,13 +57,17 @@
       when: "{{ paperless_gotenberg_enabled }}"
 
 - name: Ensure Paperless-ngx container image is pulled
+  when: item.when | bool
   community.docker.docker_image:
     name: "{{ item.image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
   with_items:
-    - { image: "{{ paperless_container_image }}" }
-    - { image: "{{ paperless_tika_container_image }}", when: paperless_tika_enabled }
-    - { image: "{{ paperless_gotenberg_container_image }}", when: paperless_gotenberg_enabled }
+    - image: "{{ paperless_container_image }}"
+      when: true
+    - image: "{{ paperless_tika_container_image }}"
+      when: "{{ paperless_tika_enabled }}"
+    - image: "{{ paperless_gotenberg_container_image }}"
+      when: "{{ paperless_gotenberg_enabled }}"
   register: result
   retries: "{{ devture_playbook_help_container_retries_count }}"
   delay: "{{ devture_playbook_help_container_retries_delay }}"
