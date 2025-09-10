@@ -15,6 +15,71 @@
     - service: "{{ paperless_gotenberg_identifier }}.service"
       path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
 
+- name: Ensure Paperless-ngx support files do not exist
+  ansible.builtin.file:
+    path: "{{ paperless_base_path }}/{{ item }}"
+    state: absent
+  with_items:
+    - env
+    - tika-env
+    - gotenberg-env
+    - labels
+    - tika-labels
+    - gotenberg-labels
+
+- name: Ensure Paperless-ngx local consume path does not exist if empty
+  ansible.builtin.command:
+    cmd: "rmdir {{ paperless_consume_path }}"
+  register: paperless_consume_path_deletion_result
+  changed_when: paperless_consume_path_deletion_result.rc == 0
+  failed_when: false
+
+- name: Ensure Paperless-ngx local data path does not exist if empty
+  ansible.builtin.command:
+    cmd: "rmdir {{ paperless_data_path }}"
+  register: paperless_data_path_deletion_result
+  changed_when: paperless_data_path_deletion_result.rc == 0
+  failed_when: false
+
+- name: Ensure Paperless-ngx local export path does not exist if empty
+  ansible.builtin.command:
+    cmd: "rmdir {{ paperless_export_path }}"
+  register: paperless_export_path_deletion_result
+  changed_when: paperless_export_path_deletion_result.rc == 0
+  failed_when: false
+
+- name: Ensure Paperless-ngx media path does not exist if empty
+  ansible.builtin.command:
+    cmd: "rmdir {{ paperless_media_path }}"
+  register: paperless_media_path_deletion_result
+  changed_when: paperless_media_path_deletion_result.rc == 0
+  failed_when: false
+
+- name: Ensure Paperless-ngx base path does not exist if empty
+  ansible.builtin.command:
+    cmd: "rmdir {{ paperless_base_path }}"
+  register: paperless_base_path_deletion_result
+  changed_when: paperless_base_path_deletion_result.rc == 0
+  failed_when: false
+
+- name: Check existence of Paperless-ngx base path
+  ansible.builtin.stat:
+    path: "{{ paperless_base_path }}"
+  register: paperless_base_path_stat
+
+# We just want to notify the user. Deleting data is too destructive.
+- name: Notify if Paperless-ngx base path remains
+  when: paperless_base_path_stat.stat.exists | bool
+  ansible.builtin.set_fact:
+    devture_playbook_runtime_messages_list: |
+      {{
+        devture_playbook_runtime_messages_list | default([])
+        +
+        [
+          "Note: As the local Paperless-ngx instance has been removed, some old data remains in `" + paperless_base_path + "`. Feel free to delete it." + "{{ ' The SQLite database file is stored inside `' + paperless_data_path + '`.' if paperless_database_type == 'sqlite' }}"
+        ]
+      }}
+
 - name: Ensure Paperless-ngx container network does not exist via community.docker.docker_network
   when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
   community.docker.docker_network:
@@ -29,8 +94,3 @@
       {{ paperless_container_network }}
   register: network_deletion_result
   changed_when: paperless_container_network in network_deletion_result.stdout
-
-- name: Ensure Paperless-ngx path does not exist
-  ansible.builtin.file:
-    path: "{{ paperless_base_path }}"
-    state: absent

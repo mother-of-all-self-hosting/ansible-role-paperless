@@ -15,14 +15,14 @@ paperless_enabled: true
 
 paperless_identifier: paperless
 paperless_base_path: "/{{ paperless_identifier }}"
-paperless_media_path: "{{ paperless_base_path }}/media"
+paperless_consume_path: "{{ paperless_base_path }}/consume"
 paperless_data_path: "{{ paperless_base_path }}/data"
 paperless_export_path: "{{ paperless_base_path }}/export"
-paperless_consume_path: "{{ paperless_base_path }}/consume"
-paperless_container_media_path: "/usr/src/paperless/media"
+paperless_media_path: "{{ paperless_base_path }}/media"
+paperless_container_consume_path: "/usr/src/paperless/consume"
 paperless_container_data_path: "/usr/src/paperless/data"
 paperless_container_export_path: "/usr/src/paperless/export"
-paperless_container_consume_path: "/usr/src/paperless/consume"
+paperless_container_media_path: "/usr/src/paperless/media"
 
 # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
 paperless_version: "2.18.2"
