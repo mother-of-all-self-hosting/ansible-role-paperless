@@ -28,9 +28,31 @@
   when: "lookup('vars', item, default='') | string | length == 0"
   with_items:
     - paperless_hostname
+    - paperless_redis_hostname
+
+- name: Fail if Paperless-ngx database type invalid
+  ansible.builtin.fail:
+    msg: >-
+      paperless_database_type must be 'mariadb', 'postgres' or 'sqlite'
+  when: "paperless_database_type not in ['mariadb', 'postgres', 'sqlite']"
+
+- name: Fail if required Paperless-ngx + MariaDB integration settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) when `paperless_database_type` is `mariadb`
+  when: "paperless_database_type == 'mariadb' and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - paperless_database_mariadb_hostname
+    - paperless_database_mariadb_password
+
+- name: Fail if required Paperless-ngx + Postgres integration settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) when `paperless_database_type` is `postgres`
+  when: "paperless_database_type == 'postgres' and lookup('vars', item, default='') | string | length == 0"
+  with_items:
     - paperless_database_hostname
     - paperless_database_password
-    - paperless_redis_hostname
 
 - name: Fail if SMTP settings are missing (and SMTP is enabled by setting host)
   ansible.builtin.fail:

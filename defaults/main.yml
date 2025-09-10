@@ -204,14 +204,25 @@ paperless_admin_password: ''
 # Valid values: debug, info, warning, error, critical
 paperless_loglevel: error
 
+# Specify database to use
+# Valid values: mariadb, postgres, sqlite
+paperless_database_type: postgres
+
 paperless_database_hostname: ''
 paperless_database_port: 5432
 paperless_database_name: paperless
-paperless_database_username: paperless
 paperless_database_password: ''
+paperless_database_mariadb_hostname: ""
+paperless_database_mariadb_port: 3306
+paperless_database_mariadb_username: paperless
+paperless_database_mariadb_password: ""
+
 # Use this to set the sslmode parameter of the SSL connection
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
 paperless_database_sslmode: disable
+paperless_database_mariadb_sslmode: DISABLED
+
+paperless_database_username: paperless
 
 paperless_redis_hostname: ''
 paperless_redis_port: 6379
