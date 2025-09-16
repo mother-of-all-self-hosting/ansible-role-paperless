@@ -101,7 +101,7 @@ paperless_container_labels_traefik_additional_response_headers_auto: |
     | combine ({'X-XSS-Protection': paperless_http_header_xss_protection} if paperless_http_header_xss_protection else {})
     | combine ({'X-Content-Type-Options': paperless_http_header_content_type_options} if paperless_http_header_content_type_options else {})
     | combine ({'Content-Security-Policy': paperless_http_header_content_security_policy} if paperless_http_header_content_security_policy else {})
-    | combine ({'Permission-Policy': paperless_http_header_content_permission_policy} if paperless_http_header_content_permission_policy else {})
+    | combine ({'Permissions-Policy': paperless_http_header_permissions_policy} if paperless_http_header_permissions_policy else {})
     | combine ({'Strict-Transport-Security': paperless_http_header_strict_transport_security} if paperless_http_header_strict_transport_security and paperless_container_labels_traefik_tls else {})
   }}
 paperless_container_labels_traefik_additional_response_headers_custom: {}
@@ -148,9 +148,9 @@ paperless_http_header_content_type_options: nosniff
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 paperless_http_header_content_security_policy: frame-ancestors 'self'
 
-# Specifies the value of the `Permission-Policy` header.
-# See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permission-Policy
-paperless_http_header_content_permission_policy: "{{ 'interest-cohort=()' if paperless_floc_optout_enabled else '' }}"
+# Specifies the value of the `Permissions-Policy` header.
+# See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy
+paperless_http_header_permissions_policy: "{{ 'interest-cohort=()' if paperless_floc_optout_enabled else '' }}"
 
 # Specifies the value of the `Strict-Transport-Security` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
@@ -164,7 +164,7 @@ paperless_http_header_strict_transport_security: "max-age=31536000; includeSubDo
 # - https://amifloced.org/
 #
 # Of course, a better solution is to just stop using browsers (like Chrome), which participate in such tracking practices.
-# See: `paperless_content_permission_policy`
+# See: `paperless_http_header_permissions_policy`
 paperless_floc_optout_enabled: true
 
 # Controls if HSTS preloading is enabled

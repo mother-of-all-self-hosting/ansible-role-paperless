@@ -20,6 +20,7 @@
     - { "old": "paperless_environment_variables_extension", "new": "paperless_variables_additional_variables" }
     - { "old": "paperless_tika_environment_variables_extension", "new": "paperless_tika_variables_additional_variables" }
     - { "old": "paperless_gotenberg_environment_variables_extension", "new": "paperless_gotenberg_variables_additional_variables" }
+    - { "old": "paperless_http_header_content_permission_policy", "new": "paperless_http_header_permissions_policy" }
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
