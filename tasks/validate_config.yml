@@ -21,6 +21,11 @@
     - { "old": "paperless_tika_environment_variables_extension", "new": "paperless_tika_variables_additional_variables" }
     - { "old": "paperless_gotenberg_environment_variables_extension", "new": "paperless_gotenberg_variables_additional_variables" }
     - { "old": "paperless_http_header_content_permission_policy", "new": "paperless_http_header_permissions_policy" }
+    - { "old": "paperless_database_hostname", "new": "paperless_database_postgres_hostname" }
+    - { "old": "paperless_database_port", "new": "paperless_database_postgres_port" }
+    - { "old": "paperless_database_username", "new": "paperless_database_postgres_username" }
+    - { "old": "paperless_database_password", "new": "paperless_database_postgres_password" }
+    - { "old": "paperless_database_sslmode", "new": "paperless_database_postgres_sslmode" }
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
@@ -52,8 +57,8 @@
       You need to define a required configuration setting (`{{ item }}`) when `paperless_database_type` is `postgres`
   when: "paperless_database_type == 'postgres' and lookup('vars', item, default='') | string | length == 0"
   with_items:
-    - paperless_database_hostname
-    - paperless_database_password
+    - paperless_database_postgres_hostname
+    - paperless_database_postgres_password
 
 - name: Fail if SMTP settings are missing (and SMTP is enabled by setting host)
   ansible.builtin.fail:
