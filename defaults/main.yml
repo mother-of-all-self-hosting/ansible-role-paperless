@@ -271,6 +271,13 @@ paperless_ocr_languages_custom: []
 # Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES
 paperless_environment_variable_paperless_ocr_languages: "{{ paperless_ocr_languages | join(' ') }}"
 
+# Controls the PAPERLESS_FILENAME_FORMAT environment variable.
+# This affects how Paperless stores files in the media directory.
+# Leave empty to keep the default settings.
+#
+# Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_FILENAME_FORMAT
+paperless_environment_variable_paperless_filename_format: ""
+
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.
 # Check https://gopaperless.io/docs/installation/configuration for a full configuration reference
