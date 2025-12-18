@@ -25,7 +25,7 @@ paperless_container_export_path: "/usr/src/paperless/export"
 paperless_container_media_path: "/usr/src/paperless/media"
 
 # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
-paperless_version: "2.20.2"
+paperless_version: "2.20.3"
 
 paperless_uid: ''
 paperless_gid: ''
