@@ -265,6 +265,9 @@ paperless_ocr_languages_default:
 paperless_ocr_languages_auto: []
 paperless_ocr_languages_custom: []
 
+# Specify the timezone
+paperless_environment_variables_tz: UTC
+
 # Controls the PAPERLESS_OCR_LANGUAGES environment variable.
 # Adjusting the list of languages is better done via the `paperless_ocr_languages` variable, not here.
 #
