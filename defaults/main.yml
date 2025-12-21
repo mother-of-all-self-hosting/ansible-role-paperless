@@ -27,11 +27,11 @@ paperless_container_media_path: "/usr/src/paperless/media"
 # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
 paperless_version: "2.20.3"
 
-paperless_uid: ''
-paperless_gid: ''
+paperless_uid: ""
+paperless_gid: ""
 
 # The hostname at which Paperless-ngx is served.
-paperless_hostname: ''
+paperless_hostname: ""
 
 paperless_scheme: https
 
@@ -204,10 +204,10 @@ paperless_tmp_size: 10000
 
 paperless_url: '{{ paperless_scheme }}://{{ paperless_hostname }}'
 paperless_app_title: 'Paperless-ngx'
-paperless_secret_key: ''
+paperless_secret_key: ""
 
-paperless_admin_user: ''
-paperless_admin_password: ''
+paperless_admin_user: ""
+paperless_admin_password: ""
 
 # Valid values: debug, info, warning, error, critical
 paperless_loglevel: error
@@ -216,10 +216,10 @@ paperless_loglevel: error
 # Valid values: mariadb, postgres, sqlite
 paperless_database_type: postgres
 
-paperless_database_postgres_hostname: ''
+paperless_database_postgres_hostname: ""
 paperless_database_postgres_port: 5432
 paperless_database_postgres_username: paperless
-paperless_database_postgres_password: ''
+paperless_database_postgres_password: ""
 paperless_database_mariadb_hostname: ""
 paperless_database_mariadb_port: 3306
 paperless_database_mariadb_username: paperless
@@ -232,7 +232,7 @@ paperless_database_mariadb_sslmode: DISABLED
 
 paperless_database_name: paperless
 
-paperless_redis_hostname: ''
+paperless_redis_hostname: ""
 paperless_redis_port: 6379
 paperless_redis_database: 0
 paperless_redis_url: "redis://{{ paperless_redis_hostname }}:{{ paperless_redis_port }}/{{ paperless_redis_database }}"
@@ -241,11 +241,11 @@ paperless_redis_url: "redis://{{ paperless_redis_hostname }}:{{ paperless_redis_
 paperless_email_use_tls: false
 # Turn true to use SSL (usually on port 465)
 paperless_email_use_ssl: false
-paperless_email_host: ''
-paperless_email_port: ''
-paperless_email_username: ''
-paperless_email_password: ''
-paperless_email_from: ''
+paperless_email_host: ""
+paperless_email_port: ""
+paperless_email_username: ""
+paperless_email_password: ""
+paperless_email_from: ""
 
 # A list of languages to install OCR support for.
 #
@@ -296,7 +296,7 @@ paperless_environment_variable_paperless_filename_format: ""
 # Example:
 # paperless_variables_additional_variables: |
 #   paperless_DISABLE_UPDATE_CHECK=true
-paperless_variables_additional_variables: ''
+paperless_variables_additional_variables: ""
 
 ########################################################################
 #                                                                      #
@@ -350,7 +350,7 @@ paperless_tika_container_extra_arguments_auto: []
 paperless_tika_container_extra_arguments_custom: []
 
 # Additional environment variables.
-paperless_tika_variables_additional_variables: ''
+paperless_tika_variables_additional_variables: ""
 
 ########################################################################
 #                                                                      #
@@ -410,7 +410,7 @@ paperless_gotenberg_container_extra_arguments_auto: []
 paperless_gotenberg_container_extra_arguments_custom: []
 
 # Additional environment variables.
-paperless_gotenberg_variables_additional_variables: ''
+paperless_gotenberg_variables_additional_variables: ""
 
 ########################################################################
 #                                                                      #
