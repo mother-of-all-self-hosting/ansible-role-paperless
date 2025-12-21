@@ -35,6 +35,7 @@ paperless_hostname: ""
 
 paperless_scheme: https
 
+# The path at which Paperless-ngx is served.
 paperless_path_prefix: /
 
 paperless_container_image: "{{ paperless_container_image_registry_prefix }}paperless-ngx/paperless-ngx:{{ paperless_container_image_tag }}"
