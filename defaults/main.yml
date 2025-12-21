@@ -118,6 +118,11 @@ paperless_container_labels_additional_labels: "{{ paperless_container_labels_add
 paperless_container_labels_additional_labels_auto: {}
 paperless_container_labels_additional_labels_custom: {}
 
+# A list of extra arguments to pass to the container (`docker create` command)
+paperless_container_extra_arguments: "{{ paperless_container_extra_arguments_auto + paperless_container_extra_arguments_custom }}"
+paperless_container_extra_arguments_auto: []
+paperless_container_extra_arguments_custom: []
+
 # Specifies how often the container health-check will run.
 #
 # For Traefik based setups, it's important that the interval is short,
@@ -339,6 +344,11 @@ paperless_tika_container_labels_additional_labels: "{{ paperless_tika_container_
 paperless_tika_container_labels_additional_labels_auto: {}
 paperless_tika_container_labels_additional_labels_custom: {}
 
+# A list of extra arguments to pass to the container (`docker create` command)
+paperless_tika_container_extra_arguments: "{{ paperless_tika_container_extra_arguments_auto + paperless_tika_container_extra_arguments_custom }}"
+paperless_tika_container_extra_arguments_auto: []
+paperless_tika_container_extra_arguments_custom: []
+
 # Additional environment variables.
 paperless_tika_variables_additional_variables: ''
 
@@ -393,6 +403,11 @@ paperless_gotenberg_container_additional_volumes_custom: []
 paperless_gotenberg_container_labels_additional_labels: "{{ paperless_gotenberg_container_labels_additional_labels_auto | combine(paperless_gotenberg_container_labels_additional_labels_custom) }}"
 paperless_gotenberg_container_labels_additional_labels_auto: {}
 paperless_gotenberg_container_labels_additional_labels_custom: {}
+
+# A list of extra arguments to pass to the container (`docker create` command)
+paperless_gotenberg_container_extra_arguments: "{{ paperless_gotenberg_container_extra_arguments_auto + paperless_gotenberg_container_extra_arguments_custom }}"
+paperless_gotenberg_container_extra_arguments_auto: []
+paperless_gotenberg_container_extra_arguments_custom: []
 
 # Additional environment variables.
 paperless_gotenberg_variables_additional_variables: ''
