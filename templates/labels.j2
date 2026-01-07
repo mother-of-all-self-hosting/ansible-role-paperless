@@ -80,4 +80,6 @@ traefik.http.services.{{ paperless_identifier }}-metrics.loadbalancer.server.por
 ########################################################################
 {% endif %}
 
-{{ paperless_container_labels_additional_labels }}
+{% for arg in paperless_container_labels_additional_labels %}
+{{ arg }}
+{% endfor %}

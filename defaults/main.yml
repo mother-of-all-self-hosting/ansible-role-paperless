@@ -113,11 +113,11 @@ paperless_container_labels_traefik_additional_response_headers_custom: {}
 #
 # Example:
 # paperless_container_labels_additional_labels_custom: |
-#   my.label=1
-#   another.label="here"
-paperless_container_labels_additional_labels: "{{ paperless_container_labels_additional_labels_auto | combine(paperless_container_labels_additional_labels_custom) }}"
-paperless_container_labels_additional_labels_auto: {}
-paperless_container_labels_additional_labels_custom: {}
+#   - my.label=1
+#   - another.label="here"
+paperless_container_labels_additional_labels: "{{ paperless_container_labels_additional_labels_auto + paperless_container_labels_additional_labels_custom }}"
+paperless_container_labels_additional_labels_auto: []
+paperless_container_labels_additional_labels_custom: []
 
 # A list of extra arguments to pass to the container (`docker create` command)
 paperless_container_extra_arguments: "{{ paperless_container_extra_arguments_auto + paperless_container_extra_arguments_custom }}"
