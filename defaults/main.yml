@@ -112,7 +112,7 @@ paperless_container_labels_traefik_additional_response_headers_custom: {}
 # To add your own custom labels, use `paperless_container_labels_additional_labels_custom`
 #
 # Example:
-# paperless_container_labels_additional_labels_custom: |
+# paperless_container_labels_additional_labels_custom:
 #   - my.label=1
 #   - another.label="here"
 paperless_container_labels_additional_labels: "{{ paperless_container_labels_additional_labels_auto + paperless_container_labels_additional_labels_custom }}"
@@ -338,7 +338,7 @@ paperless_tika_container_additional_volumes_custom: []
 # To add your own custom labels, use `paperless_tika_container_labels_additional_labels_custom`
 #
 # Example:
-# paperless_tika_container_labels_additional_labels_custom: |
+# paperless_tika_container_labels_additional_labels_custom:
 #   - my.label=1
 #   - another.label="here"
 paperless_tika_container_labels_additional_labels: "{{ paperless_tika_container_labels_additional_labels_auto + paperless_tika_container_labels_additional_labels_custom }}"
@@ -398,7 +398,7 @@ paperless_gotenberg_container_additional_volumes_custom: []
 # To add your own custom labels, use `paperless_gotenberg_container_labels_additional_labels_custom`
 #
 # Example:
-# paperless_gotenberg_container_labels_additional_labels_custom: |
+# paperless_gotenberg_container_labels_additional_labels_custom:
 #   - my.label=1
 #   - another.label="here"
 paperless_gotenberg_container_labels_additional_labels: "{{ paperless_gotenberg_container_labels_additional_labels_auto + paperless_gotenberg_container_labels_additional_labels_custom }}"
