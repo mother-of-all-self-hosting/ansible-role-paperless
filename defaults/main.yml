@@ -75,7 +75,7 @@ paperless_container_additional_volumes_custom: []
 # paperless_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `../templates/labels.j2` for details.
 #
-# To inject your own other container labels, see `paperless_container_labels_additional_labels`.
+# To inject your own other container labels, see `paperless_container_labels_additional_labels_custom`.
 paperless_container_labels_traefik_enabled: true
 paperless_container_labels_traefik_docker_network: "{{ paperless_container_network }}"
 paperless_container_labels_traefik_hostname: "{{ paperless_hostname }}"
