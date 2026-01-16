@@ -120,6 +120,18 @@ paperless_container_labels_additional_labels: "{{ paperless_container_labels_add
 paperless_container_labels_additional_labels_auto: []
 paperless_container_labels_additional_labels_custom: []
 
+# Specify the size of the container's tmpfs volume (/tmp)
+paperless_container_tmpfs_tmp_size: 10000m
+
+# Specify the size of the container's tmpfs volume (/var/log/supervisord)
+paperless_container_tmpfs_log_supervisord_size: 20m
+
+# Specify the size of the container's tmpfs volume (/var/run/supervisord)
+paperless_container_tmpfs_run_supervisord_size: 10m
+
+# Specify the size of the container's tmpfs volume (/run)
+paperless_container_tmpfs_run_size: 10m
+
 # A list of extra arguments to pass to the container (`docker create` command)
 paperless_container_extra_arguments: "{{ paperless_container_extra_arguments_auto + paperless_container_extra_arguments_custom }}"
 paperless_container_extra_arguments_auto: []
@@ -200,9 +212,6 @@ paperless_systemd_wanted_services_list: "{{ paperless_systemd_wanted_services_li
 paperless_systemd_wanted_services_list_default: []
 paperless_systemd_wanted_services_list_auto: []
 paperless_systemd_wanted_services_list_custom: []
-
-# In mb, default is 10gb
-paperless_tmp_size: 10000
 
 paperless_url: '{{ paperless_scheme }}://{{ paperless_hostname }}'
 paperless_app_title: 'Paperless-ngx'
@@ -346,6 +355,9 @@ paperless_tika_container_labels_additional_labels: "{{ paperless_tika_container_
 paperless_tika_container_labels_additional_labels_auto: []
 paperless_tika_container_labels_additional_labels_custom: []
 
+# Specify the size of the container's tmpfs volume
+paperless_tika_container_tmpfs_tmp_size: "{{ paperless_container_tmpfs_tmp_size }}"
+
 # A list of extra arguments to pass to the container (`docker create` command)
 paperless_tika_container_extra_arguments: "{{ paperless_tika_container_extra_arguments_auto + paperless_tika_container_extra_arguments_custom }}"
 paperless_tika_container_extra_arguments_auto: []
@@ -405,6 +417,9 @@ paperless_gotenberg_container_additional_volumes_custom: []
 paperless_gotenberg_container_labels_additional_labels: "{{ paperless_gotenberg_container_labels_additional_labels_auto + paperless_gotenberg_container_labels_additional_labels_custom }}"
 paperless_gotenberg_container_labels_additional_labels_auto: []
 paperless_gotenberg_container_labels_additional_labels_custom: []
+
+# Specify the size of the container's tmpfs volume
+paperless_gotenberg_container_tmpfs_tmp_size: "{{ paperless_container_tmpfs_tmp_size }}"
 
 # A list of extra arguments to pass to the container (`docker create` command)
 paperless_gotenberg_container_extra_arguments: "{{ paperless_gotenberg_container_extra_arguments_auto + paperless_gotenberg_container_extra_arguments_custom }}"
