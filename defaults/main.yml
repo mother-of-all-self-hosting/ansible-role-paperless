@@ -213,8 +213,8 @@ paperless_systemd_wanted_services_list_default: []
 paperless_systemd_wanted_services_list_auto: []
 paperless_systemd_wanted_services_list_custom: []
 
-paperless_url: '{{ paperless_scheme }}://{{ paperless_hostname }}'
-paperless_app_title: 'Paperless-ngx'
+paperless_url: "{{ paperless_scheme }}://{{ paperless_hostname }}"
+paperless_app_title: Paperless-ngx
 paperless_secret_key: ""
 
 paperless_admin_user: ""
