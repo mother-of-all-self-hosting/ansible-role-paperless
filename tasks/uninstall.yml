@@ -80,18 +80,21 @@
         ]
       }}
 
-- name: Ensure Paperless-ngx container network does not exist via community.docker.docker_network
-  when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
-  community.docker.docker_network:
-    name: "{{ paperless_container_network }}"
-    state: absent
-  register: paperless_network_deletion_result
+- name: Ensure Paperless-ngx container network does not exist
+  when: paperless_container_network_deletion_enabled
+  block:
+    - name: Ensure Paperless-ngx container network does not exist via community.docker.docker_network
+      when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
+      community.docker.docker_network:
+        name: "{{ paperless_container_network }}"
+        state: absent
+      register: paperless_network_deletion_result
 
-- name: Ensure Paperless-ngx container network does not exist via ansible.builtin.command
-  when: devture_systemd_docker_base_container_network_creation_method == 'command'
-  ansible.builtin.command:
-    cmd: >-
-      {{ devture_systemd_docker_base_host_command_docker }} network rm
-      {{ paperless_container_network }}
-  register: paperless_network_deletion_result
-  changed_when: paperless_container_network in paperless_network_deletion_result.stdout
+    - name: Ensure Paperless-ngx container network does not exist via ansible.builtin.command
+      when: devture_systemd_docker_base_container_network_creation_method == 'command'
+      ansible.builtin.command:
+        cmd: >-
+          {{ devture_systemd_docker_base_host_command_docker }} network rm
+          {{ paperless_container_network }}
+      register: paperless_network_deletion_result
+      changed_when: paperless_container_network in paperless_network_deletion_result.stdout
