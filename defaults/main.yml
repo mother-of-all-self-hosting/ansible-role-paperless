@@ -216,6 +216,37 @@ paperless_systemd_wanted_services_list_default: []
 paperless_systemd_wanted_services_list_auto: []
 paperless_systemd_wanted_services_list_custom: []
 
+# Controls how long to wait for the container to stop gracefully before killing it.
+paperless_container_stop_grace_time_seconds: "{{ devture_systemd_docker_base_container_stop_grace_time_seconds }}"
+
+# Controls how long the pre-start cleanup should wait for stale container-name release
+# before failing startup explicitly.
+paperless_container_cleanup_timeout_seconds: "{{ devture_systemd_docker_base_container_cleanup_timeout_seconds }}"
+
+# Controls the delay between pre-start cleanup retries.
+paperless_container_cleanup_retry_delay_seconds: "{{ devture_systemd_docker_base_container_cleanup_retry_delay_seconds }}"
+
+# Shell command used in the systemd pre-start phase to deterministically remove a stale
+# container and wait until Docker releases its name.
+paperless_container_cleanup_command: |
+  i=0;
+  while [ "$i" -lt {{ paperless_container_cleanup_timeout_seconds }} ]; do
+  {{ devture_systemd_docker_base_host_command_docker }} stop -t {{ paperless_container_stop_grace_time_seconds }} {{ paperless_identifier }} >/dev/null 2>&1 || true;
+  {{ devture_systemd_docker_base_host_command_docker }} rm -f {{ paperless_identifier }} >/dev/null 2>&1 || true;
+  if {{ devture_systemd_docker_base_host_command_docker }} container inspect {{ paperless_identifier }} >/dev/null 2>&1; then
+  i=$((i + 1));
+  sleep {{ paperless_container_cleanup_retry_delay_seconds }};
+  continue;
+  fi;
+  if {{ devture_systemd_docker_base_host_command_docker }} info >/dev/null 2>&1; then
+  exit 0;
+  fi;
+  echo "Failed to query Docker daemon while cleaning up {{ paperless_identifier }}" >&2;
+  exit 1;
+  done;
+  echo "Failed to remove stale container {{ paperless_identifier }} after {{ paperless_container_cleanup_timeout_seconds }} attempts" >&2;
+  exit 1
+
 paperless_url: "{{ paperless_scheme }}://{{ paperless_hostname }}"
 paperless_app_title: Paperless-ngx
 paperless_secret_key: ""
@@ -361,6 +392,37 @@ paperless_tika_container_labels_additional_labels_custom: []
 # Specify the size of the container's tmpfs volume
 paperless_tika_container_tmpfs_tmp_size: "{{ paperless_container_tmpfs_tmp_size }}"
 
+# Controls how long to wait for the container to stop gracefully before killing it.
+paperless_tika_container_stop_grace_time_seconds: "{{ devture_systemd_docker_base_container_stop_grace_time_seconds }}"
+
+# Controls how long the pre-start cleanup should wait for stale container-name release
+# before failing startup explicitly.
+paperless_tika_container_cleanup_timeout_seconds: "{{ devture_systemd_docker_base_container_cleanup_timeout_seconds }}"
+
+# Controls the delay between pre-start cleanup retries.
+paperless_tika_container_cleanup_retry_delay_seconds: "{{ devture_systemd_docker_base_container_cleanup_retry_delay_seconds }}"
+
+# Shell command used in the systemd pre-start phase to deterministically remove a stale
+# container and wait until Docker releases its name.
+paperless_tika_container_cleanup_command: |
+  i=0;
+  while [ "$i" -lt {{ paperless_tika_container_cleanup_timeout_seconds }} ]; do
+  {{ devture_systemd_docker_base_host_command_docker }} stop -t {{ paperless_tika_container_stop_grace_time_seconds }} {{ paperless_tika_identifier }} >/dev/null 2>&1 || true;
+  {{ devture_systemd_docker_base_host_command_docker }} rm -f {{ paperless_tika_identifier }} >/dev/null 2>&1 || true;
+  if {{ devture_systemd_docker_base_host_command_docker }} container inspect {{ paperless_tika_identifier }} >/dev/null 2>&1; then
+  i=$((i + 1));
+  sleep {{ paperless_tika_container_cleanup_retry_delay_seconds }};
+  continue;
+  fi;
+  if {{ devture_systemd_docker_base_host_command_docker }} info >/dev/null 2>&1; then
+  exit 0;
+  fi;
+  echo "Failed to query Docker daemon while cleaning up {{ paperless_tika_identifier }}" >&2;
+  exit 1;
+  done;
+  echo "Failed to remove stale container {{ paperless_tika_identifier }} after {{ paperless_tika_container_cleanup_timeout_seconds }} attempts" >&2;
+  exit 1
+
 # A list of extra arguments to pass to the container (`docker create` command)
 paperless_tika_container_extra_arguments: "{{ paperless_tika_container_extra_arguments_auto + paperless_tika_container_extra_arguments_custom }}"
 paperless_tika_container_extra_arguments_auto: []
@@ -423,6 +485,37 @@ paperless_gotenberg_container_labels_additional_labels_custom: []
 
 # Specify the size of the container's tmpfs volume
 paperless_gotenberg_container_tmpfs_tmp_size: "{{ paperless_container_tmpfs_tmp_size }}"
+
+# Controls how long to wait for the container to stop gracefully before killing it.
+paperless_gotenberg_container_stop_grace_time_seconds: "{{ devture_systemd_docker_base_container_stop_grace_time_seconds }}"
+
+# Controls how long the pre-start cleanup should wait for stale container-name release
+# before failing startup explicitly.
+paperless_gotenberg_container_cleanup_timeout_seconds: "{{ devture_systemd_docker_base_container_cleanup_timeout_seconds }}"
+
+# Controls the delay between pre-start cleanup retries.
+paperless_gotenberg_container_cleanup_retry_delay_seconds: "{{ devture_systemd_docker_base_container_cleanup_retry_delay_seconds }}"
+
+# Shell command used in the systemd pre-start phase to deterministically remove a stale
+# container and wait until Docker releases its name.
+paperless_gotenberg_container_cleanup_command: |
+  i=0;
+  while [ "$i" -lt {{ paperless_gotenberg_container_cleanup_timeout_seconds }} ]; do
+  {{ devture_systemd_docker_base_host_command_docker }} stop -t {{ paperless_gotenberg_container_stop_grace_time_seconds }} {{ paperless_gotenberg_identifier }} >/dev/null 2>&1 || true;
+  {{ devture_systemd_docker_base_host_command_docker }} rm -f {{ paperless_gotenberg_identifier }} >/dev/null 2>&1 || true;
+  if {{ devture_systemd_docker_base_host_command_docker }} container inspect {{ paperless_gotenberg_identifier }} >/dev/null 2>&1; then
+  i=$((i + 1));
+  sleep {{ paperless_gotenberg_container_cleanup_retry_delay_seconds }};
+  continue;
+  fi;
+  if {{ devture_systemd_docker_base_host_command_docker }} info >/dev/null 2>&1; then
+  exit 0;
+  fi;
+  echo "Failed to query Docker daemon while cleaning up {{ paperless_gotenberg_identifier }}" >&2;
+  exit 1;
+  done;
+  echo "Failed to remove stale container {{ paperless_gotenberg_identifier }} after {{ paperless_gotenberg_container_cleanup_timeout_seconds }} attempts" >&2;
+  exit 1
 
 # A list of extra arguments to pass to the container (`docker create` command)
 paperless_gotenberg_container_extra_arguments: "{{ paperless_gotenberg_container_extra_arguments_auto + paperless_gotenberg_container_extra_arguments_custom }}"
