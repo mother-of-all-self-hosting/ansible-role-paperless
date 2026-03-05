@@ -343,6 +343,16 @@ paperless_environment_variable_paperless_filename_format: ""
 #   paperless_DISABLE_UPDATE_CHECK=true
 paperless_variables_additional_variables: ""
 
+# paperless_restart_necessary controls whether the Paperless-ngx systemd
+# services will be restarted (when true) or merely started (when false) by the
+# systemd service manager role (when conditional restart is enabled).
+#
+# This value is automatically computed during installation based on whether
+# any configuration files, the systemd service file, or the container image changed.
+# The default of `false` means "no restart needed" — appropriate when the role's
+# installation tasks haven't run (e.g., due to --tags skipping them).
+paperless_restart_necessary: false
+
 ########################################################################
 #                                                                      #
 # tika                                                                 #

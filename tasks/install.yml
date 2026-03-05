@@ -36,6 +36,7 @@
     - src: "{{ role_path }}/templates/gotenberg-labels.j2"
       dest: "{{ paperless_base_path }}/gotenberg-labels"
       when: "{{ paperless_gotenberg_enabled }}"
+  register: paperless_support_files_result
 
 - name: Ensure Paperless-ngx configuration files installed
   when: item.when | bool
@@ -55,6 +56,7 @@
     - src: "{{ role_path }}/templates/gotenberg-env.j2"
       dest: "{{ paperless_base_path }}/gotenberg-env"
       when: "{{ paperless_gotenberg_enabled }}"
+  register: paperless_config_files_result
 
 - name: Ensure Paperless-ngx container image is pulled
   when: item.when | bool
@@ -68,10 +70,10 @@
       when: "{{ paperless_tika_enabled }}"
     - image: "{{ paperless_gotenberg_container_image }}"
       when: "{{ paperless_gotenberg_enabled }}"
-  register: result
+  register: paperless_container_images_pull_result
   retries: "{{ devture_playbook_help_container_retries_count }}"
   delay: "{{ devture_playbook_help_container_retries_delay }}"
-  until: result is not failed
+  until: paperless_container_images_pull_result is not failed
 
 - name: Ensure Paperless-ngx container network is created via community.docker.docker_network
   when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
@@ -110,3 +112,14 @@
     - src: "{{ role_path }}/templates/systemd/paperless-gotenberg.service.j2"
       dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
       when: "{{ paperless_gotenberg_enabled }}"
+  register: paperless_systemd_services_result
+
+- name: Determine whether Actual needs a restart
+  ansible.builtin.set_fact:
+    paperless_restart_necessary: >-
+      {{
+        paperless_support_files_result.changed | default(false)
+        or paperless_config_files_result.changed | default(false)
+        or paperless_systemd_services_result.changed | default(false)
+        or paperless_container_images_pull_result.changed | default(false)
+      }}
