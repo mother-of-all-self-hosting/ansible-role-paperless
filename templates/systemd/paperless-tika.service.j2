@@ -29,7 +29,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --label-file={{ paperless_base_path }}/tika-labels \
       --health-interval={{ paperless_container_health_interval }} \
       {% for volume in paperless_tika_container_additional_volumes %}
-      --mount type={{ volume.type | default('bind' if '/' in volume.src else 'volume') }},src={{ volume.src }},dst={{ volume.dst }}{{ (',' + volume.options) if volume.options else '' }} \
+      --mount type={{ volume.type | default('bind' if '/' in volume.src else 'volume') }},src={{ volume.src }},dst={{ volume.dst }}{{ (',' + volume.options) if volume.options | default('') else '' }} \
       {% endfor %}
       --tmpfs=/tmp:rw,noexec,nosuid,size={{ paperless_tika_container_tmpfs_tmp_size }} \
       {% for arg in paperless_tika_container_extra_arguments %}
