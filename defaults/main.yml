@@ -459,7 +459,7 @@ paperless_gotenberg_enabled: false
 
 paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
 
-paperless_gotenberg_endpoint: "{{ paperless_gotenberg_scheme }}://{{ paperless_gotenberg_identifier }}:3000"
+paperless_tika_gotenberg_endpoint: "{{ paperless_gotenberg_scheme }}://{{ paperless_gotenberg_identifier }}:3000"
 
 paperless_gotenberg_scheme: http
 
