@@ -363,6 +363,10 @@ paperless_restart_necessary: false
 
 paperless_tika_enabled: false
 
+# Control if bundled Apache Tika Server is enabled
+# Set to `false` to use external Apache Tika Server service
+paperless_tika_bundled_enabled: true
+
 paperless_tika_identifier: "{{ paperless_identifier }}-tika"
 
 paperless_tika_endpoint: "{{ paperless_tika_scheme }}://{{ paperless_tika_identifier }}:9998"
@@ -456,6 +460,10 @@ paperless_tika_variables_additional_variables: ""
 # Project source code URL: https://github.com/gotenberg/gotenberg
 
 paperless_gotenberg_enabled: false
+
+# Control if bundled Gotenberg is enabled
+# Set to `false` to use external Gotenberg service
+paperless_gotenberg_bundled_enabled: true
 
 paperless_gotenberg_identifier: "{{ paperless_identifier }}-gotenberg"
 
