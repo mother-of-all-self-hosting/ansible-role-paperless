@@ -257,10 +257,11 @@ paperless_admin_password: ""
 # Valid values: debug, info, warning, error, critical
 paperless_loglevel: error
 
-# Specify database to use
+# Specify a database driver to use
 # Valid values: mariadb, postgres, sqlite
 paperless_database_type: postgres
 
+# Specify database configuration
 paperless_database_postgres_hostname: ""
 paperless_database_postgres_port: 5432
 paperless_database_postgres_username: paperless
@@ -269,12 +270,14 @@ paperless_database_mariadb_hostname: ""
 paperless_database_mariadb_port: 3306
 paperless_database_mariadb_username: paperless
 paperless_database_mariadb_password: ""
-
-# Use this to set the sslmode parameter of the SSL connection
+# Specify SSL mode for MariaDB database server
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
-paperless_database_postgres_sslmode: disable
+# Valid values: see https://docs.paperless-ngx.com/configuration/#PAPERLESS_DBSSLMODE
 paperless_database_mariadb_sslmode: DISABLED
-
+# Specify SSL mode for Postgres database server
+# By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
+# Valid values: see https://docs.paperless-ngx.com/configuration/#PAPERLESS_DBSSLMODE
+paperless_database_postgres_sslmode: disable
 paperless_database_name: paperless
 
 paperless_redis_hostname: ""
