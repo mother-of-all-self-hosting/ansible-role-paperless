@@ -475,7 +475,7 @@ paperless_tika_gotenberg_endpoint: "{{ paperless_gotenberg_scheme }}://{{ paperl
 paperless_gotenberg_scheme: http
 
 # renovate: datasource=docker depName=gotenberg/gotenberg versioning=semver
-paperless_gotenberg_version: "8.28.0"
+paperless_gotenberg_version: "8.29.0"
 
 paperless_gotenberg_container_image: "{{ paperless_gotenberg_container_image_registry_prefix }}gotenberg/gotenberg:{{ paperless_gotenberg_container_image_tag }}"
 paperless_gotenberg_container_image_tag: "{{ paperless_gotenberg_version }}"
