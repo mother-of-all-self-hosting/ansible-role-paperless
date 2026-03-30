@@ -1,5 +1,7 @@
-# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
-# SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
+# SPDX-FileCopyrightText: 2023 MASH project contributors
+# SPDX-FileCopyrightText: 2023, 2024 Julian-Samuel Gebühr
+# SPDX-FileCopyrightText: 2023-2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -57,14 +59,34 @@
     - paperless_database_mariadb_hostname
     - paperless_database_mariadb_password
 
-- name: Fail if required Paperless-ngx + Postgres integration settings not defined
-  ansible.builtin.fail:
-    msg: >-
-      You need to define a required configuration setting (`{{ item }}`) when `paperless_database_type` is `postgres`
-  when: "paperless_database_type == 'postgres' and lookup('vars', item, default='') | string | length == 0"
-  with_items:
-    - paperless_database_postgres_hostname
-    - paperless_database_postgres_password
+- name: Run if Paperless-ngx + Postgres integration is enabled
+  when: paperless_database_type == 'postgres'
+  block:
+    - name: Fail if required Paperless-ngx + Postgres integration settings not defined
+      ansible.builtin.fail:
+        msg: >-
+          You need to define a required configuration setting (`{{ item }}`) when `paperless_database_type` is `postgres`
+      when: "lookup('vars', item, default='') | string | length == 0"
+      with_items:
+        - paperless_database_postgres_password
+
+    - name: Fail if Postgres socket host path for Paperless-ngx is missing when Unix socket is enabled
+      ansible.builtin.fail:
+        msg: >-
+          You need to define `paperless_database_postgres_socket_path_host` when `paperless_database_type` is `postgres`
+          and `paperless_database_postgres_socket_enabled` is `true`.
+      when: >-
+        paperless_database_postgres_socket_enabled and
+        paperless_database_postgres_socket_path_host | string | length == 0
+
+    - name: Fail if Postgres hostname for Paperless-ngx is missing when Unix socket is disabled
+      ansible.builtin.fail:
+        msg: >-
+          You need to define `paperless_database_postgres_hostname` when `paperless_database_type` is `postgres`
+          and `paperless_database_postgres_socket_enabled` is `false`.
+      when: >-
+        not paperless_database_postgres_socket_enabled and
+        paperless_database_postgres_hostname | string | length == 0
 
 - name: Fail if SMTP settings are missing (and SMTP is enabled by setting host)
   ansible.builtin.fail:

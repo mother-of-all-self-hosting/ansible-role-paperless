@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Nikita Chernyi
-# SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2023, 2024 Nikita Chernyi
+# SPDX-FileCopyrightText: 2023-2026 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
 # SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
 # SPDX-FileCopyrightText: 2025 MASH project contributors
-# SPDX-FileCopyrightText: 2025 Suguru Hirahara
+# SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -257,6 +257,12 @@ paperless_admin_password: ""
 # Valid values: debug, info, warning, error, critical
 paperless_loglevel: error
 
+########################################################################
+#                                                                      #
+# database                                                             #
+#                                                                      #
+########################################################################
+
 # Specify a database driver to use
 # Valid values: mariadb, postgres, sqlite
 paperless_database_type: postgres
@@ -279,6 +285,26 @@ paperless_database_mariadb_sslmode: DISABLED
 # Valid values: see https://docs.paperless-ngx.com/configuration/#PAPERLESS_DBSSLMODE
 paperless_database_postgres_sslmode: disable
 paperless_database_name: paperless
+
+# Control if the database connection to Postgres is made via a Unix socket
+paperless_database_postgres_socket_enabled: true
+
+# Specify the path to the Postgres Unix socket path inside the Paperless-ngx container
+paperless_database_postgres_socket_path_container: /run-postgres
+
+# Specify the path to the Postgres Unix socket path on the host (bind-mount source)
+paperless_database_postgres_socket_path_host: ""
+
+# Specify database host address or absolute path for Unix socket
+paperless_environment_variables_paperless_dbhost_postgres: "{{ paperless_database_postgres_socket_path_container if paperless_database_postgres_socket_enabled else paperless_database_postgres_hostname }}"
+
+# TODO: Enable Unix socket connection to MariaDB
+
+########################################################################
+#                                                                      #
+# /database                                                            #
+#                                                                      #
+########################################################################
 
 paperless_redis_hostname: ""
 paperless_redis_port: 6379
