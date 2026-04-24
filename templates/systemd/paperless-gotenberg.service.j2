@@ -38,7 +38,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       {{ paperless_gotenberg_container_image }} \
       gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*
 
-
 ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ paperless_gotenberg_identifier }}
 
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop -t {{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ paperless_gotenberg_identifier }} 2>/dev/null || true'

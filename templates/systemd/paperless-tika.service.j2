@@ -37,7 +37,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       {% endfor %}
       {{ paperless_tika_container_image }}
 
-
 ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ paperless_tika_identifier }}
 
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop -t {{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ paperless_tika_identifier }} 2>/dev/null || true'
