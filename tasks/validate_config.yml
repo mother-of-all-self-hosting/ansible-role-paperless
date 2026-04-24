@@ -21,7 +21,7 @@
     - { "old": "paperless_tika_container_additional_mounts", "new": "paperless_tika_container_additional_volumes" }
     - { "old": "paperless_gotenberg_container_additional_mounts", "new": "paperless_gotenberg_container_additional_volumes" }
     - { "old": "paperless_gotenberg_endpoint", "new": "paperless_tika_gotenberg_endpoint" }
-    - { "old": "paperless_environment_variables_extension", "new": "paperless_variables_additional_variables" }
+    - { "old": "paperless_variables_additional_variables", "new": "paperless_environment_variables_additional_variables" }
     - { "old": "paperless_tika_environment_variables_extension", "new": "paperless_tika_variables_additional_variables" }
     - { "old": "paperless_gotenberg_environment_variables_extension", "new": "paperless_gotenberg_variables_additional_variables" }
     - { "old": "paperless_http_header_content_permission_policy", "new": "paperless_http_header_permissions_policy" }

@@ -368,9 +368,9 @@ paperless_environment_variable_paperless_filename_format: ""
 # Check https://gopaperless.io/docs/installation/configuration for a full configuration reference
 #
 # Example:
-# paperless_variables_additional_variables: |
+# paperless_environment_variables_additional_variables: |
 #   paperless_DISABLE_UPDATE_CHECK=true
-paperless_variables_additional_variables: ""
+paperless_environment_variables_additional_variables: ""
 
 # paperless_restart_necessary controls whether the Paperless-ngx systemd
 # services will be restarted (when true) or merely started (when false) by the
