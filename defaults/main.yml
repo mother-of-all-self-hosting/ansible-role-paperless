@@ -363,6 +363,10 @@ paperless_environment_variable_paperless_ocr_languages: "{{ paperless_ocr_langua
 # Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_FILENAME_FORMAT
 paperless_environment_variable_paperless_filename_format: ""
 
+# Specify the default layout to use for emails that are consumed as documents
+# See: https://docs.paperless-ngx.com/configuration/#PAPERLESS_EMAIL_PARSE_DEFAULT_LAYOUT
+paperless_environment_variables_email_parse_default_layout: "1"
+
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.
 # Check https://gopaperless.io/docs/installation/configuration for a full configuration reference
