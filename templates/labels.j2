@@ -56,30 +56,6 @@ traefik.http.routers.{{ paperless_identifier }}.tls.certResolver={{ paperless_co
 traefik.http.services.{{ paperless_identifier }}.loadbalancer.server.port={{ paperless_container_http_port }}
 {% endif %}
 
-{% if paperless_metrics_enabled %}
-########################################################################
-#                                                                      #
-# Metrics                                                              #
-#                                                                      #
-########################################################################
-
-traefik.http.routers.{{ paperless_identifier }}-metrics.rule={{ paperless_metrics_container_labels_traefik_rule }}
-traefik.http.routers.{{ paperless_identifier }}-metrics.service={{ paperless_identifier }}-metrics
-traefik.http.routers.{{ paperless_identifier }}-metrics.entrypoints={{ paperless_metrics_container_labels_traefik_entrypoints }}
-traefik.http.routers.{{ paperless_identifier }}-metrics.tls={{ paperless_metrics_container_labels_traefik_tls | to_json }}
-{% if paperless_metrics_container_labels_traefik_tls %}
-traefik.http.routers.{{ paperless_identifier }}-metrics.tls.certResolver={{ paperless_metrics_container_labels_traefik_tls_certResolver }}
-{% endif %}
-
-traefik.http.services.{{ paperless_identifier }}-metrics.loadbalancer.server.port=9300
-
-########################################################################
-#                                                                      #
-# /Metrics                                                             #
-#                                                                      #
-########################################################################
-{% endif %}
-
 {% for arg in paperless_container_labels_additional_labels %}
 {{ arg }}
 {% endfor %}

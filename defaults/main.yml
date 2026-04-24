@@ -581,22 +581,3 @@ paperless_gotenberg_variables_additional_variables: ""
 # /gotenberg                                                           #
 #                                                                      #
 ########################################################################
-
-########################################################################
-#                                                                      #
-# metrics                                                              #
-#                                                                      #
-########################################################################
-
-paperless_metrics_enabled: false
-paperless_metrics_path_prefix: '/metrics'
-paperless_metrics_container_labels_traefik_rule: "Host(`{{ paperless_hostname }}`) && PathPrefix(`{{ paperless_metrics_path_prefix | quote }}`)"
-paperless_metrics_container_labels_traefik_entrypoints: web-secure
-paperless_metrics_container_labels_traefik_tls: "{{ paperless_metrics_container_labels_traefik_entrypoints != 'web' }}"
-paperless_metrics_container_labels_traefik_tls_certResolver: default  # noqa var-naming
-
-########################################################################
-#                                                                      #
-# /metrics                                                             #
-#                                                                      #
-########################################################################
