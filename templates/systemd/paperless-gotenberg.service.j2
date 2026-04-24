@@ -35,7 +35,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       {% for arg in paperless_gotenberg_container_extra_arguments %}
       {{ arg }} \
       {% endfor %}
-      {{ paperless_gotenberg_container_image }}
+      {{ paperless_gotenberg_container_image }} \
       gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*
 
 
