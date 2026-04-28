@@ -369,11 +369,11 @@ paperless_environment_variables_email_parse_default_layout: "1"
 
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.
-# Check https://gopaperless.io/docs/installation/configuration for a full configuration reference
+# Check https://docs.paperless-ngx.com/configuration/ for a full configuration reference
 #
 # Example:
 # paperless_environment_variables_additional_variables: |
-#   paperless_DISABLE_UPDATE_CHECK=true
+#   PAPERLESS_ACCOUNT_ALLOW_SIGNUPS=true
 paperless_environment_variables_additional_variables: ""
 
 # paperless_restart_necessary controls whether the Paperless-ngx systemd
