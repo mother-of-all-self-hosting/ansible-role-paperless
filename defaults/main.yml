@@ -44,7 +44,6 @@ paperless_container_image_tag: "{{ paperless_version }}"
 paperless_container_image_registry_prefix: "{{ paperless_container_image_registry_prefix_upstream }}"
 paperless_container_image_registry_prefix_upstream: "{{ paperless_container_image_registry_prefix_upstream_default }}"
 paperless_container_image_registry_prefix_upstream_default: ghcr.io/
-paperless_container_image_force_pull: "{{ paperless_container_image.endswith(':latest') }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 paperless_container_network: "{{ paperless_identifier }}"

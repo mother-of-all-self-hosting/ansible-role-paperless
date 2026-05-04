@@ -30,6 +30,7 @@
     - { "old": "paperless_database_username", "new": "paperless_database_postgres_username" }
     - { "old": "paperless_database_password", "new": "paperless_database_postgres_password" }
     - { "old": "paperless_database_sslmode", "new": "paperless_database_postgres_sslmode" }
+    - { "old": "paperless_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
