@@ -14,6 +14,11 @@ traefik.docker.network={{ paperless_container_labels_traefik_docker_network }}
 
 {% set middlewares = [] %}
 
+{% if paperless_container_labels_traefik_middleware_basic_auth_enabled %}
+{% set middlewares = middlewares + [paperless_identifier + '-basic-auth'] %}
+traefik.http.middlewares.{{ paperless_identifier }}-basic-auth.basicauth.users={{ paperless_container_labels_traefik_middleware_basic_auth_users }}
+{% endif %}
+
 {% if paperless_container_labels_traefik_path_prefix != '/' %}
 traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.regex=^({{ paperless_container_labels_traefik_path_prefix | quote }})$
 traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
