@@ -49,6 +49,10 @@ Currently there is one testing scenario available.
 
 Tests a standard Paperless-ngx installation.
 
+### `mariadb`
+
+Tests a standard Paperless-ngx installation with the MariaDB database.
+
 ### `postgres`
 
 Tests a standard Paperless-ngx installation with the Postgres database.
