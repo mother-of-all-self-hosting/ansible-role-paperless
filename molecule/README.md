@@ -49,6 +49,10 @@ Currently there is one testing scenario available.
 
 Tests a standard Paperless-ngx installation.
 
+### `postgres`
+
+Tests a standard Paperless-ngx installation with the Postgres database.
+
 ## Running
 
 By default it is configured to run the scenarios on Ubuntu 26.04.
