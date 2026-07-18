@@ -49,6 +49,10 @@ Currently there is one testing scenario available.
 
 Tests a standard Paperless-ngx installation.
 
+### `default-tika`
+
+Tests a standard Paperless-ngx installation with the Apache Tika server.
+
 ### `mariadb`
 
 Tests a standard Paperless-ngx installation with the MariaDB database.

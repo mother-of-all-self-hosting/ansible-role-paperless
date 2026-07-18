@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2026 Suguru Hirahara
+# SPDX-FileCopyrightText: 2026 spatterlight
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: paperless-${MOLECULE_DISTRO:-ubuntu2604}-default
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2604}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      callback_result_format: yaml
+  inventory:
+    group_vars:
+      all:
+        # Helper variables
+        paperless_debug_service_enabled: false
+
+        # Variables for Paperless-ngx
+        paperless_uid: 1000
+        paperless_gid: 1000
+        paperless_scheme: http
+        paperless_hostname: localhost
+        paperless_container_labels_traefik_enabled: false
+        paperless_container_http_host_bind_port: 3000
+        paperless_database_type: sqlite
+        paperless_secret_key: secret
+        paperless_gotenberg_enabled: true
+        paperless_gotenberg_bundled_enabled: false
+        paperless_tika_enabled: true
+        paperless_tika_bundled_enabled: false
+
+        # Variables for networking services
+        paperless_container_additional_networks_custom:
+          - "{{ gotenberg_container_network }}"
+          - "{{ tika_container_network }}"
+          - "{{ valkey_container_network }}"
+
+        # Variables required for Paperless-ngx to connect to Gotenberg
+        paperless_tika_gotenberg_endpoint: "http://{{ gotenberg_identifier }}:{{ gotenberg_container_http_port }}"
+
+        # Variables required for Paperless-ngx to connect to Apache Tika Server
+        paperless_tika_endpoint: "http://{{ tika_identifier }}:{{ tika_container_http_port }}"
+
+        # Variables required for Paperless-ngx to connect to the Valkey data-store
+        paperless_redis_hostname: "{{ valkey_identifier }}"
+        paperless_systemd_required_services_list_custom:
+          - "{{ valkey_identifier }}.service"
+
+        # Variables for Gotenberg
+        gotenberg_uid: 1000
+        gotenberg_gid: 1000
+        # See: https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/refs/heads/main/docker/compose/docker-compose.sqlite-tika.yml
+        gotenberg_environment_variables_additional_variables: |
+          CHROMIUM_DISABLE_JAVASCRIPT=true
+          CHROMIUM_ALLOW_LIST=file:///tmp/.*
+
+        # Variables for Apache Tika Server
+        tika_uid: 1000
+        tika_gid: 1000
+        tika_systemd_required_services_list_custom:
+          - "{{ gotenberg_identifier }}.service"
+
+        # Variables for Valkey
+        valkey_uid: 1000
+        valkey_gid: 1000
+        valkey_arch: amd64
+  env:
+    # Workaround for https://github.com/ansible/molecule/issues/4391
+    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/..:/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:~/.ansible/roles
+verifier:
+  name: ansible

@@ -1,0 +1,35 @@
+---
+roles:
+  - name: ansible-role-docker
+    src: https://github.com/geerlingguy/ansible-role-docker
+    scm: git
+    version: 8.0.0
+
+  - name: com.devture.ansible.role.playbook_help
+    src: https://github.com/devture/com.devture.ansible.role.playbook_help
+    scm: git
+    version: main
+
+  - name: com.devture.ansible.role.systemd_docker_base
+    src: https://github.com/devture/com.devture.ansible.role.systemd_docker_base
+    scm: git
+    version: v1.5.0-0
+
+  - name: ansible-role-gotenberg
+    src: https://iris.radicle.network/z3PLD2dsbEFz4QXxNp7eNndinY3aC.git
+    scm: git
+    version: v8.34.0-1
+
+  - name: ansible-role-tika
+    src: https://iris.radicle.network/zbk3MzAN6SX6d8pa9DT2kHDscyr6.git
+    scm: git
+    version: v3.3.0.0-0
+
+  - name: ansible-role-valkey
+    src: https://github.com/mother-of-all-self-hosting/ansible-role-valkey
+    scm: git
+    version: v9.1.0-0
+
+collections:
+  - name: community.docker
+    version: 5.2.1

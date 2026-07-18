@@ -19,6 +19,7 @@ jobs:
           - debian13
         scenario:
           - default
+          - default-tika
           - mariadb
           - postgres
       fail-fast: false
