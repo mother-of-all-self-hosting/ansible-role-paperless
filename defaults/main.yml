@@ -395,6 +395,31 @@ paperless_environment_variable_paperless_filename_format: ""
 # See: https://docs.paperless-ngx.com/configuration/#PAPERLESS_EMAIL_PARSE_DEFAULT_LAYOUT
 paperless_environment_variables_email_parse_default_layout: "1"
 
+# Controls the PAPERLESS_TRUSTED_PROXIES environment variable — a list of trusted reverse proxies.
+#
+# IMPORTANT: this is a hop-list, not a whitelist. The *number* of entries tells Paperless-ngx
+# how many reverse proxy hops sit in front of it (Paperless-ngx derives allauth's trusted proxy
+# count from the length of this list). Login rate limiting uses this count to determine the real
+# client IP address from the `X-Forwarded-For` header. Without it, all users would share a single
+# rate-limiting bucket (keyed on the reverse proxy's own IP address), potentially causing
+# `403 Forbidden` errors on login. Do not list multiple entries unless you actually have
+# multiple chained reverse proxies.
+#
+# Each entry's value is an IP address prefix (not a CIDR!), positionally matched against the
+# corresponding `X-Forwarded-For` hop when determining the client IP address for failed-login
+# log messages. Behind a single reverse proxy (which does not add itself to `X-Forwarded-For`,
+# like Traefik), this prefix-matching cannot succeed, so the entry's value is effectively
+# inert — only the entry count matters. We default to `172.` (Docker's default address pool)
+# as a reasonable placeholder.
+#
+# When Traefik labels are enabled, we default to a single entry (one reverse proxy hop).
+#
+# Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_TRUSTED_PROXIES
+paperless_environment_variables_trusted_proxies: "{{ paperless_environment_variables_trusted_proxies_default + paperless_environment_variables_trusted_proxies_auto + paperless_environment_variables_trusted_proxies_custom }}"
+paperless_environment_variables_trusted_proxies_default: "{{ ['172.'] if paperless_container_labels_traefik_enabled else [] }}"
+paperless_environment_variables_trusted_proxies_auto: []
+paperless_environment_variables_trusted_proxies_custom: []
+
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.
 # Check https://docs.paperless-ngx.com/configuration/ for a full configuration reference
