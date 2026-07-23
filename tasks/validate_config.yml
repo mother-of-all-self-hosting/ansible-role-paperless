@@ -44,6 +44,7 @@
     - paperless_path_prefix
     - paperless_container_network
     - paperless_redis_hostname
+    - paperless_secret_key
 
 - name: Fail if Paperless-ngx database type invalid
   ansible.builtin.fail:
