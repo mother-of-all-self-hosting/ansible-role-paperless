@@ -9,16 +9,6 @@
   ],
   "packageRules": [
     {
-      "ignoreUnstable": false,
-      "versioning": "loose",
-      "matchSourceUrls": [
-        "https://github.com/geerlingguy{/,}**",
-        "https://github.com/devture/com.devture.ansible.role{/,}**",
-        "https://github.com/mother-of-all-self-hosting{/,}**",
-        "https://iris.radicle.network{/,}**"
-      ]
-    },
-    {
       "matchFileNames": [
         ".github/workflows/autotag.yml",
         ".github/workflows/close-stale-issues.yml",
@@ -41,7 +31,9 @@
       ],
       "enabled": true,
       "automerge": true,
-      "automergeType": "branch"
+      "automergeType": "branch",
+      "ignoreUnstable": false,
+      "versioning": "loose"
     }
   ],
   "customManagers": [
