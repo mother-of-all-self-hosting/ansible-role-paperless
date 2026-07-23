@@ -280,13 +280,39 @@ paperless_database_mariadb_username: paperless
 paperless_database_mariadb_password: ""
 # Specify SSL mode for MariaDB database server
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
-# Valid values: see https://docs.paperless-ngx.com/configuration/#PAPERLESS_DBSSLMODE
+# Valid values: DISABLED, PREFERRED, REQUIRED, VERIFY_CA, VERIFY_IDENTITY
+# This value is passed as an `ssl_mode=...` option via `paperless_database_options_default`.
 paperless_database_mariadb_sslmode: DISABLED
 # Specify SSL mode for Postgres database server
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
-# Valid values: see https://docs.paperless-ngx.com/configuration/#PAPERLESS_DBSSLMODE
+# Valid values: see https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE
+# This value is passed as an `sslmode=...` option via `paperless_database_options_default`.
 paperless_database_postgres_sslmode: disable
 paperless_database_name: paperless
+
+# Controls the PAPERLESS_DB_OPTIONS environment variable — advanced database connection options.
+# This is a list of `key=value` strings, which get joined with commas.
+#
+# To pass additional options to the database driver (e.g. connection pooling for Postgres),
+# add your values to `paperless_database_options_custom`.
+#
+# Example:
+# paperless_database_options_custom:
+#   - pool.max_size=5
+#
+# Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_DB_OPTIONS
+paperless_database_options: "{{ paperless_database_options_default + paperless_database_options_auto + paperless_database_options_custom }}"
+
+# The default list of database options, derived from other variables (like the SSL mode ones) automatically.
+paperless_database_options_default: |
+  {{
+    (['sslmode=' + paperless_database_postgres_sslmode] if paperless_database_type == 'postgres' else [])
+    +
+    (['ssl_mode=' + paperless_database_mariadb_sslmode] if paperless_database_type == 'mariadb' else [])
+  }}
+
+paperless_database_options_auto: []
+paperless_database_options_custom: []
 
 # Control if the database connection to Postgres is made via a Unix socket
 paperless_database_postgres_socket_enabled: true
