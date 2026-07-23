@@ -25,6 +25,7 @@
         ".github/workflows/molecule.yml",
         ".github/workflows/pre-commit.yml",
         ".pre-commit-config.yaml",
+        ".python-version",
         "mise.toml",
         "molecule/requirements.txt"
       ],
