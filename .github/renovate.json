@@ -9,6 +9,14 @@
   ],
   "packageRules": [
     {
+      "ignoreUnstable": false,
+      "versioning": "loose",
+      "matchSourceUrls": [
+        "https://github.com{/,}**",
+        "https://iris.radicle.network{/,}**"
+      ]
+    },
+    {
       "matchFileNames": [
         ".github/workflows/autotag.yml",
         ".github/workflows/close-stale-issues.yml",
