@@ -41,7 +41,7 @@ provisioner:
         paperless_database_type: mariadb
         paperless_secret_key: secret
 
-        # Variables required for Paperless-ngx to connect to the MariaDB database (via Unix socket)
+        # Variables required for Paperless-ngx to connect to the MariaDB database
         paperless_database_mariadb_hostname: "{{ mariadb_connection_hostname }}"
         paperless_database_mariadb_port: "{{ mariadb_connection_port }}"
         paperless_database_mariadb_username: my_database_username
