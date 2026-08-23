@@ -17,10 +17,8 @@
 #
 # Determining the version from defaults/main.yml, rather than from the commit
 # message of the pull request that got merged, makes the result independent of
-# the order in which pull requests get merged. Bumps of secondary components
-# (Tika, Gotenberg) only increment the release counter - the main part of the
-# tag follows paperless_version alone. Any change to the role
-# (bugfix, feature, dependency bump) releases itself without a human tagging.
+# the order in which pull requests get merged, and lets any change to the role
+# (bugfix, feature, dependency bump) release itself without a human tagging.
 
 set -euo pipefail
 

@@ -29,9 +29,8 @@ cleanup() {
 
 trap cleanup EXIT
 
-# Starts a scenario with a repository at Paperless-ngx 3.0.5 (with Tika and
-# Gotenberg as secondary components) which has already seen two releases of it
-# (v3.0.5-0 and v3.0.5-1).
+# Starts a scenario with a repository at Paperless-ngx 3.0.5 which has already
+# seen two releases of it (v3.0.5-0 and v3.0.5-1).
 scenario() {
 	echo "$1"
 
@@ -47,11 +46,7 @@ scenario() {
 	git config user.name 'Test'
 	git config commit.gpgsign false
 
-	{
-		printf 'paperless_version: "3.0.5"\n'
-		printf 'paperless_tika_version: "3.1.0.0"\n'
-		printf 'paperless_gotenberg_version: "8.36.0"\n'
-	} > defaults/main.yml
+	printf 'paperless_version: "3.0.5"\n' > defaults/main.yml
 	printf 'placeholder\n' > tasks/main.yml
 	printf 'placeholder\n' > README.md
 
@@ -94,19 +89,18 @@ expect() {
 }
 
 bump_paperless="sed -i 's|paperless_version: \"3.0.5\"|paperless_version: \"3.0.6\"|' defaults/main.yml"
-bump_tika="sed -i 's|paperless_tika_version: \"3.1.0.0\"|paperless_tika_version: \"4.0.0.0\"|' defaults/main.yml"
-bump_gotenberg="sed -i 's|paperless_gotenberg_version: \"8.36.0\"|paperless_gotenberg_version: \"8.37.0\"|' defaults/main.yml"
+edit_defaults="printf 'another_default: value\n' >> defaults/main.yml"
 edit_task="printf 'a task\n' >> tasks/main.yml"
 edit_readme="printf 'documentation\n' >> README.md"
 
-scenario 'Component bumps only move the release counter'
-expect 'tika'      v3.0.5-2 "$(merge "$bump_tika")"
-expect 'gotenberg' v3.0.5-3 "$(merge "$bump_gotenberg")"
+scenario 'Role changes merged before a version bump'
+expect 'defaults'  v3.0.5-2 "$(merge "$edit_defaults")"
+expect 'a task'    v3.0.5-3 "$(merge "$edit_task")"
 expect 'paperless' v3.0.6-0 "$(merge "$bump_paperless")"
 
-scenario 'A paperless bump merged before component bumps'
+scenario 'A version bump merged before other role changes'
 expect 'paperless' v3.0.6-0 "$(merge "$bump_paperless")"
-expect 'tika'      v3.0.6-1 "$(merge "$bump_tika")"
+expect 'defaults'  v3.0.6-1 "$(merge "$edit_defaults")"
 
 scenario 'Commits that do not affect the role'
 expect 'README' ''       "$(merge "$edit_readme")"
