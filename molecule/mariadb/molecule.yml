@@ -38,10 +38,10 @@ provisioner:
         paperless_hostname: localhost
         paperless_container_labels_traefik_enabled: false
         paperless_container_http_host_bind_port: 3000
-        paperless_database_type: mariadb
         paperless_secret_key: secret
 
         # Variables required for Paperless-ngx to connect to the MariaDB database
+        paperless_database_type: mariadb
         paperless_database_mariadb_hostname: "{{ mariadb_connection_hostname }}"
         paperless_database_mariadb_port: "{{ mariadb_connection_port }}"
         paperless_database_mariadb_username: my_database_username

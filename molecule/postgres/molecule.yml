@@ -38,10 +38,10 @@ provisioner:
         paperless_hostname: localhost
         paperless_container_labels_traefik_enabled: false
         paperless_container_http_host_bind_port: 3000
-        paperless_database_type: postgres
         paperless_secret_key: secret
 
         # Variables required for Paperless-ngx to connect to the Postgres database
+        paperless_database_type: postgres
         paperless_database_postgres_username: my_database_username
         paperless_database_postgres_password: my_database_password
         paperless_database_name: paperless

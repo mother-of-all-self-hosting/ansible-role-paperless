@@ -38,8 +38,8 @@ provisioner:
         paperless_hostname: localhost
         paperless_container_labels_traefik_enabled: false
         paperless_container_http_host_bind_port: 3000
-        paperless_database_type: sqlite
         paperless_secret_key: secret
+        paperless_database_type: sqlite
 
         # Variables required for Paperless-ngx to connect to the Valkey data-store
         paperless_redis_hostname: "{{ valkey_identifier }}"

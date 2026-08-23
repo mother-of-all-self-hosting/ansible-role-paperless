@@ -38,13 +38,13 @@ provisioner:
         paperless_hostname: localhost
         paperless_container_labels_traefik_enabled: false
         paperless_container_http_host_bind_port: 3000
-        paperless_database_type: sqlite
         paperless_secret_key: secret
         # Admin credentials for the API-driven document consumption test in verify.yml
         paperless_admin_user: admin
         paperless_admin_password: molecule-test
         paperless_gotenberg_enabled: true
         paperless_tika_enabled: true
+        paperless_database_type: sqlite
 
         # Variables for networking services
         paperless_container_additional_networks_custom:
