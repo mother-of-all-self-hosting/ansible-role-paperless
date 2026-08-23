@@ -31,6 +31,14 @@
     - { "old": "paperless_database_password", "new": "paperless_database_postgres_password" }
     - { "old": "paperless_database_sslmode", "new": "paperless_database_postgres_sslmode" }
     - { "old": "paperless_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
+    - { "old": "paperless_tika_bundled_enabled", "new": "<removed> (the bundled Apache Tika Server was removed; point `paperless_tika_endpoint` at an external instance, e.g. one installed by the MASH tika role)" }
+    - { "old": "paperless_gotenberg_bundled_enabled", "new": "<removed> (the bundled Gotenberg was removed; point `paperless_tika_gotenberg_endpoint` at an external instance, e.g. one installed by the MASH gotenberg role)" }
+    - { "old": "paperless_tika_version", "new": "<removed> (the bundled Apache Tika Server was removed)" }
+    - { "old": "paperless_gotenberg_version", "new": "<removed> (the bundled Gotenberg was removed)" }
+    - { "old": "paperless_tika_identifier", "new": "<removed> (the bundled Apache Tika Server was removed)" }
+    - { "old": "paperless_gotenberg_identifier", "new": "<removed> (the bundled Gotenberg was removed)" }
+    - { "old": "paperless_tika_scheme", "new": "<removed> (include the scheme in `paperless_tika_endpoint`)" }
+    - { "old": "paperless_gotenberg_scheme", "new": "<removed> (include the scheme in `paperless_tika_gotenberg_endpoint`)" }
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
@@ -45,6 +53,17 @@
     - paperless_container_network
     - paperless_redis_hostname
     - paperless_secret_key
+
+- name: Fail if required Paperless-ngx + Apache Tika Server integration settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) when `paperless_tika_enabled` is enabled.
+      The bundled Apache Tika Server and Gotenberg were removed from this role -
+      point this setting at an external instance (e.g. one installed by the MASH tika/gotenberg roles).
+  when: "paperless_tika_enabled | bool and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - paperless_tika_endpoint
+    - paperless_tika_gotenberg_endpoint
 
 - name: Fail if Paperless-ngx database type invalid
   ansible.builtin.fail:

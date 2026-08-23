@@ -30,22 +30,31 @@
     - src: "{{ role_path }}/templates/env.j2"
       dest: "{{ paperless_base_path }}/env"
       when: true
-    - src: "{{ role_path }}/templates/gotenberg-env.j2"
-      dest: "{{ paperless_base_path }}/gotenberg-env"
-      when: "{{ paperless_gotenberg_enabled and paperless_gotenberg_bundled_enabled }}"
-    - src: "{{ role_path }}/templates/tika-env.j2"
-      dest: "{{ paperless_base_path }}/tika-env"
-      when: "{{ paperless_tika_enabled and paperless_tika_bundled_enabled }}"
     - src: "{{ role_path }}/templates/labels.j2"
       dest: "{{ paperless_base_path }}/labels"
       when: true
-    - src: "{{ role_path }}/templates/gotenberg-labels.j2"
-      dest: "{{ paperless_base_path }}/gotenberg-labels"
-      when: "{{ paperless_gotenberg_enabled and paperless_gotenberg_bundled_enabled }}"
-    - src: "{{ role_path }}/templates/tika-labels.j2"
-      dest: "{{ paperless_base_path }}/tika-labels"
-      when: "{{ paperless_tika_enabled and paperless_tika_bundled_enabled }}"
   register: paperless_support_files_result
+
+# The bundled Apache Tika Server and Gotenberg installations have been removed
+# from this role in favor of external instances (e.g. the MASH tika and
+# gotenberg roles). Clean up what older versions of this role may have set up.
+- name: Ensure legacy bundled Tika/Gotenberg systemd services are stopped and removed
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
+  with_items:
+    - service: "{{ paperless_identifier }}-tika.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}-tika.service"
+    - service: "{{ paperless_identifier }}-gotenberg.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}-gotenberg.service"
+
+- name: Ensure legacy bundled Tika/Gotenberg support files do not exist
+  ansible.builtin.file:
+    path: "{{ paperless_base_path }}/{{ item }}"
+    state: absent
+  with_items:
+    - tika-env
+    - tika-labels
+    - gotenberg-env
+    - gotenberg-labels
 
 - name: Ensure Paperless-ngx container image is pulled
   when: item.when | bool
@@ -55,10 +64,6 @@
   with_items:
     - image: "{{ paperless_container_image }}"
       when: true
-    - image: "{{ paperless_gotenberg_container_image }}"
-      when: "{{ paperless_gotenberg_enabled and paperless_gotenberg_bundled_enabled }}"
-    - image: "{{ paperless_tika_container_image }}"
-      when: "{{ paperless_tika_enabled and paperless_tika_bundled_enabled }}"
   register: paperless_container_images_pull_result
   retries: "{{ devture_playbook_help_container_retries_count }}"
   delay: "{{ devture_playbook_help_container_retries_delay }}"
@@ -95,12 +100,6 @@
     - src: "{{ role_path }}/templates/systemd/paperless.service.j2"
       dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"
       when: true
-    - src: "{{ role_path }}/templates/systemd/paperless-gotenberg.service.j2"
-      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
-      when: "{{ paperless_gotenberg_enabled and paperless_gotenberg_bundled_enabled }}"
-    - src: "{{ role_path }}/templates/systemd/paperless-tika.service.j2"
-      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"
-      when: "{{ paperless_tika_enabled and paperless_tika_bundled_enabled }}"
   register: paperless_systemd_services_result
 
 - name: Determine whether Actual needs a restart

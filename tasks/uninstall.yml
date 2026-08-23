@@ -10,10 +10,11 @@
   with_items:
     - service: "{{ paperless_identifier }}.service"
       path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}.service"
-    - service: "{{ paperless_tika_identifier }}.service"
-      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_tika_identifier }}.service"
-    - service: "{{ paperless_gotenberg_identifier }}.service"
-      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_gotenberg_identifier }}.service"
+    # Legacy bundled services, removed from this role in favor of external instances
+    - service: "{{ paperless_identifier }}-tika.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}-tika.service"
+    - service: "{{ paperless_identifier }}-gotenberg.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ paperless_identifier }}-gotenberg.service"
 
 - name: Ensure Paperless-ngx support files do not exist
   ansible.builtin.file:

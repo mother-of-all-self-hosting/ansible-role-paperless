@@ -41,9 +41,7 @@ provisioner:
         paperless_database_type: sqlite
         paperless_secret_key: secret
         paperless_gotenberg_enabled: true
-        paperless_gotenberg_bundled_enabled: false
         paperless_tika_enabled: true
-        paperless_tika_bundled_enabled: false
 
         # Variables for networking services
         paperless_container_additional_networks_custom:
