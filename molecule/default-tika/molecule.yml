@@ -40,6 +40,9 @@ provisioner:
         paperless_container_http_host_bind_port: 3000
         paperless_database_type: sqlite
         paperless_secret_key: secret
+        # Admin credentials for the API-driven document consumption test in verify.yml
+        paperless_admin_user: admin
+        paperless_admin_password: molecule-test
         paperless_gotenberg_enabled: true
         paperless_tika_enabled: true
 
@@ -64,9 +67,13 @@ provisioner:
         gotenberg_uid: 1000
         gotenberg_gid: 1000
         # See: https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/refs/heads/main/docker/compose/docker-compose.sqlite-tika.yml
+        # HOME must be writable for the container user, else Chromium fails to
+        # create its user data directory and every conversion returns HTTP 500
+        # (the gotenberg role's --user override does not provide a home).
         gotenberg_environment_variables_additional_variables: |
           CHROMIUM_DISABLE_JAVASCRIPT=true
           CHROMIUM_ALLOW_LIST=file:///tmp/.*
+          HOME=/tmp
 
         # Variables for Apache Tika Server
         tika_uid: 1000
