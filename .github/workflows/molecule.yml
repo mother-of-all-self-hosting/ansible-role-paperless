@@ -72,7 +72,7 @@ jobs:
         uses: actions/cache@v6.1.0
         with:
           path: ~/.ansible/collections
-          key: ansible-collections-${{ hashFiles('paperless/molecule/default/requirements.yml') }}
+          key: ansible-collections-${{ hashFiles('paperless/molecule/*/requirements.yml') }}
 
       - name: Run Molecule
         working-directory: paperless
