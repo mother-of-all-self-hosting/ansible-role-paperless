@@ -23,7 +23,7 @@ roles:
   - name: ansible-role-tika
     src: https://iris.radicle.network/zbk3MzAN6SX6d8pa9DT2kHDscyr6.git
     scm: git
-    version: v3.3.0.0-0
+    version: v4.0.0-0
 
   - name: ansible-role-valkey
     src: https://github.com/mother-of-all-self-hosting/ansible-role-valkey
