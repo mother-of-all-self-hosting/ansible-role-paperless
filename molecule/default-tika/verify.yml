@@ -108,9 +108,9 @@
       vars:
         paperless_task_results: "{{ paperless_task.json.results | default(paperless_task.json) }}"
 
-    - name: Show Paperless-ngx verification summary
+    - name: Show the Paperless-ngx verification summary
       ansible.builtin.debug:
         msg:
           - "Paperless-ngx systemd: {{ paperless_service.status.ActiveState }}"
           - "Paperless-ngx HTTP: {{ paperless_endpoint.status }}"
-          - "Tika consumption: {{ (paperless_task.json.results | default(paperless_task.json))[0].status }}"
+          - "Paperless-ngx Tika consumption: {{ (paperless_task.json.results | default(paperless_task.json))[0].status }}"
