@@ -46,7 +46,7 @@
         fail_msg: "Paperless-ngx did not respond as expected ({{ paperless_endpoint.status | default('no response') }})"
         success_msg: "Paperless-ngx responded with {{ paperless_endpoint.status }}"
 
-    - name: Show Paperless-ngx systemd service status summary
+    - name: Show the Paperless-ngx verification summary
       ansible.builtin.debug:
         msg:
           - "Paperless-ngx systemd: {{ paperless_service.status.ActiveState }}"
