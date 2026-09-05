@@ -4,10 +4,10 @@ roles:
   - src: https://github.com/geerlingguy/ansible-role-docker
     version: 8.0.0
     name: ansible-role-docker
-  - src: https://iris.radicle.network/z3PLD2dsbEFz4QXxNp7eNndinY3aC.git
+  - src: git+https://iris.radicle.network/z3PLD2dsbEFz4QXxNp7eNndinY3aC.git
     version: v8.36.0-0
     name: ansible-role-gotenberg
-  - src: https://iris.radicle.network/zbk3MzAN6SX6d8pa9DT2kHDscyr6.git
+  - src: git+https://iris.radicle.network/zbk3MzAN6SX6d8pa9DT2kHDscyr6.git
     version: v4.0.0-0
     name: ansible-role-tika
   - src: https://github.com/mother-of-all-self-hosting/ansible-role-valkey
