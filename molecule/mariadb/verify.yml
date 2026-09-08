@@ -32,7 +32,7 @@
     - name: Retrieve the Paperless-ngx systemd service log for debugging
       when: paperless_debug_service_enabled | bool
       ansible.builtin.command:
-        cmd: journalctl -xeu paperless.service
+        cmd: journalctl --no-pager --output=cat --unit=paperless.service
       changed_when: false
 
     - name: Wait for Paperless-ngx HTTP endpoint to respond (up to 10m)
