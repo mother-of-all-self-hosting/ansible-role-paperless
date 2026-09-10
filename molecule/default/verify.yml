@@ -9,6 +9,8 @@
   become: true
   gather_facts: false
   tasks:
+    - name: Verify that Paperless-ngx works
+      block:
     - name: Wait for the Paperless-ngx systemd service to become active (up to 180s)
       ansible.builtin.systemd_service:
         name: paperless.service
@@ -57,3 +59,19 @@
         msg:
           - "Paperless-ngx systemd: {{ paperless_service.status.ActiveState }}"
           - "Paperless-ngx HTTP: {{ paperless_endpoint.status }}"
+
+      rescue:
+        # Whatever went wrong, the reason is almost always in the systemd service log.
+        - name: Retrieve the Paperless-ngx systemd service log
+          ansible.builtin.command:
+            cmd: journalctl --no-pager --output=cat --unit=paperless.service
+          register: paperless_service_log
+          changed_when: false
+
+        - name: Show the Paperless-ngx systemd service log
+          ansible.builtin.debug:
+            var: paperless_service_log.stdout_lines
+
+        - name: Fail because verification did not pass
+          ansible.builtin.fail:
+            msg: "Paperless-ngx verification failed. The systemd service log is printed above."
