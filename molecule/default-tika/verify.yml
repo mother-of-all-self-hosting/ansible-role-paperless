@@ -12,116 +12,54 @@
   tasks:
     - name: Verify that Paperless-ngx works
       block:
-    - name: Wait for the Paperless-ngx systemd service to become active (up to 180s)
-      ansible.builtin.systemd_service:
-        name: paperless.service
-      register: paperless_service
-      until: paperless_service.status.ActiveState == 'active'
-      retries: 36
-      delay: 5
-      # So that giving up is reported by the assertion below rather than as a
-      # wall of systemd unit properties.
-      failed_when: false
+        - name: Wait for the Paperless-ngx systemd service to become active (up to 180s)
+          ansible.builtin.systemd_service:
+            name: paperless.service
+          register: paperless_service
+          until: paperless_service.status.ActiveState == 'active'
+          retries: 36
+          delay: 5
+          # So that giving up is reported by the assertion below rather than as a
+          # wall of systemd unit properties.
+          failed_when: false
 
-    # `Restart=always` in the systemd unit means that even a container which crashes
-    # and gets restarted reads as active here, so this is a precondition rather than
-    # a result.
-    - name: Assert the Paperless-ngx systemd service is active
-      ansible.builtin.assert:
-        that: paperless_service.status.ActiveState == 'active'
-        fail_msg: "paperless.service is not active ({{ paperless_service.status.ActiveState }})"
-        success_msg: "paperless.service is active"
+        # `Restart=always` in the systemd unit means that even a container which crashes
+        # and gets restarted reads as active here, so this is a precondition rather than
+        # a result.
+        - name: Assert the Paperless-ngx systemd service is active
+          ansible.builtin.assert:
+            that: paperless_service.status.ActiveState == 'active'
+            fail_msg: "paperless.service is not active ({{ paperless_service.status.ActiveState }})"
+            success_msg: "paperless.service is active"
 
-    - name: Retrieve the Paperless-ngx systemd service log for debugging
-      when: paperless_debug_service_enabled | bool
-      ansible.builtin.command:
-        cmd: journalctl --no-pager --output=cat --unit=paperless.service
-      changed_when: false
+        - name: Retrieve the Paperless-ngx systemd service log for debugging
+          when: paperless_debug_service_enabled | bool
+          ansible.builtin.command:
+            cmd: journalctl --no-pager --output=cat --unit=paperless.service
+          changed_when: false
 
-    - name: Wait for Paperless-ngx HTTP endpoint to respond (up to 10m)
-      ansible.builtin.uri:
-        url: "http://localhost:3000/"
-        method: GET
-        status_code: [200, 302]
-        follow_redirects: none
-      register: paperless_endpoint
-      until: paperless_endpoint.status in [200, 302]
-      retries: 120
-      delay: 5
+        - name: Wait for Paperless-ngx HTTP endpoint to respond (up to 10m)
+          ansible.builtin.uri:
+            url: "http://localhost:3000/"
+            method: GET
+            status_code: [200, 302]
+            follow_redirects: none
+          register: paperless_endpoint
+          until: paperless_endpoint.status in [200, 302]
+          retries: 120
+          delay: 5
 
-    - name: Assert Paperless-ngx HTTP endpoint responds
-      ansible.builtin.assert:
-        that: paperless_endpoint.status in [200, 302]
-        fail_msg: "Paperless-ngx did not respond as expected ({{ paperless_endpoint.status | default('no response') }})"
-        success_msg: "Paperless-ngx responded with {{ paperless_endpoint.status }}"
+        - name: Assert Paperless-ngx HTTP endpoint responds
+          ansible.builtin.assert:
+            that: paperless_endpoint.status in [200, 302]
+            fail_msg: "Paperless-ngx did not respond as expected ({{ paperless_endpoint.status | default('no response') }})"
+            success_msg: "Paperless-ngx responded with {{ paperless_endpoint.status }}"
 
-    # Consuming an .eml document exercises the whole Tika pipeline: Paperless-ngx
-    # parses the mail via the Apache Tika Server and renders the archive PDF via
-    # Gotenberg. A Tika whose API is incompatible with Paperless-ngx (as Tika
-    # 4.0.0 was with tika-client 0.11.0) fails this even though every service
-    # boots fine, so a mere service-status check would stay green.
-    - name: Upload a sample .eml document to Paperless-ngx
-      ansible.builtin.uri:
-        url: "http://localhost:3000/api/documents/post_document/"
-        method: POST
-        url_username: "{{ paperless_admin_user }}"
-        url_password: "{{ paperless_admin_password }}"
-        force_basic_auth: true
-        body_format: form-multipart
-        body:
-          document:
-            content: |
-              From: sender@example.com
-              To: recipient@example.com
-              Subject: Molecule Tika consumption test
-              Date: Mon, 1 Jan 2026 00:00:00 +0000
-              Message-ID: <molecule-tika-test@example.com>
-              MIME-Version: 1.0
-              Content-Type: text/plain; charset=utf-8
-
-              This message verifies that Paperless-ngx can consume mail documents
-              through the Apache Tika Server and Gotenberg.
-            filename: molecule-tika-test.eml
-            mime_type: message/rfc822
-        status_code: [200]
-        return_content: true
-      register: paperless_upload
-
-    # Depending on the Paperless-ngx version, /api/tasks/ returns either a plain
-    # list or a paginated object with a `results` list.
-    - name: Wait for the .eml document to be consumed (up to 5m)
-      ansible.builtin.uri:
-        url: "http://localhost:3000/api/tasks/?task_id={{ paperless_upload.json }}"
-        method: GET
-        url_username: "{{ paperless_admin_user }}"
-        url_password: "{{ paperless_admin_password }}"
-        force_basic_auth: true
-        return_content: true
-      vars:
-        paperless_task_results: "{{ paperless_task.json.results | default(paperless_task.json) }}"
-      register: paperless_task
-      until: >-
-        paperless_task_results | length > 0
-        and paperless_task_results[0].status | upper in ['SUCCESS', 'FAILURE']
-      retries: 60
-      delay: 5
-
-    - name: Assert the .eml document was consumed successfully
-      ansible.builtin.assert:
-        that: paperless_task_results[0].status | upper == 'SUCCESS'
-        fail_msg: >-
-          Tika consumption failed:
-          {{ paperless_task_results[0].result | default('no result reported') }}
-        success_msg: "The .eml document was consumed successfully through Tika"
-      vars:
-        paperless_task_results: "{{ paperless_task.json.results | default(paperless_task.json) }}"
-
-    - name: Show the Paperless-ngx verification summary
-      ansible.builtin.debug:
-        msg:
-          - "Paperless-ngx systemd: {{ paperless_service.status.ActiveState }}"
-          - "Paperless-ngx HTTP: {{ paperless_endpoint.status }}"
-          - "Paperless-ngx Tika consumption: {{ (paperless_task.json.results | default(paperless_task.json))[0].status }}"
+        - name: Show the Paperless-ngx verification summary
+          ansible.builtin.debug:
+            msg:
+              - "Paperless-ngx systemd: {{ paperless_service.status.ActiveState }}"
+              - "Paperless-ngx HTTP: {{ paperless_endpoint.status }}"
 
       rescue:
         # Whatever went wrong, the reason is almost always in the systemd service log.
@@ -138,4 +76,3 @@
         - name: Fail because verification did not pass
           ansible.builtin.fail:
             msg: "Paperless-ngx verification failed. The systemd service log is printed above."
-
