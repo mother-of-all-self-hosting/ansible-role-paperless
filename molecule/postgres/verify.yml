@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2026 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2026 spatterlight
 # SPDX-FileCopyrightText: 2026 Suguru Hirahara
 #
@@ -8,16 +9,24 @@
   hosts: all
   become: true
   gather_facts: false
+
+  vars:
+    paperless_verify_units:
+      - paperless.service
+      - postgres.service
+      - valkey.service
+
   tasks:
     - name: Verify that Paperless-ngx works
       block:
-        - name: Wait for the Paperless-ngx systemd service to become active (up to 180s)
+        - name: Wait for the Paperless-ngx systemd services to become active (up to 180s each)
           ansible.builtin.systemd_service:
-            name: paperless.service
-          register: paperless_service
-          until: paperless_service.status.ActiveState == 'active'
+            name: "{{ item }}"
+          register: paperless_services
+          until: paperless_services.status.ActiveState == 'active'
           retries: 36
           delay: 5
+          loop: "{{ paperless_verify_units }}"
           # So that giving up is reported by the assertion below rather than as a
           # wall of systemd unit properties.
           failed_when: false
@@ -25,17 +34,20 @@
         # `Restart=always` in the systemd unit means that even a container which crashes
         # and gets restarted reads as active here, so this is a precondition rather than
         # a result.
-        - name: Assert the Paperless-ngx systemd service is active
+        - name: Assert the Paperless-ngx systemd services are active
           ansible.builtin.assert:
-            that: paperless_service.status.ActiveState == 'active'
-            fail_msg: "paperless.service is not active ({{ paperless_service.status.ActiveState }})"
-            success_msg: "paperless.service is active"
+            that: paperless_services.results | map(attribute='status.ActiveState') | unique | list == ['active']
+            fail_msg: >-
+              Not every service is active:
+              {{ dict(paperless_verify_units | zip(paperless_services.results | map(attribute='status.ActiveState'))) }}
+            success_msg: "Every systemd service is active"
 
-        - name: Retrieve the Paperless-ngx systemd service log for debugging
+        - name: Retrieve the Paperless-ngx systemd services log for debugging
           when: paperless_debug_service_enabled | bool
           ansible.builtin.command:
-            cmd: journalctl --no-pager --output=cat --unit=paperless.service
+            cmd: "journalctl --no-pager --output=cat --unit={{ item }}"
           changed_when: false
+          loop: "{{ paperless_verify_units }}"
 
         - name: Wait for Paperless-ngx HTTP endpoint to respond (up to 10m)
           ansible.builtin.uri:
@@ -57,7 +69,7 @@
         - name: Show the Paperless-ngx verification summary
           ansible.builtin.debug:
             msg:
-              - "Paperless-ngx systemd: {{ paperless_service.status.ActiveState }}"
+              - "Paperless-ngx systemd: {% for unit, state in paperless_verify_units | zip(paperless_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
               - "Paperless-ngx HTTP: {{ paperless_endpoint.status }}"
 
       rescue:
