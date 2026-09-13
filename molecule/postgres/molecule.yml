@@ -30,6 +30,7 @@ provisioner:
       all:
         # Helper variables
         paperless_debug_service_enabled: false
+        paperless_restarts_check_enabled: true
 
         # Variables for Paperless-ngx
         paperless_uid: 1000
