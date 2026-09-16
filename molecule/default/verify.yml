@@ -65,6 +65,36 @@
             fail_msg: "Paperless-ngx did not respond as expected ({{ paperless_endpoint.status | default('no response') }})"
             success_msg: "Paperless-ngx responded with {{ paperless_endpoint.status }}"
 
+        # HTTP can stay healthy while ownership changes prevent uploads and thumbnails.
+        # The default scenario uses non-default IDs and runs idempotence before verification.
+        - name: Verify the Paperless-ngx user can write to its persistent directories
+          ansible.builtin.command:
+            argv:
+              - docker
+              - exec
+              - --user
+              - paperless
+              - paperless
+              - python3
+              - -c
+              - |
+                import os
+                import pathlib
+                import sys
+                import tempfile
+
+                expected = tuple(map(int, sys.argv[1:]))
+                assert (os.getuid(), os.getgid()) == expected, "Paperless user IDs do not match the role"
+                for directory in ("data", "media", "export", "consume", "media/documents/thumbnails"):
+                    path = pathlib.Path("/usr/src/paperless") / directory
+                    ownership = path.stat()
+                    assert (ownership.st_uid, ownership.st_gid) == expected, f"Wrong ownership: {path}"
+                    with tempfile.TemporaryFile(dir=path) as probe:
+                        probe.write(b"Paperless permission check")
+              - "{{ paperless_uid | string }}"
+              - "{{ paperless_gid | string }}"
+          changed_when: false
+
         - name: Verify nothing was quietly restarting while all of that was being checked
           when: "paperless_restarts_check_enabled | bool"
           block:

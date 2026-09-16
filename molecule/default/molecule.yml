@@ -33,8 +33,9 @@ provisioner:
         paperless_restarts_check_enabled: true
 
         # Variables for Paperless-ngx
-        paperless_uid: 1000
-        paperless_gid: 1000
+        # Exercise user mapping; the image defaults (1000:1000) hide ownership mismatches.
+        paperless_uid: 1234
+        paperless_gid: 1235
         paperless_scheme: http
         paperless_hostname: localhost
         paperless_container_labels_traefik_enabled: false
