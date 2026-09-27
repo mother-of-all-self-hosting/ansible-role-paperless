@@ -74,6 +74,9 @@ jobs:
           path: ~/.ansible/collections
           key: ansible-collections-${{ hashFiles('paperless/molecule/*/requirements.yml') }}
 
+      # The runner is discarded after the job, so skip the final teardown.
+      # Removing the privileged systemd container occasionally exceeds the
+      # Docker API's 60s timeout and fails an otherwise-passing run.
       - name: Run Molecule
         working-directory: paperless
-        run: molecule test --scenario-name ${{ matrix.scenario }}
+        run: molecule test --scenario-name ${{ matrix.scenario }} --destroy=never
