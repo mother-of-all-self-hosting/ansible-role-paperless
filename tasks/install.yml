@@ -6,17 +6,32 @@
 ---
 - name: Ensure Paperless-ngx paths exist
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
-    mode: "0700"
-    owner: "{{ paperless_uid }}"
-    group: "{{ paperless_gid }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
   with_items:
-    - "{{ paperless_base_path }}"
-    - "{{ paperless_media_path }}"
-    - "{{ paperless_data_path }}"
-    - "{{ paperless_export_path }}"
-    - "{{ paperless_consume_path }}"
+    - path: "{{ paperless_base_path }}"
+      mode: "0700"
+      owner: "{{ paperless_uid }}"
+      group: "{{ paperless_gid }}"
+    - path: "{{ paperless_media_path }}"
+      mode: "0700"
+      owner: "{{ paperless_uid }}"
+      group: "{{ paperless_gid }}"
+    - path: "{{ paperless_data_path }}"
+      mode: "0700"
+      owner: "{{ paperless_uid }}"
+      group: "{{ paperless_gid }}"
+    - path: "{{ paperless_export_path }}"
+      mode: "0700"
+      owner: "{{ paperless_uid }}"
+      group: "{{ paperless_gid }}"
+    - path: "{{ paperless_consume_path }}"
+      mode: "{{ paperless_consume_path_mode }}"
+      owner: "{{ paperless_consume_path_uid }}"
+      group: "{{ paperless_consume_path_gid }}"
 
 - name: Ensure Paperless-ngx support files installed
   when: item.when | bool

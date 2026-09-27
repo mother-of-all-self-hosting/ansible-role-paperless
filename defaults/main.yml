@@ -16,6 +16,15 @@ paperless_enabled: true
 paperless_identifier: paperless
 paperless_base_path: "/{{ paperless_identifier }}"
 paperless_consume_path: "{{ paperless_base_path }}/consume"
+# Ownership and permissions for the consume directory.
+# If other users/services (SMB, NFS, a scanner, etc.) need to drop files in, do NOT just relax the mode here:
+# the directory is under `paperless_base_path` (0700), which they cannot traverse.
+# Instead, override `paperless_consume_path` (e.g. `paperless_consume_path: /srv/paperless-consume`)
+# so that it points outside of `paperless_base_path`, and grant access via a dedicated group, e.g. `paperless_consume_path_gid: 1234` + `paperless_consume_path_mode: "2770"`.
+# Paperless (running as `paperless_uid`) needs to be able to read and delete the files dropped there.
+paperless_consume_path_uid: "{{ paperless_uid }}"
+paperless_consume_path_gid: "{{ paperless_gid }}"
+paperless_consume_path_mode: "0700"
 paperless_data_path: "{{ paperless_base_path }}/data"
 paperless_export_path: "{{ paperless_base_path }}/export"
 paperless_media_path: "{{ paperless_base_path }}/media"
