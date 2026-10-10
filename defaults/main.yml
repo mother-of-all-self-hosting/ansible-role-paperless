@@ -356,9 +356,9 @@ paperless_redis_port: 6379
 paperless_redis_database: 0
 paperless_redis_url: "redis://{{ paperless_redis_hostname }}:{{ paperless_redis_port }}/{{ paperless_redis_database }}"
 
-# Turn true to use StartTLS (usually on port 587)
+# Set to `true` to enable TLS encryption
 paperless_email_use_tls: false
-# Turn true to use SSL (usually on port 465)
+# Set to `true` to enable SSL encryption
 paperless_email_use_ssl: false
 paperless_email_host: ""
 paperless_email_port: ""
