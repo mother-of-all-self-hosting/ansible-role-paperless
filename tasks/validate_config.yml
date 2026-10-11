@@ -13,34 +13,35 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "lookup('ansible.builtin.varnames', ('^' + item.old + '$'), wantlist=True) | length > 0"
   with_items:
-    - { "old": "paperless_tika_container_registry_prefix", "new": "paperless_tika_container_image_registry_prefix" }
-    - { "old": "paperless_gotenberg_container_registry_prefix", "new": "paperless_gotenberg_container_image_registry_prefix" }
     - { "old": "paperless_env_path", "new": "<removed>" }
     - { "old": "paperless_tmp_size", "new": "paperless_container_tmpfs_tmp_size" }
     - { "old": "paperless_container_additional_mounts", "new": "paperless_container_additional_volumes" }
-    - { "old": "paperless_tika_container_additional_mounts", "new": "paperless_tika_container_additional_volumes" }
-    - { "old": "paperless_gotenberg_container_additional_mounts", "new": "paperless_gotenberg_container_additional_volumes" }
-    - { "old": "paperless_gotenberg_endpoint", "new": "paperless_tika_gotenberg_endpoint" }
     - { "old": "paperless_variables_additional_variables", "new": "paperless_environment_variables_additional_variables" }
-    - { "old": "paperless_tika_environment_variables_extension", "new": "paperless_tika_variables_additional_variables" }
-    - { "old": "paperless_gotenberg_environment_variables_extension", "new": "paperless_gotenberg_variables_additional_variables" }
     - { "old": "paperless_http_header_content_permission_policy", "new": "paperless_http_header_permissions_policy" }
     - { "old": "paperless_database_hostname", "new": "paperless_database_postgres_hostname" }
     - { "old": "paperless_database_port", "new": "paperless_database_postgres_port" }
     - { "old": "paperless_database_username", "new": "paperless_database_postgres_username" }
     - { "old": "paperless_database_password", "new": "paperless_database_postgres_password" }
     - { "old": "paperless_database_sslmode", "new": "paperless_database_postgres_sslmode" }
-    - { "old": "paperless_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
     - { "old": "paperless_gotenberg_enabled", "new": "<removed> (Gotenberg is always required when Apache Tika Server is enabled)" }
-    - { "old": "paperless_tika_bundled_enabled", "new": "<removed> (the bundled Apache Tika Server was removed; point `paperless_tika_endpoint` at an external instance, e.g. one installed by the MASH tika role)" }
-    - { "old": "paperless_gotenberg_bundled_enabled", "new": "<removed> (the bundled Gotenberg was removed; point `paperless_tika_gotenberg_endpoint` at an external instance, e.g. one installed by the MASH gotenberg role)" }
-    - { "old": "paperless_tika_version", "new": "<removed> (the bundled Apache Tika Server was removed)" }
-    - { "old": "paperless_gotenberg_version", "new": "<removed> (the bundled Gotenberg was removed)" }
-    - { "old": "paperless_tika_identifier", "new": "<removed> (the bundled Apache Tika Server was removed)" }
-    - { "old": "paperless_gotenberg_identifier", "new": "<removed> (the bundled Gotenberg was removed)" }
-    - { "old": "paperless_tika_scheme", "new": "<removed> (include the scheme in `paperless_tika_endpoint`)" }
-    - { "old": "paperless_gotenberg_scheme", "new": "<removed> (include the scheme in `paperless_tika_gotenberg_endpoint`)" }
+    - { "old": "paperless_gotenberg_endpoint", "new": "paperless_tika_gotenberg_endpoint" }
+    - { "old": "paperless_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
     - { "old": "paperless_loglevel", "new": "<removed>" }
+
+    - { "old": "paperless_gotenberg_bundled_enabled", "new": "<removed> (the bundled Gotenberg was removed; point `paperless_tika_gotenberg_endpoint` at an external instance, e.g. one installed by the MASH gotenberg role)" }
+    - { "old": "paperless_gotenberg_container_additional_mounts", "new": "<removed>" }
+    - { "old": "paperless_gotenberg_container_registry_prefix", "new": "<removed>" }
+    - { "old": "paperless_gotenberg_environment_variables_extension", "new": "<removed>" }
+    - { "old": "paperless_gotenberg_identifier", "new": "<removed> (the bundled Gotenberg was removed)" }
+    - { "old": "paperless_gotenberg_scheme", "new": "<removed> (include the scheme in `paperless_tika_gotenberg_endpoint`)" }
+    - { "old": "paperless_gotenberg_version", "new": "<removed> (the bundled Gotenberg was removed)" }
+    - { "old": "paperless_tika_bundled_enabled", "new": "<removed> (the bundled Apache Tika Server was removed; point `paperless_tika_endpoint` at an external instance, e.g. one installed by the MASH tika role)" }
+    - { "old": "paperless_tika_container_additional_mounts", "new": "<removed>" }
+    - { "old": "paperless_tika_container_registry_prefix", "new": "<removed>" }
+    - { "old": "paperless_tika_environment_variables_extension", "new": "<removed>" }
+    - { "old": "paperless_tika_identifier", "new": "<removed> (the bundled Apache Tika Server was removed)" }
+    - { "old": "paperless_tika_scheme", "new": "<removed> (include the scheme in `paperless_tika_endpoint`)" }
+    - { "old": "paperless_tika_version", "new": "<removed> (the bundled Apache Tika Server was removed)" }
 
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
