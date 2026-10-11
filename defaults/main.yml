@@ -273,9 +273,6 @@ paperless_secret_key: ""
 paperless_admin_user: ""
 paperless_admin_password: ""
 
-# Valid values: debug, info, warning, error, critical
-paperless_loglevel: error
-
 ########################################################################
 #                                                                      #
 # database                                                             #
