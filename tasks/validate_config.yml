@@ -31,6 +31,7 @@
     - { "old": "paperless_email_use_tls", "new": "paperless_environment_variables_paperless_email_use_tls" }
     - { "old": "paperless_email_use_ssl", "new": "paperless_environment_variables_paperless_email_use_ssl" }
     - { "old": "paperless_url", "new": "paperless_environment_variables_paperless_url" }
+    - { "old": "paperless_app_title", "new": "paperless_environment_variables_paperless_app_title" }
     - { "old": "paperless_gotenberg_enabled", "new": "<removed> (Gotenberg is always required when Apache Tika Server is enabled)" }
     - { "old": "paperless_gotenberg_endpoint", "new": "paperless_environment_variables_paperless_tika_gotenberg_endpoint" }
     - { "old": "paperless_tika_enabled", "new": "paperless_environment_variables_paperless_tika_enabled" }
