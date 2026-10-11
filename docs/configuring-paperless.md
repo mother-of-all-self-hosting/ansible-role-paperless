@@ -134,7 +134,7 @@ Make sure to replace `YOUR_REDIS_SERVER_HOSTNAME_HERE` with your own value.
 
 ### Enabling additional languages for OCR (optional)
 
-If you're dealing with languages other than the ones for which [OCR support is installed by default (English, German, French, Italian, Spanish)](https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES), you may wish to adjust `paperless_ocr_languages_custom`. This variable takes a list of 3-letter language codes (as seen [here](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html)).
+If you're dealing with languages other than the ones for which [OCR support is installed by default (English, German, French, Italian, Spanish)](https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES), you may wish to adjust `paperless_ocr_languages_custom`. This variable takes a list of 3-letter language codes (as seen on [this page](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html)).
 
 Doing this will instruct the container image to install additional `tesseract-ocr-{LANGUAGE}` packages on startup.
 
