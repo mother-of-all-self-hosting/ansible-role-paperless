@@ -26,7 +26,7 @@ See the project's [documentation](https://www.paperless.online/docs/intro) to le
 
 ## Prerequisites
 
-To run a Paperless-ngx instance it is necessary to prepare a database and [Redis](https://redis.io/) database for managing cache data. For a database you can use [MariaDB](https://mariadb.org/) or [Postgres](https://www.postgresql.org/).
+To run a Paperless-ngx instance it is necessary to prepare a database and [Redis](https://redis.io/) database for managing cache data. For a database you can use [MariaDB](https://mariadb.org/), [Postgres](https://www.postgresql.org/), or [SQLite](https://www.sqlite.org/). The SQLite database file will be automatically created by the service if it is enabled.
 
 If you are looking for Ansible roles for them, you can check out these roles maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team:
 
@@ -67,21 +67,42 @@ paperless_hostname: "example.com"
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
-**Note**: hosting Paperless-ngx under a subpath (by configuring the `paperless_path_prefix` variable) does not seem to be possible due to Paperless-ngx's technical limitations.
+### Configuring database
 
-### Specify database
+#### Specify database (optional)
 
-It is necessary to select database used by Paperless-ngx from MariaDB and Postgres.
+You can specify a database used by Paperless-ngx. By default it is configured to use Postgres.
 
-To use Postgres, add the following configuration to your `vars.yml` file:
+To use SQLite, add the following configuration to your `vars.yml` file:
 
 ```yaml
-paperless_database_type: postgres
+paperless_database_type: sqlite
 ```
 
-Set `mariadb` to use MariaDB.
+Set `mariadb` to use MariaDB. The SQLite database is stored in the directory specified with `paperless_data_path`.
 
 For other settings, check variables such as `paperless_database_*` on [`defaults/main.yml`](../defaults/main.yml).
+
+#### Configuring connection to the database server (optional)
+
+>[!NOTE]
+> Connecting to MariaDB via a Unix socket is not supported on this role.
+
+By default the role is configured to establish the connection to the database server via a Unix socket. You can mount the Unix socket by adding the following configuration to your `vars.yml` file:
+
+```yaml
+# Specify the path to the Postgres Unix socket path on the host (bind-mount source)
+paperless_database_postgres_socket_path_host: ""
+```
+
+Setting it enables to connect to the database server via Unix socket mounted in the container.
+
+If TCP connection is preferred, connection via the Unix socket can be disabled by adding the following configuration to your `vars.yml` file:
+
+```yaml
+# Disable the connection to the Postgres server via a Unix socket
+paperless_database_postgres_socket_enabled: false
+```
 
 ### Configure a Redis database
 
