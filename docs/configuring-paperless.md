@@ -96,16 +96,6 @@ paperless_redis_port: 6379
 
 Make sure to replace `YOUR_REDIS_SERVER_HOSTNAME_HERE` with your own value.
 
-### Setting API URLs (optional)
-
-The role is configured to utilize APIs provided by the developer for searching new podcasts and finding podcast's host and guest data ([PodPeopleDB](https://github.com/madeofpendletonwool/podpeople-db)). To utilize your own ones, add the following configuration to your `vars.yml` file:
-
-```yaml
-paperless_environment_variables_search_api_url: YOUR_SEARCH_API_URL_HERE
-
-paperless_environment_variables_people_api_url: YOUR_PODPEOPLEDB_URL_HERE
-```
-
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the service.
@@ -135,11 +125,3 @@ To get started, open the URL with a web browser, and register the account. **Not
 ### Check the service's logs
 
 You can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu paperless` (or how you/your playbook named the service, e.g. `mash-paperless`).
-
-#### Enable debug mode
-
-If you want to enable debug mode, add the following configuration to your `vars.yml` file and re-run the playbook:
-
-```yaml
-paperless_environment_variables_debug_mode: true
-```
