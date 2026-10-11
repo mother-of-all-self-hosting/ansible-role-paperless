@@ -31,6 +31,7 @@
     - { "old": "paperless_database_password", "new": "paperless_database_postgres_password" }
     - { "old": "paperless_database_sslmode", "new": "paperless_database_postgres_sslmode" }
     - { "old": "paperless_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
+    - { "old": "paperless_gotenberg_enabled", "new": "<removed> (Gotenberg is always required when Apache Tika Server is enabled)" }
     - { "old": "paperless_tika_bundled_enabled", "new": "<removed> (the bundled Apache Tika Server was removed; point `paperless_tika_endpoint` at an external instance, e.g. one installed by the MASH tika role)" }
     - { "old": "paperless_gotenberg_bundled_enabled", "new": "<removed> (the bundled Gotenberg was removed; point `paperless_tika_gotenberg_endpoint` at an external instance, e.g. one installed by the MASH gotenberg role)" }
     - { "old": "paperless_tika_version", "new": "<removed> (the bundled Apache Tika Server was removed)" }

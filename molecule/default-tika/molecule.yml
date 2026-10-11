@@ -50,7 +50,6 @@ provisioner:
         # Admin credentials for the API-driven document consumption test in verify.yml
         paperless_admin_user: admin
         paperless_admin_password: molecule-test
-        paperless_gotenberg_enabled: true
         paperless_tika_enabled: true
         paperless_database_type: sqlite
 

@@ -405,6 +405,17 @@ paperless_environment_variable_paperless_ocr_languages: "{{ paperless_ocr_langua
 # Ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_FILENAME_FORMAT
 paperless_environment_variable_paperless_filename_format: ""
 
+# Controls if Paperless-ngx integrates with an Apache Tika Server instance
+paperless_tika_enabled: false
+
+# The URL of the Apache Tika Server instance to connect to.
+# Example: `http://mash-tika:9998`
+paperless_tika_endpoint: ""
+
+# The URL of the Gotenberg instance to connect to.
+# Example: `http://mash-gotenberg:3000`
+paperless_tika_gotenberg_endpoint: ""
+
 # Specify the default layout to use for emails that are consumed as documents
 # See: https://docs.paperless-ngx.com/configuration/#PAPERLESS_EMAIL_PARSE_DEFAULT_LAYOUT
 paperless_environment_variables_email_parse_default_layout: "1"
@@ -452,60 +463,3 @@ paperless_environment_variables_additional_variables: ""
 # The default of `false` means "no restart needed" — appropriate when the role's
 # installation tasks haven't run (e.g., due to --tags skipping them).
 paperless_restart_necessary: false
-
-########################################################################
-#                                                                      #
-# tika                                                                 #
-#                                                                      #
-########################################################################
-
-# Project source code URL: https://github.com/apache/tika
-
-# Controls if Paperless-ngx integrates with an Apache Tika Server instance
-# for parsing and converting document files (such as ".doc", ".xlsx" and ".odt"),
-# as well as emails (".eml").
-#
-# The bundled Apache Tika Server installation that this role used to provide
-# (`paperless_tika_bundled_enabled`) has been removed.
-# Point `paperless_tika_endpoint` to an existing Apache Tika Server instance instead,
-# such as one installed by the MASH project's Apache Tika Server role:
-# https://radicle.network/nodes/iris.radicle.network/rad%3Azbk3MzAN6SX6d8pa9DT2kHDscyr6
-paperless_tika_enabled: false
-
-# The URL of the Apache Tika Server instance to connect to.
-# Example: `http://mash-tika:9998`
-paperless_tika_endpoint: ""
-
-########################################################################
-#                                                                      #
-# /tika                                                                #
-#                                                                      #
-########################################################################
-
-########################################################################
-#                                                                      #
-# gotenberg                                                            #
-#                                                                      #
-########################################################################
-
-# Project source code URL: https://github.com/gotenberg/gotenberg
-
-# Controls if Paperless-ngx integrates with a Gotenberg instance.
-# Gotenberg is required when `paperless_tika_enabled` is enabled.
-#
-# The bundled Gotenberg installation that this role used to provide
-# (`paperless_gotenberg_bundled_enabled`) has been removed.
-# Point `paperless_tika_gotenberg_endpoint` to an existing Gotenberg instance instead,
-# such as one installed by the MASH project's Gotenberg role:
-# https://radicle.network/nodes/iris.radicle.network/rad%3Az3PLD2dsbEFz4QXxNp7eNndinY3aC
-paperless_gotenberg_enabled: false
-
-# The URL of the Gotenberg instance to connect to.
-# Example: `http://mash-gotenberg:3000`
-paperless_tika_gotenberg_endpoint: ""
-
-########################################################################
-#                                                                      #
-# /gotenberg                                                           #
-#                                                                      #
-########################################################################
