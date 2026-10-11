@@ -18,11 +18,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Setting up Paperless-ngx
 
-This is an [Ansible](https://www.ansible.com/) role which installs [Paperless-ngx](https://www.pinepods.online/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
+This is an [Ansible](https://www.ansible.com/) role which installs [Paperless-ngx](https://www.paperless.online/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
 Paperless-ngx is a podcast management system that manages podcasts with multi-user support.
 
-See the project's [documentation](https://www.pinepods.online/docs/intro) to learn what Paperless-ngx does and why it might be useful to you.
+See the project's [documentation](https://www.paperless.online/docs/intro) to learn what Paperless-ngx does and why it might be useful to you.
 
 ## Prerequisites
 
@@ -44,15 +44,15 @@ To enable Paperless-ngx with this role, add the following configuration to your 
 ```yaml
 ########################################################################
 #                                                                      #
-# pinepods                                                             #
+# paperless                                                            #
 #                                                                      #
 ########################################################################
 
-pinepods_enabled: true
+paperless_enabled: true
 
 ########################################################################
 #                                                                      #
-# /pinepods                                                            #
+# /paperless                                                           #
 #                                                                      #
 ########################################################################
 ```
@@ -62,12 +62,12 @@ pinepods_enabled: true
 To enable Paperless-ngx you need to set the hostname as well. To do so, add the following configuration to your `vars.yml` file. Make sure to replace `example.com` with your own value.
 
 ```yaml
-pinepods_hostname: "example.com"
+paperless_hostname: "example.com"
 ```
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
-**Note**: hosting Paperless-ngx under a subpath (by configuring the `pinepods_path_prefix` variable) does not seem to be possible due to Paperless-ngx's technical limitations.
+**Note**: hosting Paperless-ngx under a subpath (by configuring the `paperless_path_prefix` variable) does not seem to be possible due to Paperless-ngx's technical limitations.
 
 ### Specify database
 
@@ -76,12 +76,12 @@ It is necessary to select database used by Paperless-ngx from MariaDB and Postgr
 To use Postgres, add the following configuration to your `vars.yml` file:
 
 ```yaml
-pinepods_database_type: postgres
+paperless_database_type: postgres
 ```
 
 Set `mariadb` to use MariaDB.
 
-For other settings, check variables such as `pinepods_database_*` on [`defaults/main.yml`](../defaults/main.yml).
+For other settings, check variables such as `paperless_database_*` on [`defaults/main.yml`](../defaults/main.yml).
 
 ### Configure a Redis database
 
@@ -90,8 +90,8 @@ It is necessary to set up a Redis database for the Paperless-ngx instance. Valke
 To enable the Redis database for Paperless-ngx, add the following configuration to your `vars.yml` file:
 
 ```yaml
-pinepods_redis_hostname: YOUR_REDIS_SERVER_HOSTNAME_HERE
-pinepods_redis_port: 6379
+paperless_redis_hostname: YOUR_REDIS_SERVER_HOSTNAME_HERE
+paperless_redis_port: 6379
 ```
 
 Make sure to replace `YOUR_REDIS_SERVER_HOSTNAME_HERE` with your own value.
@@ -101,9 +101,9 @@ Make sure to replace `YOUR_REDIS_SERVER_HOSTNAME_HERE` with your own value.
 The role is configured to utilize APIs provided by the developer for searching new podcasts and finding podcast's host and guest data ([PodPeopleDB](https://github.com/madeofpendletonwool/podpeople-db)). To utilize your own ones, add the following configuration to your `vars.yml` file:
 
 ```yaml
-pinepods_environment_variables_search_api_url: YOUR_SEARCH_API_URL_HERE
+paperless_environment_variables_search_api_url: YOUR_SEARCH_API_URL_HERE
 
-pinepods_environment_variables_people_api_url: YOUR_PODPEOPLEDB_URL_HERE
+paperless_environment_variables_people_api_url: YOUR_PODPEOPLEDB_URL_HERE
 ```
 
 ### Extending the configuration
@@ -112,7 +112,7 @@ There are some additional things you may wish to configure about the service.
 
 Take a look at:
 
-- [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file. You can override settings (even those that don't have dedicated playbook variables) using the `pinepods_environment_variables_additional_variables` variable
+- [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file. You can override settings (even those that don't have dedicated playbook variables) using the `paperless_environment_variables_additional_variables` variable
 
 ## Installing
 
@@ -134,12 +134,12 @@ To get started, open the URL with a web browser, and register the account. **Not
 
 ### Check the service's logs
 
-You can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu pinepods` (or how you/your playbook named the service, e.g. `mash-pinepods`).
+You can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu paperless` (or how you/your playbook named the service, e.g. `mash-paperless`).
 
 #### Enable debug mode
 
 If you want to enable debug mode, add the following configuration to your `vars.yml` file and re-run the playbook:
 
 ```yaml
-pinepods_environment_variables_debug_mode: true
+paperless_environment_variables_debug_mode: true
 ```
