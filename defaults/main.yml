@@ -266,7 +266,6 @@ paperless_container_cleanup_command: |
   echo "Failed to remove stale container {{ paperless_identifier }} after {{ paperless_container_cleanup_timeout_seconds }} attempts" >&2;
   exit 1
 
-paperless_url: "{{ paperless_scheme }}://{{ paperless_hostname }}"
 paperless_app_title: Paperless-ngx
 paperless_secret_key: ""
 
@@ -390,6 +389,8 @@ paperless_ocr_languages_custom: []
 
 # Specify the timezone
 paperless_environment_variables_tz: UTC
+
+paperless_environment_variables_paperless_url: "{{ paperless_scheme }}://{{ paperless_hostname }}"
 
 # Controls the PAPERLESS_OCR_LANGUAGES environment variable.
 # Adjusting the list of languages is better done via the `paperless_ocr_languages` variable, not here.
