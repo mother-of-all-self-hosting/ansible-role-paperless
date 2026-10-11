@@ -48,8 +48,8 @@ provisioner:
         paperless_container_http_host_bind_port: 3000
         paperless_environment_variables_paperless_secret_key: secret
         # Admin credentials for the API-driven document consumption test in verify.yml
-        paperless_admin_user: admin
-        paperless_admin_password: molecule-test
+        paperless_environment_variables_paperless_admin_user: admin
+        paperless_environment_variables_paperless_admin_password: molecule-test
         paperless_environment_variables_paperless_tika_enabled: true
         paperless_database_type: sqlite
 

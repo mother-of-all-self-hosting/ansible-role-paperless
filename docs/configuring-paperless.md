@@ -72,12 +72,12 @@ After adjusting the hostname, make sure to adjust your DNS records to point the 
 It is necessary to create an initial user with admin privileges by adding the following configuration to your `vars.yml` file:
 
 ```yaml
-paperless_admin_user: ADMIN_USER_USERNAME_HERE
+paperless_environment_variables_paperless_admin_user: ADMIN_USER_USERNAME_HERE
 
-paperless_admin_password: ADMIN_USER_PASSWORD_HERE
+paperless_environment_variables_paperless_admin_password: ADMIN_USER_PASSWORD_HERE
 ```
 
-Generating a strong password (e.g. `pwgen -s 64 1`) is recommended for `paperless_admin_password`.
+Generating a strong password (e.g. `pwgen -s 64 1`) is recommended for `paperless_environment_variables_paperless_admin_password`.
 
 >[!NOTE]
 > Subsequent changes to them will not affect the existing user.
