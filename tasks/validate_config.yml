@@ -23,6 +23,13 @@
     - { "old": "paperless_database_username", "new": "paperless_database_postgres_username" }
     - { "old": "paperless_database_password", "new": "paperless_database_postgres_password" }
     - { "old": "paperless_database_sslmode", "new": "paperless_database_postgres_sslmode" }
+    - { "old": "paperless_email_host", "new": "paperless_environment_variables_paperless_email_host" }
+    - { "old": "paperless_email_port", "new": "paperless_environment_variables_paperless_email_port" }
+    - { "old": "paperless_email_username", "new": "paperless_environment_variables_paperless_email_host_user" }
+    - { "old": "paperless_email_password", "new": "paperless_environment_variables_paperless_email_host_password" }
+    - { "old": "paperless_email_from", "new": "paperless_environment_variables_paperless_email_from" }
+    - { "old": "paperless_email_use_tls", "new": "paperless_environment_variables_paperless_email_use_tls" }
+    - { "old": "paperless_email_use_ssl", "new": "paperless_environment_variables_paperless_email_use_ssl" }
     - { "old": "paperless_gotenberg_enabled", "new": "<removed> (Gotenberg is always required when Apache Tika Server is enabled)" }
     - { "old": "paperless_gotenberg_endpoint", "new": "paperless_environment_variables_paperless_tika_gotenberg_endpoint" }
     - { "old": "paperless_tika_enabled", "new": "paperless_environment_variables_paperless_tika_enabled" }
@@ -110,10 +117,10 @@
   ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`) to correctly set up email via SMTP.
-  when: "paperless_email_host !='' and lookup('vars', item, default='') | string | length == 0"
+  when: "paperless_environment_variables_paperless_email_host !='' and lookup('vars', item, default='') | string | length == 0"
   with_items:
-    - paperless_email_port
-    - paperless_email_from
+    - paperless_environment_variables_paperless_email_port
+    - paperless_environment_variables_paperless_email_from
 
 - name: Run if Traefik is enabled
   when: paperless_container_labels_traefik_enabled | bool
