@@ -32,6 +32,7 @@
     - { "old": "paperless_email_use_ssl", "new": "paperless_environment_variables_paperless_email_use_ssl" }
     - { "old": "paperless_url", "new": "paperless_environment_variables_paperless_url" }
     - { "old": "paperless_app_title", "new": "paperless_environment_variables_paperless_app_title" }
+    - { "old": "paperless_secret_key", "new": "paperless_environment_variables_paperless_secret_key" }
     - { "old": "paperless_gotenberg_enabled", "new": "<removed> (Gotenberg is always required when Apache Tika Server is enabled)" }
     - { "old": "paperless_gotenberg_endpoint", "new": "paperless_environment_variables_paperless_tika_gotenberg_endpoint" }
     - { "old": "paperless_tika_enabled", "new": "paperless_environment_variables_paperless_tika_enabled" }
@@ -67,7 +68,7 @@
     - { "name": "paperless_path_prefix", "when": true }
     - { "name": "paperless_container_network", "when": true }
     - { "name": "paperless_redis_hostname", "when": true }
-    - { "name": "paperless_secret_key", "when": true }
+    - { "name": "paperless_environment_variables_paperless_secret_key", "when": true }
     - { "name": "paperless_environment_variables_paperless_tika_endpoint", "when": "{{ paperless_environment_variables_paperless_tika_enabled }}" }
     - { "name": "paperless_environment_variables_paperless_tika_gotenberg_endpoint", "when": "{{ paperless_environment_variables_paperless_tika_enabled }}" }
 
