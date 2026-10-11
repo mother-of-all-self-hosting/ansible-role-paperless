@@ -69,11 +69,10 @@ After adjusting the hostname, make sure to adjust your DNS records to point the 
 
 ### Set administrator's account details
 
-It is necessary to create an initial user with admin privileges by adding the following configuration to your `vars.yml` file:
+You also need to specify administrator's account details by adding the following configuration to your `vars.yml` file:
 
 ```yaml
 paperless_environment_variables_paperless_admin_user: ADMIN_USER_USERNAME_HERE
-
 paperless_environment_variables_paperless_admin_password: ADMIN_USER_PASSWORD_HERE
 ```
 
