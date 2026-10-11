@@ -45,27 +45,18 @@
 - name: Fail if required Paperless-ngx settings not defined
   ansible.builtin.fail:
     msg: >-
-      You need to define a required configuration setting (`{{ item }}`).
-  when: "lookup('vars', item, default='') | string | length == 0"
+      You need to define a required configuration setting (`{{ item.name }}`).
+  when: "item.when | bool and lookup('vars', item.name, default='') | string | length == 0"
   with_items:
-    - paperless_uid
-    - paperless_gid
-    - paperless_hostname
-    - paperless_path_prefix
-    - paperless_container_network
-    - paperless_redis_hostname
-    - paperless_secret_key
-
-- name: Fail if required Paperless-ngx + Apache Tika Server integration settings not defined
-  ansible.builtin.fail:
-    msg: >-
-      You need to define a required configuration setting (`{{ item }}`) when `paperless_tika_enabled` is enabled.
-      The bundled Apache Tika Server and Gotenberg were removed from this role -
-      point this setting at an external instance (e.g. one installed by the MASH tika/gotenberg roles).
-  when: "paperless_tika_enabled | bool and lookup('vars', item, default='') | string | length == 0"
-  with_items:
-    - paperless_tika_endpoint
-    - paperless_tika_gotenberg_endpoint
+    - { "name": "paperless_uid", "when": true }
+    - { "name": "paperless_gid", "when": true }
+    - { "name": "paperless_hostname", "when": true }
+    - { "name": "paperless_path_prefix", "when": true }
+    - { "name": "paperless_container_network", "when": true }
+    - { "name": "paperless_redis_hostname", "when": true }
+    - { "name": "paperless_secret_key", "when": true }
+    - { "name": "paperless_tika_endpoint", "when": "{{ paperless_tika_enabled }}" }
+    - { "name": "paperless_tika_gotenberg_endpoint", "when": "{{ paperless_tika_enabled }}" }
 
 - name: Fail if Paperless-ngx database type invalid
   ansible.builtin.fail:
