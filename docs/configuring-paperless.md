@@ -16,17 +16,17 @@ SPDX-FileCopyrightText: 2024-2026 Suguru Hirahara
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Setting up PinePods
+# Setting up Paperless-ngx
 
-This is an [Ansible](https://www.ansible.com/) role which installs [PinePods](https://www.pinepods.online/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
+This is an [Ansible](https://www.ansible.com/) role which installs [Paperless-ngx](https://www.pinepods.online/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
-PinePods is a podcast management system that manages podcasts with multi-user support.
+Paperless-ngx is a podcast management system that manages podcasts with multi-user support.
 
-See the project's [documentation](https://www.pinepods.online/docs/intro) to learn what PinePods does and why it might be useful to you.
+See the project's [documentation](https://www.pinepods.online/docs/intro) to learn what Paperless-ngx does and why it might be useful to you.
 
 ## Prerequisites
 
-To run a PinePods instance it is necessary to prepare a database and [Redis](https://redis.io/) database for managing cache data. For a database you can use [MariaDB](https://mariadb.org/) or [Postgres](https://www.postgresql.org/).
+To run a Paperless-ngx instance it is necessary to prepare a database and [Redis](https://redis.io/) database for managing cache data. For a database you can use [MariaDB](https://mariadb.org/) or [Postgres](https://www.postgresql.org/).
 
 If you are looking for Ansible roles for them, you can check out these roles maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team:
 
@@ -37,7 +37,7 @@ If you are looking for Ansible roles for them, you can check out these roles mai
 
 ## Adjusting the playbook configuration
 
-To enable PinePods with this role, add the following configuration to your `vars.yml` file.
+To enable Paperless-ngx with this role, add the following configuration to your `vars.yml` file.
 
 **Note**: the path should be something like `inventory/host_vars/mash.example.com/vars.yml` if you use the [MASH Ansible playbook](https://github.com/mother-of-all-self-hosting/mash-playbook).
 
@@ -59,7 +59,7 @@ pinepods_enabled: true
 
 ### Set the hostname
 
-To enable PinePods you need to set the hostname as well. To do so, add the following configuration to your `vars.yml` file. Make sure to replace `example.com` with your own value.
+To enable Paperless-ngx you need to set the hostname as well. To do so, add the following configuration to your `vars.yml` file. Make sure to replace `example.com` with your own value.
 
 ```yaml
 pinepods_hostname: "example.com"
@@ -67,11 +67,11 @@ pinepods_hostname: "example.com"
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
-**Note**: hosting PinePods under a subpath (by configuring the `pinepods_path_prefix` variable) does not seem to be possible due to PinePods's technical limitations.
+**Note**: hosting Paperless-ngx under a subpath (by configuring the `pinepods_path_prefix` variable) does not seem to be possible due to Paperless-ngx's technical limitations.
 
 ### Specify database
 
-It is necessary to select database used by PinePods from MariaDB and Postgres.
+It is necessary to select database used by Paperless-ngx from MariaDB and Postgres.
 
 To use Postgres, add the following configuration to your `vars.yml` file:
 
@@ -85,9 +85,9 @@ For other settings, check variables such as `pinepods_database_*` on [`defaults/
 
 ### Configure a Redis database
 
-It is necessary to set up a Redis database for the PinePods instance. Valkey can also be used instead.
+It is necessary to set up a Redis database for the Paperless-ngx instance. Valkey can also be used instead.
 
-To enable the Redis database for PinePods, add the following configuration to your `vars.yml` file:
+To enable the Redis database for Paperless-ngx, add the following configuration to your `vars.yml` file:
 
 ```yaml
 pinepods_redis_hostname: YOUR_REDIS_SERVER_HOSTNAME_HERE
@@ -126,7 +126,7 @@ If you use the MASH playbook, the shortcut commands with the [`just` program](ht
 
 ## Usage
 
-After running the command for installation, PinePods becomes available at the specified hostname like `https://example.com`.
+After running the command for installation, Paperless-ngx becomes available at the specified hostname like `https://example.com`.
 
 To get started, open the URL with a web browser, and register the account. **Note that the first registered user becomes an administrator automatically.**
 
