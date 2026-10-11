@@ -168,6 +168,38 @@ If you are looking for an Ansible role for Apache Tika Server and Gotenberg, you
 >[!NOTE]
 > The bundled Apache Tika Server and Gotenberg installations that this role used to provide have been removed.
 
+### Configuring a mailer (optional)
+
+You can configure a mailer to enable email functions such as email address verification, password recovery, etc.
+
+To configure the SMTP mailer, add the following configuration to your `vars.yml` file as below (adapt to your needs):
+
+```yaml
+# Specify SMTP server hostname
+paperless_environment_variables_paperless_email_host: ""
+
+# Specify SMTP server port number
+paperless_environment_variables_paperless_email_port: 587
+
+# Specify SMTP server username
+paperless_environment_variables_paperless_email_host_user: ""
+
+# Specify SMTP server password
+paperless_environment_variables_paperless_email_host_password: ""
+
+# Specify the email address that emails will be sent from
+paperless_environment_variables_paperless_email_from: ""
+
+# Set to `true` to enable TLS encryption
+paperless_environment_variables_paperless_email_use_tls: true
+
+# Set to `true` to enable SSL encryption
+paperless_environment_variables_paperless_email_use_ssl: false
+```
+
+>[!WARNING]
+> Without setting an authentication method such as DKIM, SPF, and DMARC for your hostname, emails are most likely to be quarantined as spam at recipient's mail servers. The worst scenario is that your server's IP address or hostname will be included in the spam list such as the one managed by [Spamhaus](https://www.spamhaus.org/). If you have set up a mail server with the [MASH project's exim-relay Ansible role](https://github.com/mother-of-all-self-hosting/ansible-role-exim-relay), you can enable DKIM signing with it. Refer [its documentation](https://github.com/mother-of-all-self-hosting/ansible-role-exim-relay/blob/main/docs/configuring-exim-relay.md#enable-dkim-support-optional) for details.
+
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the service.
