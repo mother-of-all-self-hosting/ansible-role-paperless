@@ -18,11 +18,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Setting up Paperless-ngx
 
-This is an [Ansible](https://www.ansible.com/) role which installs [Paperless-ngx](https://www.paperless.online/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
+This is an [Ansible](https://www.ansible.com/) role which installs [Paperless-ngx](https://paperless-ngx.com) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
-Paperless-ngx is a podcast management system that manages podcasts with multi-user support.
+Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive to organize them paperless.
 
-See the project's [documentation](https://www.paperless.online/docs/intro) to learn what Paperless-ngx does and why it might be useful to you.
+See the project's [documentation](https://docs.paperless-ngx.com/) to learn what Paperless-ngx does and why it might be useful to you.
 
 ## Prerequisites
 
@@ -132,6 +132,21 @@ paperless_redis_port: 6379
 
 Make sure to replace `YOUR_REDIS_SERVER_HOSTNAME_HERE` with your own value.
 
+### Enabling additional languages for OCR (optional)
+
+If you're dealing with languages other than the ones for which [OCR support is installed by default (English, German, French, Italian, Spanish)](https://docs.paperless-ngx.com/configuration/#PAPERLESS_OCR_LANGUAGES), you may wish to adjust `paperless_ocr_languages_custom`. This variable takes a list of 3-letter language codes (as seen [here](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html)).
+
+Doing this will instruct the container image to install additional `tesseract-ocr-{LANGUAGE}` packages on startup.
+
+Example:
+
+```yml
+# Add OCR support for Bulgarian and Japanese
+paperless_ocr_languages_custom:
+  - bul
+  - jpn
+```
+
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the service.
@@ -154,7 +169,7 @@ If you use the MASH playbook, the shortcut commands with the [`just` program](ht
 
 After running the command for installation, Paperless-ngx becomes available at the specified hostname like `https://example.com`.
 
-To get started, open the URL with a web browser, and register the account. **Note that the first registered user becomes an administrator automatically.**
+Refer to the [official documentation](https://docs.paperless-ngx.com/) to learn how to use Paperless-ngx.
 
 ## Troubleshooting
 
