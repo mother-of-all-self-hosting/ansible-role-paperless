@@ -406,15 +406,15 @@ paperless_environment_variable_paperless_ocr_languages: "{{ paperless_ocr_langua
 paperless_environment_variable_paperless_filename_format: ""
 
 # Controls if Paperless-ngx integrates with an Apache Tika Server instance
-paperless_tika_enabled: false
+paperless_environment_variables_paperless_tika_enabled: false
 
 # The URL of the Apache Tika Server instance to connect to.
 # Example: `http://mash-tika:9998`
-paperless_tika_endpoint: ""
+paperless_environment_variables_paperless_tika_endpoint: ""
 
 # The URL of the Gotenberg instance to connect to.
 # Example: `http://mash-gotenberg:3000`
-paperless_tika_gotenberg_endpoint: ""
+paperless_environment_variables_paperless_tika_gotenberg_endpoint: ""
 
 # Specify the default layout to use for emails that are consumed as documents
 # See: https://docs.paperless-ngx.com/configuration/#PAPERLESS_EMAIL_PARSE_DEFAULT_LAYOUT

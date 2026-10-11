@@ -50,7 +50,7 @@ provisioner:
         # Admin credentials for the API-driven document consumption test in verify.yml
         paperless_admin_user: admin
         paperless_admin_password: molecule-test
-        paperless_tika_enabled: true
+        paperless_environment_variables_paperless_tika_enabled: true
         paperless_database_type: sqlite
 
         # Variables for networking services
@@ -60,10 +60,10 @@ provisioner:
           - "{{ valkey_container_network }}"
 
         # Variables required for Paperless-ngx to connect to Gotenberg
-        paperless_tika_gotenberg_endpoint: "http://{{ gotenberg_identifier }}:{{ gotenberg_container_http_port }}"
+        paperless_environment_variables_paperless_tika_gotenberg_endpoint: "http://{{ gotenberg_identifier }}:{{ gotenberg_container_http_port }}"
 
         # Variables required for Paperless-ngx to connect to Apache Tika Server
-        paperless_tika_endpoint: "http://{{ tika_identifier }}:{{ tika_container_http_port }}"
+        paperless_environment_variables_paperless_tika_endpoint: "http://{{ tika_identifier }}:{{ tika_container_http_port }}"
 
         # Variables required for Paperless-ngx to connect to the Valkey data-store
         paperless_redis_hostname: "{{ valkey_identifier }}"
