@@ -147,6 +147,27 @@ paperless_ocr_languages_custom:
   - jpn
 ```
 
+### Configuring Apache Tika Server integration with Gotenberg (optional)
+
+You can optionally have the instance connect to [Apache Tika Server](http://tika.apache.org/) for parsing and converting document files (such as ".doc", ".xlsx" and ".odt"). It is required for parsing emails (".eml") as well. Note that Apache Tika Server integration requires a [Gotenberg](https://gotenberg.dev/) instance.
+
+To enable the integration, add the following configuration to your `vars.yml` file:
+
+```yaml
+paperless_environment_variables_paperless_tika_enabled: true
+
+paperless_environment_variables_paperless_tika_endpoint: YOUR_TIKA_INSTANCE_ENDPOINT_HERE
+
+paperless_environment_variables_paperless_tika_gotenberg_endpoint: YOUR_GOTENBERG_INSTANCE_ENDPOINT_HERE
+```
+
+Make sure to replace `YOUR_TIKA_INSTANCE_ENDPOINT_HERE` and `YOUR_GOTENBERG_INSTANCE_ENDPOINT_HERE` with your own values.
+
+If you are looking for an Ansible role for Apache Tika Server and Gotenberg, you can check out [ansible-role-tika](https://radicle.network/nodes/iris.radicle.network/rad%3Azbk3MzAN6SX6d8pa9DT2kHDscyr6) and [ansible-role-gotenberg](https://github.com/mother-of-all-self-hosting/ansible-role-gotenberg) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
+
+>[!NOTE]
+> The bundled Apache Tika Server and Gotenberg installations that this role used to provide have been removed.
+
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the service.
