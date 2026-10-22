@@ -274,7 +274,7 @@ paperless_container_cleanup_command: |
 
 # Specify a database driver to use
 # Valid values: mariadb, postgres, sqlite
-paperless_database_type: postgres
+paperless_database_type: ""
 
 # Specify database configuration
 paperless_database_postgres_hostname: ""

@@ -69,6 +69,7 @@
     - { "name": "paperless_hostname", "when": true }
     - { "name": "paperless_path_prefix", "when": true }
     - { "name": "paperless_container_network", "when": true }
+    - { "name": "paperless_database_type", "when": true }
     - { "name": "paperless_redis_hostname", "when": true }
     - { "name": "paperless_environment_variables_paperless_secret_key", "when": true }
     - { "name": "paperless_environment_variables_paperless_tika_endpoint", "when": "{{ paperless_environment_variables_paperless_tika_enabled }}" }

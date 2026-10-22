@@ -83,19 +83,22 @@ Generating a strong password (e.g. `pwgen -s 64 1`) is recommended for `paperles
 
 ### Configuring database
 
-#### Specify database (optional)
+#### Specify database
 
-You can specify a database used by Paperless-ngx. By default it is configured to use Postgres.
+Paperless-ngx can use either MariaDB, Postgres, or SQLite, and you need to choose one.
 
-To use SQLite, add the following configuration to your `vars.yml` file:
+To use Postgres, add the following configuration to your `vars.yml` file:
 
 ```yaml
-paperless_database_type: sqlite
+paperless_database_type: postgres
 ```
 
-Set `mariadb` to use MariaDB. The SQLite database is stored in the directory specified with `paperless_data_path`.
+Set `mariadb` to use MariaDB and `sqlite` to use SQLite, respectively. The SQLite database is stored in the directory specified with `paperless_data_path`.
 
 For other settings, check variables such as `paperless_database_*` on [`defaults/main.yml`](../defaults/main.yml).
+
+>[!NOTE]
+> The database for your existing installation is most likely to be `postgres`.
 
 #### Configuring connection to the database server (optional)
 
