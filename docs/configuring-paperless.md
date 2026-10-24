@@ -165,7 +165,7 @@ paperless_environment_variables_paperless_tika_gotenberg_endpoint: YOUR_GOTENBER
 
 Make sure to replace `YOUR_TIKA_INSTANCE_ENDPOINT_HERE` and `YOUR_GOTENBERG_INSTANCE_ENDPOINT_HERE` with your own values.
 
-If you are looking for an Ansible role for Apache Tika Server and Gotenberg, you can check out [ansible-role-tika](https://radicle.network/nodes/iris.radicle.network/rad%3Azbk3MzAN6SX6d8pa9DT2kHDscyr6) and [ansible-role-gotenberg](https://github.com/mother-of-all-self-hosting/ansible-role-gotenberg) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
+If you are looking for an Ansible role for Apache Tika Server and Gotenberg, you can check out [ansible-role-tika](https://radicle.network/nodes/progressiv.radicle.garden/rad%3Azbk3MzAN6SX6d8pa9DT2kHDscyr6) and [ansible-role-gotenberg](https://github.com/mother-of-all-self-hosting/ansible-role-gotenberg) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
 
 >[!NOTE]
 > The bundled Apache Tika Server and Gotenberg installations that this role used to provide have been removed.
