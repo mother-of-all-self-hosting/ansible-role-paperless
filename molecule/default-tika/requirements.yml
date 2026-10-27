@@ -5,7 +5,7 @@ roles:
     version: 8.0.0
     name: ansible-role-docker
   - src: git+https://progressiv.radicle.garden/z3PLD2dsbEFz4QXxNp7eNndinY3aC.git
-    version: v8.38.1-0
+    version: v8.38.1-1
     name: ansible-role-gotenberg
   - src: git+https://progressiv.radicle.garden/zbk3MzAN6SX6d8pa9DT2kHDscyr6.git
     version: v4.1.0-0
