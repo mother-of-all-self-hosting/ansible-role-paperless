@@ -52,8 +52,8 @@ provisioner:
         paperless_database_type: mariadb
         paperless_database_mariadb_hostname: "{{ mariadb_connection_hostname }}"
         paperless_database_mariadb_port: "{{ mariadb_connection_port }}"
-        paperless_database_mariadb_username: my_database_username
-        paperless_database_mariadb_password: my_database_password
+        paperless_database_mariadb_username: /#@my_database_username?%
+        paperless_database_mariadb_password: /#@my_database_password?%
         paperless_database_name: paperless
         paperless_systemd_required_services_list_auto: |
           {{
