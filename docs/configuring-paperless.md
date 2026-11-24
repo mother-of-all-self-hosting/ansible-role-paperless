@@ -231,3 +231,11 @@ Refer to the [official documentation](https://docs.paperless-ngx.com/) to learn 
 ### Check the service's logs
 
 You can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu paperless` (or how you/your playbook named the service, e.g. `mash-paperless`).
+
+#### Increase logging verbosity
+
+If you want to increase the verbosity, add the following configuration to your `vars.yml` file:
+
+```yaml
+paperless_environment_variables_paperless_debug: true
+```

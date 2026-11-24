@@ -446,6 +446,8 @@ paperless_environment_variables_trusted_proxies_default: "{{ ['172.'] if paperle
 paperless_environment_variables_trusted_proxies_auto: []
 paperless_environment_variables_trusted_proxies_custom: []
 
+paperless_environment_variables_paperless_debug: false
+
 # Additional environment variables to pass to the Paperless-ngx container.
 # You can use this to further influence the default configuration.
 # Check https://docs.paperless-ngx.com/configuration/ for a full configuration reference
