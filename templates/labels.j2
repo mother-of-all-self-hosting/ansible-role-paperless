@@ -1,6 +1,7 @@
 {#
 SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 SPDX-FileCopyrightText: 2024 Julian-Samuel Gebühr
+SPDX-FileCopyrightText: 2026 spatterIight
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -20,15 +21,14 @@ traefik.http.middlewares.{{ paperless_identifier }}-basic-auth.basicauth.users={
 {% endif %}
 
 {% if paperless_container_labels_traefik_path_prefix != '/' %}
-traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.regex=^({{ paperless_container_labels_traefik_path_prefix | quote }})$
+traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.regex=^(https?://[^/]+{{ paperless_container_labels_traefik_path_prefix | regex_escape }})$
 traefik.http.middlewares.{{ paperless_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
 {% set middlewares = middlewares + [paperless_identifier + '-slashless-redirect'] %}
 {% endif %}
 
-{% if paperless_container_labels_traefik_path_prefix != '/' %}
-traefik.http.middlewares.{{ paperless_identifier }}-strip-prefix.stripprefix.prefixes={{ paperless_container_labels_traefik_path_prefix }}
-{% set middlewares = middlewares + [paperless_identifier + '-strip-prefix'] %}
-{% endif %}
+{#
+  Intentionally not adding stripPrefix middleware.
+#}
 
 {% if paperless_container_labels_traefik_additional_request_headers.keys() | length > 0 %}
 {% for name, value in paperless_container_labels_traefik_additional_request_headers.items() %}

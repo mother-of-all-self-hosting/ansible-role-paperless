@@ -446,6 +446,12 @@ paperless_environment_variables_trusted_proxies_default: "{{ ['172.'] if paperle
 paperless_environment_variables_trusted_proxies_auto: []
 paperless_environment_variables_trusted_proxies_custom: []
 
+# Specify the subpath to host the Paperless-ngx instance
+# See: https://docs.paperless-ngx.com/configuration/#PAPERLESS_FORCE_SCRIPT_NAME
+#      https://docs.paperless-ngx.com/configuration/#PAPERLESS_STATIC_URL
+paperless_environment_variables_paperless_force_script_name: "{{ paperless_path_prefix }}"
+paperless_environment_variables_paperless_static_url: "{{ paperless_path_prefix }}/static/"
+
 paperless_environment_variables_paperless_debug: false
 
 # Additional environment variables to pass to the Paperless-ngx container.
